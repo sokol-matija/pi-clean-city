@@ -1,0 +1,14 @@
+34. CleanCity – prijava komunalnih problema
+Opis projekta:
+Platforma kojom građani i studenti mogu prijaviti probleme u lokalnoj zajednici poput rupa na cestama, smeća ili neispravne ulične rasvjete.
+Upravitelji zajednice imaju uvid i mogu pratiti stanje.
+Glavni korisnici:
+•    Građani
+•    Komunalne službe
+•    Lokalna uprava i administratori
+Ključne funkcionalnosti:
+•    Jednostavna prijava komunalnih problema s geolokacijom
+•    Status prijave i komunikacija s nadležnima
+•    Katalog problema i čestih pitanja
+•    Evidencija rješavanja i ocjene korisnika
+•    Notifikacije o statusu i rješenju

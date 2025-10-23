@@ -1,0 +1,49 @@
+graph TD
+    Start([Početak]) --> OpenDashboard[Administrator otvara<br/>dashboard]
+    OpenDashboard --> AuthCheck{Provjera<br/>autorizacije}
+    
+    AuthCheck -->|Nije admin| AccessDenied[Pristup odbijen]
+    AccessDenied --> End([Kraj])
+    
+    AuthCheck -->|Je admin| LoadDashboard[Učitaj dashboard]
+    LoadDashboard --> FetchData[Dohvati podatke<br/>iz baze]
+    
+    FetchData --> parallel1{{Paralelna obrada}}
+    
+    parallel1 --> CalcStats[Izračunaj statistiku:<br/>- Ukupno prijava<br/>- Po statusu<br/>- Po kategoriji]
+    parallel1 --> GenCharts[Generiraj grafove:<br/>- Trend prijava<br/>- Top kategorije<br/>- Vrijeme rješavanja]
+    parallel1 --> GetRecent[Dohvati najnovije<br/>prijave]
+    
+    CalcStats --> join1{{Spoji rezultate}}
+    GenCharts --> join1
+    GetRecent --> join1
+    
+    join1 --> DisplayDashboard[Prikaži dashboard:<br/>- KPI kartice<br/>- Grafovi<br/>- Tablica prijava]
+    
+    DisplayDashboard --> UserAction{Akcija<br/>administratora?}
+    
+    UserAction -->|Filter vremenski| ApplyTimeFilter[Primijeni filter<br/>datum od-do]
+    UserAction -->|Filter po kvartu| ApplyLocationFilter[Filtriraj po<br/>lokaciji]
+    UserAction -->|Export izvještaj| ExportReport[Generiraj i preuzmi<br/>PDF izvještaj]
+    UserAction -->|Osvježi podatke| RefreshData[Osvježi<br/>dashboard]
+    
+    ApplyTimeFilter --> RecalcData[Ponovno izračunaj<br/>podatke]
+    ApplyLocationFilter --> RecalcData
+    RecalcData --> DisplayDashboard
+    
+    ExportReport --> GeneratePDF[Kreiraj PDF<br/>s analitikom]
+    GeneratePDF --> DownloadPDF[Preuzmi izvještaj]
+    DownloadPDF --> UserAction
+    
+    RefreshData --> FetchData
+    
+    UserAction -->|Izlaz| End
+    
+    style Start fill:#90EE90
+    style End fill:#FFB6C1
+    style AuthCheck fill:#FFE4B5
+    style UserAction fill:#FFE4B5
+    style parallel1 fill:#DDA0DD
+    style join1 fill:#DDA0DD
+    style DisplayDashboard fill:#87CEEB
+    style AccessDenied fill:#FF6B6B
