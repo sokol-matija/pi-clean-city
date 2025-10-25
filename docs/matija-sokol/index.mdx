@@ -1,0 +1,138 @@
+---
+title: "Modul 4 - Funkcionalnosti"
+description: "Homepage s kartom i dashboard za administratore"
+---
+
+# MODUL 4 - FUNKCIONALNOSTI
+
+## Opis modula
+
+Modul 4 se sastoji od homepage-a sa kartom i dashboard-a za administratore. Svi korisnici mogu vidjeti prijave na karti, a admini imaju pristup statistici i analizi podataka. Modul pokazuje gdje su problemi na karti i daje pregled koliko ih ima i kako se rješavaju.
+
+---
+
+## Funkcionalnosti
+
+<AccordionGroup>
+  <Accordion title="1. Učitavanje stranice s kartom grada">
+    Aplikacija dohvaća sve prijave iz baze i stavlja ih na kartu kao markere.
+  </Accordion>
+
+  <Accordion title="2. Prikaz markera na karti">
+    Markeri se prikazuju na lokaciji gdje je problem prijavljen. Boja markera ovisi o tome je li problem nov, u obradi ili riješen.
+  </Accordion>
+
+  <Accordion title="3. Detalji problema">
+    Kada korisnik klikne na marker otvara se prozor sa svim detaljima. Tu se vidi fotografija problema, opis, adresa i status.
+  </Accordion>
+
+  <Accordion title="4. Provjera autorizacije">
+    Dashboard mogu otvoriti samo admini i zaposlenici u gradu, ostali nemaju pristup.
+  </Accordion>
+
+  <Accordion title="5. Učitavanje podataka za dashboard">
+    Sustav istovremeno izračunava statistiku, pravi grafove i dohvaća najnovije prijave.
+  </Accordion>
+
+  <Accordion title="6. Prikaz glavnih metrika">
+    Na vrhu dashboard-a prikazuju se ukupno prijava, koliko ih čeka, koliko je riješeno i prosječno vrijeme rješavanja.
+  </Accordion>
+
+  <Accordion title="7. Analitički grafovi">
+    Grafovi pokazuju stanje prijava kroz vrijeme i koje kategorije su najčešće.
+  </Accordion>
+
+  <Accordion title="8. Filtriranje po datumu">
+    Admin može odabrati period i vidjeti samo prijave iz tog vremena.
+  </Accordion>
+
+  <Accordion title="9. Filtriranje po kvartu">
+    Moguće je odabrati područje i vidjeti statistiku samo za taj dio grada.
+  </Accordion>
+
+  <Accordion title="10. Preuzimanje izvještaja">
+    Admin može preuzeti izvještaj u PDF formatu sa svim podacima i grafovima za sastanke.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Dijagrami
+
+### Sekvencijski dijagram - Homepage s kartom
+
+Prikazuje interakciju između korisnika, frontend-a, backend-a i baze podataka pri učitavanju homepage-a s kartom prijava.
+
+```mermaid
+sequenceDiagram
+    actor korisnik
+    participant frontend
+    participant backend
+    participant database
+
+    korisnik->>frontend: otvori homepage
+    frontend->>backend: GET /api/reports
+    backend->>database: dohvati sve prijave
+    database-->>backend: lista prijava
+    backend-->>frontend: JSON podaci
+    frontend->>frontend: prikaži markere na karti
+    frontend-->>korisnik: karta s prijavama
+
+    korisnik->>frontend: klik na marker
+    frontend->>backend: GET /api/reports/{id}
+    backend->>database: dohvati detalje
+    database-->>backend: detalji prijave
+    backend-->>frontend: JSON detalji
+    frontend-->>korisnik: prikaži modal s detaljima
+```
+
+### Activity dijagram - Dashboard za administratore
+
+Prikazuje tok rada i logiku dashboard-a za administratore, uključujući autorizaciju, učitavanje podataka i dostupne akcije.
+
+```mermaid
+graph TD
+    Start([početak]) --> OpenDashboard[administrator otvara<br/>dashboard]
+    OpenDashboard --> AuthCheck{provjera<br/>autorizacije}
+
+    AuthCheck -->|Nije admin| AccessDenied[pristup odbijen]
+    AccessDenied --> End([kraj])
+
+    AuthCheck -->|Je admin| LoadDashboard[učitaj dashboard]
+    LoadDashboard --> FetchData[dohvati podatke<br/>iz baze]
+
+    FetchData --> parallel1{{paralelna obrada}}
+
+    parallel1 --> CalcStats[izračunaj statistiku]
+    parallel1 --> GenCharts[izračunaj grafove]
+    parallel1 --> GetRecent[dohvati prijave]
+
+    CalcStats --> join1{{spoji rezultate}}
+    GenCharts --> join1
+    GetRecent --> join1
+
+    join1 --> DisplayDashboard[prikaži dashboard]
+
+    DisplayDashboard --> UserAction{akcija<br/>administratora?}
+
+    UserAction -->|Filter vremenski| ApplyTimeFilter[primijeni filter<br/>datum od-do]
+    UserAction -->|Filter po kvartu| ApplyLocationFilter[filtriraj po<br/>lokaciji]
+    UserAction -->|Export izvještaj| ExportReport[generiraj i preuzmi<br/>pdf izvještaj]
+    UserAction -->|Osvježi podatke| RefreshData[osvježi<br/>dashboard]
+
+    ApplyTimeFilter --> RecalcData[ponovno izračunaj<br/>podatke]
+    ApplyLocationFilter --> RecalcData
+    RecalcData --> DisplayDashboard
+
+    ExportReport --> GeneratePDF[kreiraj pdf<br/>s analitikom]
+    GeneratePDF --> DownloadPDF[preuzmi izvještaj]
+    DownloadPDF --> UserAction
+
+    RefreshData --> FetchData
+
+    UserAction -->|Izlaz| End
+```
+
+<Note>
+  Dijagrami su izrađeni u Mermaid formatu i prikazuju arhitekturu i tok podataka u Modulu 4.
+</Note>

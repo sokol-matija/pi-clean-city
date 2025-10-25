@@ -1,0 +1,52 @@
+{
+  "name": "CleanCity",
+  "theme": "quill",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#10b981",
+    "light": "#22c55e",
+    "dark": "#059669"
+  },
+  "navigation": [
+    {
+      "group": "Uvod",
+      "pages": [
+        "introduction",
+        "o-projektu"
+      ]
+    },
+    {
+      "group": "Matija Sokol",
+      "pages": [
+        "matija-sokol/index"
+      ]
+    },
+    {
+      "group": "Domagoj Antić",
+      "pages": [
+        "domagoj-antic/index"
+      ]
+    },
+    {
+      "group": "Fran Vicić",
+      "pages": [
+        "fran-vicic/index"
+      ]
+    },
+    {
+      "group": "Mato Jelen Kralj",
+      "pages": [
+        "mato-jelen-kralj/index"
+      ]
+    }
+  ],
+  "footer": {
+    "social": {
+      "github": "https://github.com"
+    }
+  }
+}
