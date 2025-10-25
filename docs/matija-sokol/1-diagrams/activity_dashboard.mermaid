@@ -10,15 +10,15 @@ graph TD
     
     FetchData --> parallel1{{Paralelna obrada}}
     
-    parallel1 --> CalcStats[Izračunaj statistiku:<br/>- Ukupno prijava<br/>- Po statusu<br/>- Po kategoriji]
-    parallel1 --> GenCharts[Generiraj grafove:<br/>- Trend prijava<br/>- Top kategorije<br/>- Vrijeme rješavanja]
-    parallel1 --> GetRecent[Dohvati najnovije<br/>prijave]
+    parallel1 --> CalcStats[Izračunaj statistiku]
+    parallel1 --> GenCharts[Izračunaj grafove]
+    parallel1 --> GetRecent[Dohvati prijave]
     
     CalcStats --> join1{{Spoji rezultate}}
     GenCharts --> join1
     GetRecent --> join1
     
-    join1 --> DisplayDashboard[Prikaži dashboard:<br/>- KPI kartice<br/>- Grafovi<br/>- Tablica prijava]
+    join1 --> DisplayDashboard[Prikaži dashboard]
     
     DisplayDashboard --> UserAction{Akcija<br/>administratora?}
     
@@ -39,11 +39,3 @@ graph TD
     
     UserAction -->|Izlaz| End
     
-    style Start fill:#90EE90
-    style End fill:#FFB6C1
-    style AuthCheck fill:#FFE4B5
-    style UserAction fill:#FFE4B5
-    style parallel1 fill:#DDA0DD
-    style join1 fill:#DDA0DD
-    style DisplayDashboard fill:#87CEEB
-    style AccessDenied fill:#FF6B6B
