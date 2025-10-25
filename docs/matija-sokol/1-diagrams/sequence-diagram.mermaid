@@ -1,20 +1,20 @@
 sequenceDiagram
-    actor Korisnik
-    participant Frontend
-    participant Backend
-    participant Database
+    actor korisnik
+    participant frontend
+    participant backend
+    participant database
     
-    Korisnik->>Frontend: Otvori homepage
-    Frontend->>Backend: GET /api/reports
-    Backend->>Database: Dohvati sve prijave
-    Database-->>Backend: Lista prijava
-    Backend-->>Frontend: JSON podaci
-    Frontend->>Frontend: Prikaži markere na karti
-    Frontend-->>Korisnik: Karta s prijavama
+    korisnik->>frontend: otvori homepage
+    frontend->>backend: GET /api/reports
+    backend->>database: dohvati sve prijave
+    database-->>backend: lista prijava
+    backend-->>frontend: JSON podaci
+    frontend->>frontend: prikaži markere na karti
+    frontend-->>korisnik: karta s prijavama
     
-    Korisnik->>Frontend: Klik na marker
-    Frontend->>Backend: GET /api/reports/{id}
-    Backend->>Database: Dohvati detalje
-    Database-->>Backend: Detalji prijave
-    Backend-->>Frontend: JSON detalji
-    Frontend-->>Korisnik: Prikaži modal s detaljima
+    korisnik->>frontend: klik na marker
+    frontend->>backend: GET /api/reports/{id}
+    backend->>database: dohvati detalje
+    database-->>backend: detalji prijave
+    backend-->>frontend: JSON detalji
+    frontend-->>korisnik: prikaži modal s detaljima

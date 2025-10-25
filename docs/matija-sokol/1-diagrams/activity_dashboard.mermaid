@@ -1,41 +1,40 @@
 graph TD
-    Start([Početak]) --> OpenDashboard[Administrator otvara<br/>dashboard]
-    OpenDashboard --> AuthCheck{Provjera<br/>autorizacije}
+    Start([početak]) --> OpenDashboard[administrator otvara<br/>dashboard]
+    OpenDashboard --> AuthCheck{provjera<br/>autorizacije}
     
-    AuthCheck -->|Nije admin| AccessDenied[Pristup odbijen]
-    AccessDenied --> End([Kraj])
+    AuthCheck -->|Nije admin| AccessDenied[pristup odbijen]
+    AccessDenied --> End([kraj])
     
-    AuthCheck -->|Je admin| LoadDashboard[Učitaj dashboard]
-    LoadDashboard --> FetchData[Dohvati podatke<br/>iz baze]
+    AuthCheck -->|Je admin| LoadDashboard[učitaj dashboard]
+    LoadDashboard --> FetchData[dohvati podatke<br/>iz baze]
     
-    FetchData --> parallel1{{Paralelna obrada}}
+    FetchData --> parallel1{{paralelna obrada}}
     
-    parallel1 --> CalcStats[Izračunaj statistiku]
-    parallel1 --> GenCharts[Izračunaj grafove]
-    parallel1 --> GetRecent[Dohvati prijave]
+    parallel1 --> CalcStats[izračunaj statistiku]
+    parallel1 --> GenCharts[izračunaj grafove]
+    parallel1 --> GetRecent[dohvati prijave]
     
-    CalcStats --> join1{{Spoji rezultate}}
+    CalcStats --> join1{{spoji rezultate}}
     GenCharts --> join1
     GetRecent --> join1
     
-    join1 --> DisplayDashboard[Prikaži dashboard]
+    join1 --> DisplayDashboard[prikaži dashboard]
     
-    DisplayDashboard --> UserAction{Akcija<br/>administratora?}
+    DisplayDashboard --> UserAction{akcija<br/>administratora?}
     
-    UserAction -->|Filter vremenski| ApplyTimeFilter[Primijeni filter<br/>datum od-do]
-    UserAction -->|Filter po kvartu| ApplyLocationFilter[Filtriraj po<br/>lokaciji]
-    UserAction -->|Export izvještaj| ExportReport[Generiraj i preuzmi<br/>PDF izvještaj]
-    UserAction -->|Osvježi podatke| RefreshData[Osvježi<br/>dashboard]
+    UserAction -->|Filter vremenski| ApplyTimeFilter[primijeni filter<br/>datum od-do]
+    UserAction -->|Filter po kvartu| ApplyLocationFilter[filtriraj po<br/>lokaciji]
+    UserAction -->|Export izvještaj| ExportReport[generiraj i preuzmi<br/>pdf izvještaj]
+    UserAction -->|Osvježi podatke| RefreshData[osvježi<br/>dashboard]
     
-    ApplyTimeFilter --> RecalcData[Ponovno izračunaj<br/>podatke]
+    ApplyTimeFilter --> RecalcData[ponovno izračunaj<br/>podatke]
     ApplyLocationFilter --> RecalcData
     RecalcData --> DisplayDashboard
     
-    ExportReport --> GeneratePDF[Kreiraj PDF<br/>s analitikom]
-    GeneratePDF --> DownloadPDF[Preuzmi izvještaj]
+    ExportReport --> GeneratePDF[kreiraj pdf<br/>s analitikom]
+    GeneratePDF --> DownloadPDF[preuzmi izvještaj]
     DownloadPDF --> UserAction
     
     RefreshData --> FetchData
     
     UserAction -->|Izlaz| End
-    
