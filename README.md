@@ -4,26 +4,15 @@ Platforma kojom građani i studenti mogu prijaviti probleme u lokalnoj zajednici
 
 ## Glavni korisnici
 
-- **Građani** – prijavljuju komunalne probleme
-- **Komunalne službe** – rješavaju prijavljene probleme
-- **Lokalna uprava i administratori** – upravljaju sustavom i nadgledaju proces
+Građani prijavljuju komunalne probleme, komunalne službe rješavaju prijave, a lokalna uprava upravlja sustavom i nadgleda proces.
 
 ## Ključne funkcionalnosti
 
-- ✅ Jednostavna prijava komunalnih problema s geolokacijom
-- ✅ Status prijave i komunikacija s nadležnima
-- ✅ Katalog problema i čestih pitanja
-- ✅ Evidencija rješavanja i ocjene korisnika
-- ✅ Notifikacije o statusu i rješenju
+Platforma omogućuje jednostavnu prijavu komunalnih problema s geolokacijom, praćenje statusa prijave i komunikaciju s nadležnima, katalog problema i čestih pitanja, evidenciju rješavanja i ocjene korisnika te notifikacije o statusu i rješenju problema.
 
 ## Tim
 
-Projekt razvija tim studenata:
-
-- **Domagoj Antić**
-- **Fran Vicić**
-- **Matija Sokol**
-- **Mato Jelen Kralj**
+Domagoj Antić, Fran Vicić, Matija Sokol, Mato Jelen Kralj
 
 ## Dokumentacija
 
@@ -31,30 +20,7 @@ Dokumentacija svakog člana tima nalazi se u [`/docs`](/docs) direktoriju i izra
 
 ### Pregled dokumentacije lokalno
 
-Za pregled dokumentacije na lokalnom računalu:
-
-1. **Instalirajte Mintlify CLI**
-   ```bash
-   npm i -g mintlify
-   ```
-
-2. **Pokrenite development server**
-   ```bash
-   cd docs
-   mintlify dev
-   ```
-
-3. **Otvorite dokumentaciju**
-
-   Dokumentacija će biti dostupna na `http://localhost:3000`
-
-### Struktura dokumentacije
-
-- **Uvod** - Osnovne informacije o projektu
-- **Matija Sokol** - (U izradi)
-- **Domagoj Antić** - (U izradi)
-- **Fran Vicić** - (U izradi)
-- **Mato Jelen Kralj** - (U izradi)
+Instalirajte Mintlify CLI (`npm i -g mintlify`), pokrenite development server (`cd docs && mintlify dev`) i otvorite dokumentaciju na `http://localhost:3000`
 
 ---
 
