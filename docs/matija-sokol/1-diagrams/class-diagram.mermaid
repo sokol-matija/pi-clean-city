@@ -1,0 +1,97 @@
+classDiagram
+    class MapView {
+        -List~Report~ reports
+        -List~Marker~ markers
+        +loadReports() void
+        +displayMarkers() void
+        +showReportDetails(reportId: int) void
+        +filterByStatus(status: string) void
+    }
+
+    class Marker {
+        -int id
+        -decimal latitude
+        -decimal longitude
+        -string color
+        -Report report
+        +onClick() void
+        +getColor() string
+        +updatePosition(lat: decimal, lng: decimal) void
+    }
+
+    class Report {
+        -int id
+        -string title
+        -string description
+        -string address
+        -decimal latitude
+        -decimal longitude
+        -string status
+        -Category category
+        -List~Photo~ photos
+        -DateTime createdAt
+        +getDetails() ReportDetails
+        +updateStatus(newStatus: string) void
+        +addPhoto(photo: Photo) void
+    }
+
+    class Dashboard {
+        -Statistics statistics
+        -List~Chart~ charts
+        -Filter filter
+        -List~Report~ recentReports
+        +loadDashboard() void
+        +applyFilter(filter: Filter) void
+        +exportPDF() void
+        +refreshData() void
+    }
+
+    class Statistics {
+        -int totalReports
+        -int pendingReports
+        -int resolvedReports
+        -decimal avgResolutionTime
+        -DateTime lastUpdated
+        +calculate(reports: List~Report~) void
+        +getMetrics() StatisticsData
+        +refresh() void
+    }
+
+    class Chart {
+        -string type
+        -List~Data~ data
+        -List~string~ labels
+        -string title
+        +render() void
+        +update(newData: List~Data~) void
+        +export() Image
+    }
+
+    class Filter {
+        -DateTime dateFrom
+        -DateTime dateTo
+        -string location
+        -string status
+        +applyTimeFilter(from: DateTime, to: DateTime) void
+        +applyLocationFilter(location: string) void
+        +applyStatusFilter(status: string) void
+        +reset() void
+        +getFilteredReports() List~Report~
+    }
+
+    class PDFExporter {
+        -string template
+        -ReportData data
+        +generate(data: ReportData) PDF
+        +download(filename: string) void
+        +addChart(chart: Chart) void
+    }
+
+    %% Relationships
+    MapView *-- Marker
+    Marker --> Report
+    Dashboard o-- Statistics
+    Dashboard o-- Chart
+    Dashboard --> Filter
+    Dashboard ..> PDFExporter
+    Dashboard --> Report

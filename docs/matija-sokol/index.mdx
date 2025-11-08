@@ -133,6 +133,169 @@ graph TD
     UserAction -->|Izlaz| End
 ```
 
-<Note>
-  Dijagrami su izrađeni u Mermaid formatu i prikazuju arhitekturu i tok podataka u Modulu 4.
-</Note>
+### ER Dijagram - Struktura baze podataka
+
+```mermaid
+erDiagram
+    REPORT ||--o{ PHOTO : ""
+    REPORT }o--|| CATEGORY : ""
+    REPORT }o--|| STATUS : ""
+    REPORT ||--o{ REPORT_VIEW : ""
+    USER ||--o{ REPORT_VIEW : ""
+
+    REPORT {
+        int id PK
+        string title
+        string description
+        string address
+        decimal latitude
+        decimal longitude
+        datetime created_at
+        datetime resolved_at
+        int category_id FK
+        int status_id FK
+    }
+
+    PHOTO {
+        int id PK
+        string url
+        string filename
+        int report_id FK
+        datetime uploaded_at
+    }
+
+    CATEGORY {
+        int id PK
+        string name
+        string icon
+        string description
+    }
+
+    STATUS {
+        int id PK
+        string name
+        string color
+        string description
+    }
+
+    USER {
+        int id PK
+        string username
+        string email
+        string role
+        datetime created_at
+    }
+
+    REPORT_VIEW {
+        int id PK
+        int report_id FK
+        int user_id FK
+        datetime viewed_at
+    }
+```
+
+
+### Class Dijagram - Struktura aplikacije
+
+```mermaid
+classDiagram
+    class MapView {
+        -List~Report~ reports
+        -List~Marker~ markers
+        +loadReports() void
+        +displayMarkers() void
+        +showReportDetails(reportId: int) void
+        +filterByStatus(status: string) void
+    }
+
+    class Marker {
+        -int id
+        -decimal latitude
+        -decimal longitude
+        -string color
+        -Report report
+        +onClick() void
+        +getColor() string
+        +updatePosition(lat: decimal, lng: decimal) void
+    }
+
+    class Report {
+        -int id
+        -string title
+        -string description
+        -string address
+        -decimal latitude
+        -decimal longitude
+        -string status
+        -Category category
+        -List~Photo~ photos
+        -DateTime createdAt
+        +getDetails() ReportDetails
+        +updateStatus(newStatus: string) void
+        +addPhoto(photo: Photo) void
+    }
+
+    class Dashboard {
+        -Statistics statistics
+        -List~Chart~ charts
+        -Filter filter
+        -List~Report~ recentReports
+        +loadDashboard() void
+        +applyFilter(filter: Filter) void
+        +exportPDF() void
+        +refreshData() void
+    }
+
+    class Statistics {
+        -int totalReports
+        -int pendingReports
+        -int resolvedReports
+        -decimal avgResolutionTime
+        -DateTime lastUpdated
+        +calculate(reports: List~Report~) void
+        +getMetrics() StatisticsData
+        +refresh() void
+    }
+
+    class Chart {
+        -string type
+        -List~Data~ data
+        -List~string~ labels
+        -string title
+        +render() void
+        +update(newData: List~Data~) void
+        +export() Image
+    }
+
+    class Filter {
+        -DateTime dateFrom
+        -DateTime dateTo
+        -string location
+        -string status
+        +applyTimeFilter(from: DateTime, to: DateTime) void
+        +applyLocationFilter(location: string) void
+        +applyStatusFilter(status: string) void
+        +reset() void
+        +getFilteredReports() List~Report~
+    }
+
+    class PDFExporter {
+        -string template
+        -ReportData data
+        +generate(data: ReportData) PDF
+        +download(filename: string) void
+        +addChart(chart: Chart) void
+    }
+
+    %% Relationships
+    MapView *-- Marker
+    Marker --> Report
+    Dashboard o-- Statistics
+    Dashboard o-- Chart
+    Dashboard --> Filter
+    Dashboard ..> PDFExporter
+    Dashboard --> Report
+```
+
+
+

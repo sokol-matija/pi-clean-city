@@ -1,0 +1,56 @@
+erDiagram
+    REPORT ||--o{ PHOTO : ""
+    REPORT }o--|| CATEGORY : ""
+    REPORT }o--|| STATUS : ""
+    REPORT ||--o{ REPORT_VIEW : ""
+    USER ||--o{ REPORT_VIEW : ""
+
+    REPORT {
+        int id PK
+        string title
+        string description
+        string address
+        decimal latitude
+        decimal longitude
+        timestamp created_at
+        timestamp resolved_at
+        int category_id FK
+        int status_id FK
+    }
+
+    PHOTO {
+        int id PK
+        string url
+        string filename
+        int report_id FK
+        timestamp uploaded_at
+    }
+
+    CATEGORY {
+        int id PK
+        string name
+        string icon
+        string description
+    }
+
+    STATUS {
+        int id PK
+        string name
+        string color
+        string description
+    }
+
+    USER {
+        int id PK
+        string username
+        string email
+        string role
+        timestamp created_at
+    }
+
+    REPORT_VIEW {
+        int id PK
+        int report_id FK
+        int user_id FK
+        timestamp viewed_at
+    }
