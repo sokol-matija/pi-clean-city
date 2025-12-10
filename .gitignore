@@ -18,6 +18,10 @@ logs/
 *.userosscache
 *.sln.docstates
 
+#Development settings
+**/appsettings.Development.json
+**/appsettings.Local.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
