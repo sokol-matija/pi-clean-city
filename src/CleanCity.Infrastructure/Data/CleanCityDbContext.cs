@@ -111,6 +111,17 @@ public class CleanCityDbContext : DbContext
                 Role = UserRole.Admin,
                 IsActive = true,
                 CreatedAt = DateTime.Now
+            },
+            new User
+            {
+                Id = 2,
+                Email = "citizen@test.com",
+                FirstName = "John",
+                LastName = "TheCitizen",
+                PasswordHash = "TempPasswordHash",
+                Role = UserRole.Citizen,
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
             }
         );
     }
