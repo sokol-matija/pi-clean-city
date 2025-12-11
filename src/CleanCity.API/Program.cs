@@ -1,4 +1,5 @@
 using System.Text;
+using CleanCity.Application.Services;
 using CleanCity.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 //add DbContext
 builder.Services.AddDbContext<CleanCityDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 //add JWT Auth
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
