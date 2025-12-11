@@ -1,4 +1,5 @@
 ﻿using CleanCity.Application.DTOs.Tickets;
+using CleanCity.Domain.Entities;
 using CleanCity.Domain.Enums;
 using CleanCity.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,76 @@ namespace CleanCity.API.Controllers
         public TicketsController(CleanCityDbContext context)
         {
             _context = context;
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Citizen")]
+        public async Task<ActionResult<TicketDto>> CreateTicket([FromBody] CreateTicketDto dto)
+        {
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            var userId = int.Parse(userIdClaim);
+
+            var category = await _context.Categories.FindAsync(dto.CategoryId);
+            if (category == null)
+                return BadRequest(new { message = "Invalid category" });
+
+            
+            var ticket = new Ticket
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                CategoryId = dto.CategoryId,
+                Priority = dto.Priority,
+                Status = TicketStatus.Open,
+                CreatedById = userId,
+                ImageUrl = dto.ImageUrl,
+                CreatedAt = DateTime.UtcNow,
+
+                //TODO: check location relationships for later use, one-to-one or one-to-many
+                Location = new GeoLocation
+                {
+                    Address = dto.Address,
+                    City = dto.City,
+                    Country = "Croatia",
+                    PostalCode = "",  //leave empty for now
+                    Latitude = dto.Latitude,
+                    Longitude = dto.Longitude
+                }
+            };
+
+            _context.Tickets.Add(ticket);
+            await _context.SaveChangesAsync();
+
+            // load related data
+            await _context.Entry(ticket)
+                .Reference(t => t.Category)
+                .LoadAsync();
+
+            await _context.Entry(ticket)
+                .Reference(t => t.CreatedBy)
+                .LoadAsync();
+
+            
+            var ticketDto = new TicketDto
+            {
+                Id = ticket.Id,
+                Title = ticket.Title,
+                Description = ticket.Description,
+                Status = ticket.Status.ToString(),
+                Priority = ticket.Priority.ToString(),
+                CategoryName = ticket.Category.Name,
+                CreatedByEmail = ticket.CreatedBy.Email,
+                CreatedAt = ticket.CreatedAt,
+                ImageUrl = ticket.ImageUrl,
+                Address = ticket.Location?.Address,
+                City = ticket.Location?.City
+            };
+
+            return CreatedAtAction(nameof(GetTicket), new { id = ticket.Id }, ticketDto);
         }
 
         [HttpGet]
@@ -163,5 +234,6 @@ namespace CleanCity.API.Controllers
 
             return NoContent();
         }
+
     }
 }
