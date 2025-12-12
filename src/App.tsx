@@ -7,6 +7,8 @@ import { LoginPage } from '@/pages/LoginPage'
 import { MapPage } from '@/pages/MapPage'
 import { SubmitReportPage } from '@/pages/SubmitReportPage'
 import { ReportDetailsPage } from '@/pages/ReportDetailsPage'
+import { AdminTicketsPage } from './pages/AdminTicketsPage'
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +35,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <SubmitReportPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/tickets"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminTicketsPage />
                   </ProtectedRoute>
                 }
               />

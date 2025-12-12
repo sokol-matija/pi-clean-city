@@ -9,14 +9,14 @@ interface AuthContextType {
   profile: Profile | null
   isLoading: boolean
   signInWithGoogle: () => Promise<void>
-  signInWithPassword: () => (email: string, password: string) => Promise<void>
+  signInWithPassword:  (email: string, password: string) => Promise<void>
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children:  React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const refreshProfile = useCallback(async () => {
     if (user) {
-      const profileData = await fetchProfile(user.id)
+      const profileData = await fetchProfile(user. id)
       setProfile(profileData)
     }
   }, [user, fetchProfile])
@@ -141,7 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo:  `${window.location.origin}/`,
       },
     })
 
@@ -152,27 +152,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signInWithPassword = async (email: string, password: string) => {
-    const {data, error} = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
-      password
+      password,
     })
-    
+
     if (error) {
-      console.error('Error signing in with email and password:', error)
-      throw error;
+      console.error('Error signing in with password:', error)
+      throw error
     }
-  
-    return data
   }
 
-
-
-
-
-
-
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut()
+    const { error } = await supabase.auth. signOut()
 
     if (error) {
       console.error('Error signing out:', error)
