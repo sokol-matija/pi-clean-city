@@ -28,6 +28,7 @@ export type Database = {
           icon?: string
           description?: string | null
         }
+        Relationships: []
       }
       comment: {
         Row: {
@@ -51,6 +52,20 @@ export type Database = {
           content?: string
           created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "comment_report_id_fkey"
+            columns: ["report_id"]
+            referencedRelation: "report"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comment_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       photo: {
         Row: {
@@ -74,13 +89,21 @@ export type Database = {
           report_id?: string
           uploaded_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "photo_report_id_fkey"
+            columns: ["report_id"]
+            referencedRelation: "report"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       profiles: {
         Row: {
           id: string
           username: string | null
           email: string | null
-          role: 'citizen' | 'worker' | 'admin'
+          role: string
           avatar_url: string | null
           created_at: string
           updated_at: string
@@ -89,7 +112,7 @@ export type Database = {
           id: string
           username?: string | null
           email?: string | null
-          role?: 'citizen' | 'worker' | 'admin'
+          role?: string
           avatar_url?: string | null
           created_at?: string
           updated_at?: string
@@ -98,11 +121,19 @@ export type Database = {
           id?: string
           username?: string | null
           email?: string | null
-          role?: 'citizen' | 'worker' | 'admin'
+          role?: string
           avatar_url?: string | null
           created_at?: string
           updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       report: {
         Row: {
@@ -118,7 +149,7 @@ export type Database = {
           status_id: number
           user_id: string | null
           assigned_worker_id: string | null
-          priority: 'low' | 'medium' | 'high'
+          priority: string
         }
         Insert: {
           id?: string
@@ -133,7 +164,7 @@ export type Database = {
           status_id?: number
           user_id?: string | null
           assigned_worker_id?: string | null
-          priority?: 'low' | 'medium' | 'high'
+          priority?: string
         }
         Update: {
           id?: string
@@ -148,8 +179,34 @@ export type Database = {
           status_id?: number
           user_id?: string | null
           assigned_worker_id?: string | null
-          priority?: 'low' | 'medium' | 'high'
+          priority?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "report_category_id_fkey"
+            columns: ["category_id"]
+            referencedRelation: "category"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_status_id_fkey"
+            columns: ["status_id"]
+            referencedRelation: "status"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_assigned_worker_id_fkey"
+            columns: ["assigned_worker_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       report_view: {
         Row: {
@@ -170,6 +227,20 @@ export type Database = {
           user_id?: string | null
           viewed_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "report_view_report_id_fkey"
+            columns: ["report_id"]
+            referencedRelation: "report"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_view_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       status: {
         Row: {
@@ -193,6 +264,7 @@ export type Database = {
           description?: string | null
           sort_order?: number
         }
+        Relationships: []
       }
     }
     Views: {
@@ -205,6 +277,9 @@ export type Database = {
       }
     }
     Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
       [_ in never]: never
     }
   }
