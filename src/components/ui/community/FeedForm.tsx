@@ -26,18 +26,14 @@ const FeedForm: React.FC<FeedFormProps> = ({ onPost }) => {
       <div className="flex flex-row w-full border-b gap-6 py-4">
         <div className="flex items-center justify-center">
           <div className="relative">
-            {/* Avatar: image or fallback initials */}
             <div style={{ width: 64, height: 64 }} className="relative">
-              {/* Replace the src with your avatar URL */}
               <img
                 src={defaultAvatar}
                 onError={(e) => {
-                  // hide broken image to show fallback
                   (e.currentTarget as HTMLImageElement).style.display = "none";
                 }}
                 className="w-16 h-16 rounded-full object-cover"
               />
-              {/* If image fails, show fallback (initials) */}
               <div
                 aria-hidden
                 className="absolute inset-0 rounded-full bg-gray-200 flex items-center justify-center text-slate-700 font-medium"
