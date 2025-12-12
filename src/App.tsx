@@ -7,6 +7,7 @@ import { LoginPage } from '@/pages/LoginPage'
 import { MapPage } from '@/pages/MapPage'
 import { SubmitReportPage } from '@/pages/SubmitReportPage'
 import { ReportDetailsPage } from '@/pages/ReportDetailsPage'
+import PostFeedPage from './pages/community/PostFeedPage'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +37,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/community" element={ <ProtectedRoute><PostFeedPage /></ProtectedRoute> } />
             </Route>
           </Routes>
         </AuthProvider>
