@@ -1,11 +1,11 @@
 ---
 title: "O projektu"
-description: "Više informacija o CleanCity projektu"
+description: "Tehnička dokumentacija i arhitektura CleanCity platforme"
 ---
 
 # O CleanCity projektu
 
-CleanCity je platforma razvijena s ciljem poboljšanja komunikacije između građana i lokalnih komunalnih službi.
+CleanCity je platforma razvijena s ciljem poboljšanja komunikacije između građana i lokalnih komunalnih službi. Građani mogu prijaviti probleme poput rupa na cestama, nepropisno odbačenog smeća ili neispravne ulične rasvjete, dok komunalne službe mogu pratiti i rješavati te prijave.
 
 ## Vizija
 
@@ -31,19 +31,153 @@ Omogućiti građanima jednostavan i brz način prijave komunalnih problema te os
   </Step>
 </Steps>
 
-## Tehnologije
+## Tehnološki stack
 
-Projekt koristi moderne web tehnologije za izradu skalabilne i pouzdane platforme.
+### Frontend
+
+Aplikacija koristi Vite kao build alat i React 18.3.1 kao UI biblioteku. Odabrali smo React 18 umjesto React 19 zbog stabilnosti ekosustava i kompatibilnosti s bibliotekama poput react-leaflet koja još nije ažurirana za React 19.
+
+Nismo koristili Next.js jer aplikacija ne zahtijeva server-side rendering (SSR) niti statičku generaciju stranica (SSG). Svi podaci se dohvaćaju na klijentskoj strani putem Supabase klijenta, što čini Next.js API rute nepotrebnima. Jednostavnija arhitektura omogućuje lakše razumijevanje koda za sve članove tima.
+
+<CardGroup cols={2}>
+  <Card title="Vite + React 18" icon="react">
+    Brzi development server s hot module replacement
+  </Card>
+  <Card title="TypeScript" icon="code">
+    Tipizirana verzija JavaScripta za bolju kvalitetu koda
+  </Card>
+  <Card title="Tailwind CSS v3" icon="palette">
+    Utility-first CSS framework za brzo stiliziranje
+  </Card>
+  <Card title="Shadcn/ui" icon="layer-group">
+    Pristupačne komponente bazirane na Radix UI primitivima
+  </Card>
+</CardGroup>
+
+### State Management
+
+<CardGroup cols={2}>
+  <Card title="TanStack Query v5" icon="database">
+    Upravljanje serverskim stanjem s keširanje i automatskim osvježavanjem
+  </Card>
+  <Card title="Zustand" icon="cube">
+    Lagano globalno stanje za klijentske potrebe poput UI postavki
+  </Card>
+</CardGroup>
+
+### Karte i lokacija
+
+Leaflet 1.9.4 s react-leaflet 4.2.1 pruža interaktivnu kartu. Koristimo OpenStreetMap pločice koje su besplatne i open-source. react-leaflet v4 je potreban za kompatibilnost s React 18; v5 zahtijeva React 19.
+
+### Backend
+
+Supabase pruža kompletnu backend infrastrukturu:
+
+<AccordionGroup>
+  <Accordion title="PostgreSQL baza podataka">
+    Relacijska baza s Row Level Security (RLS) za zaštitu podataka. Svaka tablica ima definirane politike pristupa ovisno o ulozi korisnika.
+  </Accordion>
+
+  <Accordion title="Autentifikacija">
+    Google OAuth integracija za jednostavnu prijavu. Sesija se automatski osvježava i perzistira između učitavanja stranice.
+  </Accordion>
+
+  <Accordion title="Storage">
+    Pohrana fotografija prijava s automatskom CDN distribucijom. Maksimalna veličina datoteke je 10MB.
+  </Accordion>
+
+  <Accordion title="Real-time (planirano)">
+    Supabase subscriptions omogućit će ažuriranje karte i komentara bez osvježavanja stranice.
+  </Accordion>
+</AccordionGroup>
+
+### Deployment
+
+Aplikacija se deploya na Vercel s automatskim deploymentima pri svakom pushu na GitHub. GitHub Actions pokreće TypeScript provjeru i build na svakom pushu kako bi osigurali kvalitetu koda.
+
+## Shema baze podataka
+
+Aplikacija koristi sedam tablica:
+
+| Tablica | Opis |
+|---------|------|
+| profiles | Korisnički podaci koji proširuju Supabase auth |
+| status | Lookup tablica za statuse prijava (Novo, U tijeku, Riješeno, Zatvoreno) |
+| category | Kategorije problema (Rupe, Smeće, Rasvjeta, itd.) |
+| report | Glavna tablica prijava s vezama na ostale tablice |
+| photo | Fotografije prijava pohranjene u Supabase Storage |
+| comment | Komentari korisnika na prijave |
+| report_view | Praćenje pregleda prijava za analitiku |
+
+## Korisničke uloge
+
+<CardGroup cols={3}>
+  <Card title="Građani" icon="user">
+    Prijavljuju probleme, prate svoje prijave, komentiraju
+  </Card>
+  <Card title="Radnici" icon="hard-hat">
+    Pregledavaju dodijeljene prijave, ažuriraju statuse
+  </Card>
+  <Card title="Administratori" icon="user-shield">
+    Pristup statistikama i upravljanje korisnicima
+  </Card>
+</CardGroup>
+
+## Implementirane funkcionalnosti
+
+Trenutno implementirane funkcionalnosti (MVP faza):
+
+<Steps>
+  <Step title="Autentifikacija">
+    Google OAuth prijava s automatskim kreiranjem profila
+  </Step>
+
+  <Step title="Karta s prijavama">
+    Interaktivna karta s obojenim markerima prema statusu
+  </Step>
+
+  <Step title="Prijava problema">
+    Obrazac za prijavu s odabirom lokacije na karti i uploadom fotografija
+  </Step>
+
+  <Step title="Detalji prijave">
+    Stranica s punim informacijama, galerijom fotografija i mini-kartom
+  </Step>
+
+  <Step title="Komentari">
+    Sustav komentara za komunikaciju između građana i službi
+  </Step>
+
+  <Step title="CI/CD">
+    Automatski deployment putem GitHub Actions i Vercel
+  </Step>
+</Steps>
+
+## Planirane funkcionalnosti
+
+Sljedeće funkcionalnosti planirane su za implementaciju:
+
+| Prioritet | Funkcionalnost | Jira reference |
+|-----------|---------------|----------------|
+| 1 | Tablični prikaz s filterima | SCRM-7 do SCRM-11 |
+| 1 | Moje prijave dashboard | SCRM-125 |
+| 2 | Dashboard za radnike | SCRM-109 |
+| 2 | Ažuriranje statusa | SCRM-52, SCRM-54 |
+| 3 | Admin dashboard sa statistikama | SCRM-47, SCRM-48 |
+| 4 | Real-time ažuriranja | SCRM-9.x |
+| 4 | Notifikacije | SCRM-41, SCRM-42 |
 
 <Note>
-  Detaljne tehničke specifikacije i dokumentacija dostupni su u sekcijama pojedinih članova tima.
+  Detaljan pregled implementiranih i planiranih funkcionalnosti dostupan je u `/docs/project/implementation-log.md`.
 </Note>
 
 ## Struktura dokumentacije
 
 Dokumentacija je organizirana po članovima tima, gdje svaki član dokumentira svoj dio projekta:
 
-- **Matija Sokol** - Funkcionalnosti i moduli
-- **Domagoj Antić** - (U izradi)
-- **Fran Vicić** - (U izradi)
-- **Mato Jelen Kralj** - (U izradi)
+| Član | Područje |
+|------|----------|
+| Matija Sokol | Funkcionalnosti i moduli, ER dijagram, Class dijagram |
+| Domagoj Antic | U izradi |
+| Fran Vicic | U izradi |
+| Mato Jelen Kralj | U izradi |

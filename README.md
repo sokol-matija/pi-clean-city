@@ -1,27 +1,129 @@
-# CleanCity – Prijava komunalnih problema
+# CleanCity - Municipal Problem Reporting Platform
 
-Platforma kojom građani i studenti mogu prijaviti probleme u lokalnoj zajednici poput rupa na cestama, smeća ili neispravne ulične rasvjete. Upravitelji zajednice imaju uvid i mogu pratiti stanje.
+CleanCity is a web platform that enables citizens to report municipal problems such as potholes, trash, broken street lights, and other community issues. Municipal authorities can track, manage, and resolve these reports in real-time.
 
-## Glavni korisnici
+## Technology Stack
 
-Građani prijavljuju komunalne probleme, komunalne službe rješavaju prijave, a lokalna uprava upravlja sustavom i nadgleda proces.
+### Frontend Framework
 
-## Ključne funkcionalnosti
+The application is built with Vite and React 18.3.1. We chose Vite over Create React App due to its significantly faster development server startup and hot module replacement. React 18 was selected for its concurrent rendering features and automatic batching improvements.
 
-Platforma omogućuje jednostavnu prijavu komunalnih problema s geolokacijom, praćenje statusa prijave i komunikaciju s nadležnima, katalog problema i čestih pitanja, evidenciju rješavanja i ocjene korisnika te notifikacije o statusu i rješenju problema.
+We specifically chose not to use Next.js for this project for the following reasons:
+- The application is a Single Page Application (SPA) that does not require server-side rendering (SSR) or static site generation (SSG).
+- All data fetching is handled client-side through Supabase, eliminating the need for API routes.
+- Deploying to Vercel as a static site provides better cost efficiency for our use case.
+- The simpler architecture reduces complexity for a team project where not all members have Next.js experience.
 
-## Tim
+### React Version Considerations
 
-Domagoj Antić, Fran Vicić, Matija Sokol, Mato Jelen Kralj
+React 18.3.1 is the current stable version used in this project. We are not using React 19 due to several factors:
+- React 19 introduced breaking changes in the type system that affect many third-party libraries.
+- Several dependencies, including react-leaflet, have not yet been updated for React 19 compatibility.
+- The stable ecosystem around React 18 ensures fewer integration issues during development.
 
-## Dokumentacija
+### UI Components
 
-Dokumentacija svakog člana tima nalazi se u [`/docs`](/docs) direktoriju i izrađena je pomoću [Mintlify](https://mintlify.com/).
+Shadcn/ui provides the component library, built on top of Radix UI primitives. This choice offers accessible, unstyled components that we customize with Tailwind CSS v3. We use Tailwind CSS v3.4.19 rather than v4 because Shadcn/ui components are not yet compatible with the v4 CSS-first configuration approach.
 
-### Pregled dokumentacije lokalno
+### State Management
 
-Instalirajte Mintlify CLI (`npm i -g mintlify`), pokrenite development server (`cd docs && mintlify dev`) i otvorite dokumentaciju na `http://localhost:3000`
+Server state is managed with TanStack Query (React Query) v5, which handles caching, background refetching, and optimistic updates for all Supabase data. Client state uses Zustand for lightweight global state needs such as UI preferences.
 
----
+### Maps Integration
 
-*Projekt razvijen u sklopu Programskog inženjerstva*
+Leaflet 1.9.4 with react-leaflet 4.2.1 provides the interactive map functionality. We use OpenStreetMap tiles, which are free and open-source. Note that react-leaflet v4 is required for React 18 compatibility; v5 requires React 19.
+
+### Backend Services
+
+Supabase provides the complete backend infrastructure:
+- PostgreSQL database with Row Level Security (RLS) for data protection
+- Authentication with Google OAuth integration
+- Storage for report photos with automatic CDN delivery
+- Real-time subscriptions for live updates (planned feature)
+
+### Deployment
+
+The application deploys to Vercel with automatic deployments triggered by GitHub pushes. GitHub Actions runs type checking and builds on every push to ensure code quality.
+
+## Project Structure
+
+```
+src/
+  components/     # Reusable UI components
+    layout/       # Header, Layout wrapper
+    ui/           # Shadcn/ui components
+  features/       # Feature-based modules
+    auth/         # Authentication logic and components
+    reports/      # Report-related hooks and components
+  lib/            # Utilities and Supabase client
+  pages/          # Route components
+  types/          # TypeScript type definitions
+docs/             # Mintlify documentation
+```
+
+## Database Schema
+
+The application uses seven tables with the following relationships:
+- profiles: User information extending Supabase auth
+- status: Report status lookup (New, In Progress, Resolved, Closed)
+- category: Problem categories (Potholes, Trash, Lighting, etc.)
+- report: Main reports table with foreign keys to category, status, and profiles
+- photo: Report photos stored in Supabase Storage
+- comment: User comments on reports
+- report_view: Analytics tracking for report views
+
+All tables have Row Level Security enabled with policies appropriate to each user role (citizen, worker, admin).
+
+## User Roles
+
+Citizens can submit reports, track their submissions, and comment on any report. Municipal workers can view assigned reports, update statuses, and communicate with citizens. Administrators have full access to statistics, user management, and system configuration.
+
+## Local Development
+
+Clone the repository and install dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env.local` file with your Supabase credentials:
+
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+## Documentation
+
+Technical documentation is maintained with Mintlify and located in the `/docs` directory. To preview locally:
+
+```bash
+npm install -g mintlify
+cd docs
+mintlify dev
+```
+
+## Team
+
+- Domagoj Antic
+- Fran Vicic
+- Matija Sokol
+- Mato Jelen Kralj
+
+Developed as part of Software Engineering (Programsko Inzenjerstvo) course.
+
+## License
+
+This project is developed for educational purposes.
