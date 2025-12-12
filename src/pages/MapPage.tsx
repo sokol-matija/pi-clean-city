@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -90,7 +91,7 @@ export function MapPage() {
             <Popup>
               <div className="min-w-[200px]">
                 <h3 className="font-bold text-lg mb-1">{report.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">{report.description}</p>
+                <p className="text-sm text-gray-600 mb-2 line-clamp-2">{report.description}</p>
                 <div className="flex items-center gap-2 mb-1">
                   <span
                     className="inline-block w-3 h-3 rounded-full"
@@ -98,9 +99,15 @@ export function MapPage() {
                   ></span>
                   <span className="text-sm font-medium">{report.status?.name}</span>
                 </div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 mb-2">
                   Category: {report.category?.name}
                 </p>
+                <Link
+                  to={`/report/${report.id}`}
+                  className="text-sm text-primary hover:underline font-medium"
+                >
+                  View Details &rarr;
+                </Link>
               </div>
             </Popup>
           </Marker>

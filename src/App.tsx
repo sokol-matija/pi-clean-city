@@ -6,6 +6,7 @@ import { LandingPage } from '@/pages/LandingPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { MapPage } from '@/pages/MapPage'
 import { SubmitReportPage } from '@/pages/SubmitReportPage'
+import { ReportDetailsPage } from '@/pages/ReportDetailsPage'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<LandingPage />} />
               <Route path="/map" element={<MapPage />} />
+              <Route path="/report/:id" element={<ReportDetailsPage />} />
               <Route
                 path="/submit"
                 element={
