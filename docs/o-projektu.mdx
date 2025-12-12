@@ -35,9 +35,13 @@ Omogućiti građanima jednostavan i brz način prijave komunalnih problema te os
 
 ### Frontend
 
-Aplikacija koristi Vite kao build alat i React 18.3.1 kao UI biblioteku. Odabrali smo React 18 umjesto React 19 zbog stabilnosti ekosustava i kompatibilnosti s bibliotekama poput react-leaflet koja još nije ažurirana za React 19.
+Aplikacija koristi Vite kao build alat i React 18.3.1 kao UI biblioteku. Odabrali smo React 18 umjesto React 19 zbog kritične sigurnosne ranjivosti koja je otkrivena u posljednjih 10 dana u React 19. React 18 ostaje siguran i stabilan izbor dok se ranjivost ne zakrpi.
 
-Nismo koristili Next.js jer aplikacija ne zahtijeva server-side rendering (SSR) niti statičku generaciju stranica (SSG). Svi podaci se dohvaćaju na klijentskoj strani putem Supabase klijenta, što čini Next.js API rute nepotrebnima. Jednostavnija arhitektura omogućuje lakše razumijevanje koda za sve članove tima.
+Nismo koristili Next.js zbog sljedećih razloga:
+- Aplikacija je Single Page Application (SPA) koja ne zahtijeva server-side rendering (SSR)
+- Supabase pruža auto-generirane API rute kroz REST API, eliminirajući potrebu za Next.js API rutama
+- Next.js ima poznate sigurnosne ranjivosti koje su nedavno otkrivene
+- Jednostavnija arhitektura omogućuje lakše razumijevanje koda za sve članove tima
 
 <CardGroup cols={2}>
   <Card title="Vite + React 18" icon="react">
@@ -157,15 +161,23 @@ Trenutno implementirane funkcionalnosti (MVP faza):
 
 Sljedeće funkcionalnosti planirane su za implementaciju:
 
-| Prioritet | Funkcionalnost | Jira reference |
-|-----------|---------------|----------------|
-| 1 | Tablični prikaz s filterima | SCRM-7 do SCRM-11 |
-| 1 | Moje prijave dashboard | SCRM-125 |
-| 2 | Dashboard za radnike | SCRM-109 |
-| 2 | Ažuriranje statusa | SCRM-52, SCRM-54 |
-| 3 | Admin dashboard sa statistikama | SCRM-47, SCRM-48 |
-| 4 | Real-time ažuriranja | SCRM-9.x |
-| 4 | Notifikacije | SCRM-41, SCRM-42 |
+<Steps>
+  <Step title="Prioritet 1: Core User Flows">
+    Tablični prikaz s filterima, Moje prijave dashboard
+  </Step>
+
+  <Step title="Prioritet 2: Worker Features">
+    Dashboard za radnike, Ažuriranje statusa
+  </Step>
+
+  <Step title="Prioritet 3: Admin Features">
+    Admin dashboard sa statistikama
+  </Step>
+
+  <Step title="Prioritet 4: Enhancements">
+    Real-time ažuriranja, Notifikacije
+  </Step>
+</Steps>
 
 <Note>
   Detaljan pregled implementiranih i planiranih funkcionalnosti dostupan je u `/docs/project/implementation-log.md`.

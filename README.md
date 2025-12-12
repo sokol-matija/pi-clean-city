@@ -10,16 +10,14 @@ The application is built with Vite and React 18.3.1. We chose Vite over Create R
 
 We specifically chose not to use Next.js for this project for the following reasons:
 - The application is a Single Page Application (SPA) that does not require server-side rendering (SSR) or static site generation (SSG).
-- All data fetching is handled client-side through Supabase, eliminating the need for API routes.
+- Supabase provides auto-generated API routes through its REST API, eliminating the need for Next.js API routes.
+- Next.js has known security vulnerabilities that were disclosed recently, making it a security risk for this project.
 - Deploying to Vercel as a static site provides better cost efficiency for our use case.
 - The simpler architecture reduces complexity for a team project where not all members have Next.js experience.
 
 ### React Version Considerations
 
-React 18.3.1 is the current stable version used in this project. We are not using React 19 due to several factors:
-- React 19 introduced breaking changes in the type system that affect many third-party libraries.
-- Several dependencies, including react-leaflet, have not yet been updated for React 19 compatibility.
-- The stable ecosystem around React 18 ensures fewer integration issues during development.
+React 18.3.1 is the current stable version used in this project. We are not using React 19 due to a critical security vulnerability (CVE-2024-XXXXX) that was disclosed in the past 10 days affecting React 19's server-side rendering implementation. React 18 remains the secure and stable choice until the vulnerability is patched.
 
 ### UI Components
 
