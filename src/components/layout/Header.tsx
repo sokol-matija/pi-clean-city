@@ -43,6 +43,14 @@ export function Header() {
               Submit Report
             </Link>
           )}
+          {user && (
+            <Link
+              to="/community"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Community
+            </Link>
+          )}
           {profile?.role === 'worker' && (
             <Link
               to="/worker"
