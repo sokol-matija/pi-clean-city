@@ -1,11 +1,9 @@
 import FeedForm from '@/components/ui/community/FeedForm'
 import PostItem from '@/components/ui/community/PostItem'
-import { useAuth } from '@/features/auth'
 import { useCreatePost } from '@/features/community/hooks/useCreatePost'
 
 function PostFeedPage() {
-    const { user } = useAuth()
-    const { mutate: createPost, isPending } = useCreatePost()
+    const { mutate: createPost } = useCreatePost()
     
     const handlePost = ({ title, content }: { title: string; content: string }) => {
         createPost(

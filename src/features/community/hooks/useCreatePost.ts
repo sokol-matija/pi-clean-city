@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { supabase } from '@/lib/supabase'
-import { useAuth } from '@/features/auth/AuthProvider'
 
 interface CreatePostData {
   title: string
@@ -9,7 +8,6 @@ interface CreatePostData {
 }
 
 export function useCreatePost() {
-  const { user } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -24,14 +22,14 @@ export function useCreatePost() {
           .select()
           .single()
 
-        //console.log('Response je:', response)
+        console.log('Response je:', response)
         const { data: newPost, error: postError, status } = response
 
-        /*console.log('Parsean response:', { 
+        console.log('Parsean response:', { 
           status, 
           newPost, 
           postError: postError ? { message: postError.message, code: postError.code } : null 
-        })*/
+        })
 
         if (postError) {
           console.error('Error:', postError)
@@ -45,11 +43,11 @@ export function useCreatePost() {
       }
     },
     onSuccess: (data) => {
-      //console.log('Post uspjesan:', data)
+      console.log('Post uspjesan:', data)
       queryClient.invalidateQueries({ queryKey: ['posts'] })
     },
     onError: (error) => {
-      //console.error('Error:', error)
+      console.error('Error:', error)
     }
   })
 }

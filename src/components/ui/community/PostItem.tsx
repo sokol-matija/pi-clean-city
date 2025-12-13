@@ -1,5 +1,3 @@
-import React from 'react'
-import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -7,9 +5,10 @@ import { Textarea } from "@/components/ui/textarea"
 import defaultAvatar from '@/assets/default_avatar.jpg';
 
 function PostItem() {
-  const [averageRating, setAverageRating] = useState(3.2);
-  const [comment, setComment] = useState("");
-  const [comments, setComments] = useState([]);
+  /*const [averageRating] = useState(3.2);
+  const [comment] = useState("");
+  const [comments] = useState([]);*/
+
 
   return (
     <Card className="w-full mb-6 shadow-lg border border-gray-50">
@@ -38,7 +37,7 @@ function PostItem() {
     </h3>
 
     <p className="text-sm text-gray-600 mb-2">
-      Average Rating: {averageRating?.toFixed(1)} / 5
+      Average Rating: {/*averageRating?.toFixed(1)*/}3.2 / 5
     </p>
 
     <p className="text-md text-gray-700 mb-4">
@@ -61,8 +60,8 @@ function PostItem() {
       <div className="flex flex-col gap-3 items-start mb-2 w-full">
       </div>
       <Textarea
-        value={comment}
-        /*onChange={(e) => setComment(e.target.value)}*/
+        /*value={comment}
+        onChange={(e) => setComment(e.target.value)}*/
         placeholder="Write a comment..."
         className="mb-2"
       />
