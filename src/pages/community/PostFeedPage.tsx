@@ -1,4 +1,5 @@
 import FeedForm from '@/components/ui/community/FeedForm'
+import PostItem from '@/components/ui/community/PostItem'
 import { useAuth } from '@/features/auth'
 import { useCreatePost } from '@/features/community/hooks/useCreatePost'
 
@@ -24,6 +25,8 @@ function PostFeedPage() {
         <FeedForm onPost={handlePost} />
 
         {/* TODO - Implementirati listu postova iz baze */}
+        <br></br>
+        <PostItem />
     </div>
     )
 }

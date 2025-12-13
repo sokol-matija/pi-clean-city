@@ -16,6 +16,7 @@ const FeedForm: React.FC<FeedFormProps> = ({ onPost }) => {
 
   const handlePost = async () => {
     await onPost?.({ title, content });
+    
     // reset form after post
     setTitle("");
     setContent("");
