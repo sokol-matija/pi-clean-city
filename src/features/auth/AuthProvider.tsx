@@ -117,7 +117,7 @@ export function AuthProvider({ children }: { children:  React.ReactNode }) {
           return
         }
 
-      async (_event, session) => {
+        // Update session and user
         setSession(session)
         setUser(session?.user ?? null)
 

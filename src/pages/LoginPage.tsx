@@ -34,9 +34,9 @@ export function LoginPage() {
     try {
       await signInWithPassword(email, password)
 
-    } catch (err: Error) {
+    } catch (err: unknown) {
       console.error('Login error:', err)
-      setError(err.message || 'Invalid email or password')
+      setError(err instanceof Error ? err.message : 'Invalid email or password')
     } finally {
       setIsSubmitting(false)
     }
