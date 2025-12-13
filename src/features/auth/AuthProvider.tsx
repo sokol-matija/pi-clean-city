@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { User, Session } from '@supabase/supabase-js'
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react'
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 import type { Profile } from '@/types/database.types'
 
@@ -20,20 +20,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const initializingRef = useRef(true)
 
   const fetchProfile = useCallback(async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
 
-    if (error) {
-      console.error('Error fetching profile:', error)
+      if (error) {
+        console.error('Error fetching profile:', error)
+        return null
+      }
+
+      return data as Profile
+    } catch (err) {
+      console.error('Error fetching profile:', err)
       return null
     }
-
-    return data as Profile
   }, [])
 
   const refreshProfile = useCallback(async () => {
@@ -44,27 +50,78 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user, fetchProfile])
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setUser(session?.user ?? null)
+    let mounted = true
 
-      if (session?.user) {
-        fetchProfile(session.user.id).then(setProfile)
+    const initializeAuth = async () => {
+      try {
+        // Get initial session
+        const { data: { session }, error } = await supabase.auth.getSession()
+
+        if (error) {
+          console.error('Error getting session:', error)
+          // Clear potentially corrupted session
+          await supabase.auth.signOut()
+          if (mounted) {
+            setSession(null)
+            setUser(null)
+            setProfile(null)
+            setIsLoading(false)
+          }
+          return
+        }
+
+        if (mounted) {
+          setSession(session)
+          setUser(session?.user ?? null)
+
+          if (session?.user) {
+            const profileData = await fetchProfile(session.user.id)
+            if (mounted) setProfile(profileData)
+          }
+
+          setIsLoading(false)
+          initializingRef.current = false
+        }
+      } catch (err) {
+        console.error('Auth initialization error:', err)
+        if (mounted) {
+          setSession(null)
+          setUser(null)
+          setProfile(null)
+          setIsLoading(false)
+        }
       }
+    }
 
-      setIsLoading(false)
-    })
+    initializeAuth()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event: AuthChangeEvent, session) => {
+        // Skip during initialization to avoid race conditions
+        if (initializingRef.current) return
+
+        if (!mounted) return
+
+        // Handle specific auth events
+        if (event === 'TOKEN_REFRESHED') {
+          setSession(session)
+          return
+        }
+
+        if (event === 'SIGNED_OUT') {
+          setSession(null)
+          setUser(null)
+          setProfile(null)
+          return
+        }
+
         setSession(session)
         setUser(session?.user ?? null)
 
         if (session?.user) {
           const profileData = await fetchProfile(session.user.id)
-          setProfile(profileData)
+          if (mounted) setProfile(profileData)
         } else {
           setProfile(null)
         }
@@ -74,6 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     )
 
     return () => {
+      mounted = false
       subscription.unsubscribe()
     }
   }, [fetchProfile])
