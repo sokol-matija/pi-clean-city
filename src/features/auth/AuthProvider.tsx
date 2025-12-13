@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children:  React.ReactNode }) {
 
   const refreshProfile = useCallback(async () => {
     if (user) {
-      const profileData = await fetchProfile(user. id)
+      const profileData = await fetchProfile(user.id)
       setProfile(profileData)
     }
   }, [user, fetchProfile])
@@ -117,6 +117,7 @@ export function AuthProvider({ children }: { children:  React.ReactNode }) {
           return
         }
 
+      async (_event, session) => {
         setSession(session)
         setUser(session?.user ?? null)
 
@@ -164,7 +165,7 @@ export function AuthProvider({ children }: { children:  React.ReactNode }) {
   }
 
   const signOut = async () => {
-    const { error } = await supabase.auth. signOut()
+    const { error } = await supabase.auth.signOut()
 
     if (error) {
       console.error('Error signing out:', error)
