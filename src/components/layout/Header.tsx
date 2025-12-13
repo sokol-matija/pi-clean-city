@@ -53,10 +53,10 @@ export function Header() {
           )}
           {profile?.role === 'admin' && (
             <Link
-              to="/admin"
+              to="/admin/tickets"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Admin Dashboard
+              Tickets
             </Link>
           )}
         </nav>

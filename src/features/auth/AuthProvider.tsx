@@ -9,13 +9,14 @@ interface AuthContextType {
   profile: Profile | null
   isLoading: boolean
   signInWithGoogle: () => Promise<void>
+  signInWithPassword:  (email: string, password: string) => Promise<void>
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children:  React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -116,6 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return
         }
 
+        // Update session and user
         setSession(session)
         setUser(session?.user ?? null)
 
@@ -140,12 +142,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo:  `${window.location.origin}/`,
       },
     })
 
     if (error) {
       console.error('Error signing in with Google:', error)
+      throw error
+    }
+  }
+
+  const signInWithPassword = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) {
+      console.error('Error signing in with password:', error)
       throw error
     }
   }
@@ -171,6 +185,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         profile,
         isLoading,
         signInWithGoogle,
+        signInWithPassword,
         signOut,
         refreshProfile,
       }}
