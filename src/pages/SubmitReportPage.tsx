@@ -109,7 +109,7 @@ export function SubmitReportPage() {
 
   if (createReport.isSuccess) {
     return (
-      <div className="container max-w-2xl py-8">
+      <div className="container max-w-2xl py-8 mx-auto">
         <Card>
           <CardContent className="pt-6 text-center">
             <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4" />
@@ -130,7 +130,7 @@ export function SubmitReportPage() {
   }
 
   return (
-    <div className="container max-w-2xl py-8">
+    <div className="container max-w-2xl py-8 mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>Submit a Report</CardTitle>
