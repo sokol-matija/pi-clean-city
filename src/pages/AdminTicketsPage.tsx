@@ -95,7 +95,7 @@ export function AdminTicketsPage() {
     // Apply filters when selection changes
     useEffect(() => {
         applyFilters()
-    }, [selectedStatus, selectedCategory])
+    }, [selectedStatus, selectedCategory, applyFilters])
 
     const clearFilters = () => {
         setSelectedStatus('all')
@@ -283,12 +283,12 @@ export function AdminTicketsPage() {
                                                 </TableCell>
                                                 <TableCell className="font-medium">{report.title}</TableCell>
                                                 <TableCell>
-                                                    <Badge variant={getStatusColor(report.status?.name) as any}>
+                                                    <Badge variant={getStatusColor(report.status?.name)}>
                                                         {report.status?.name || 'Unknown'}
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <Badge variant={getPriorityColor(report.priority) as any}>
+                                                    <Badge variant={getPriorityColor(report.priority)}>
                                                         {report.priority || 'N/A'}
                                                     </Badge>
                                                 </TableCell>
