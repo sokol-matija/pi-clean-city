@@ -14,9 +14,23 @@ export function useCreatePost() {
     mutationFn: async ({ title, content }: CreatePostData) => {
       //console.log('useCreatePost - Insertam sa:', { title, content })
 
+      // Get current user from Supabase auth
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+
+      // Validate user is authenticated
+      if (!user) {
+        throw new Error("You must be logged in to create a post")
+      }
+
       try {
         console.log("Slanje zahtjeva")
-        const response = await supabase.from("post").insert({ title, content }).select().single()
+        const response = await supabase
+          .from("post")
+          .insert({ title, content, userId: user.id })
+          .select()
+          .single()
 
         console.log("Response je:", response)
         const { data: newPost, error: postError, status } = response

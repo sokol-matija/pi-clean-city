@@ -3,11 +3,28 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import defaultAvatar from "@/assets/default_avatar.jpg"
+import type { PostWithProfile } from "@/features/community/hooks/usePosts"
 
-function PostItem() {
-  /*const [averageRating] = useState(3.2);
-  const [comment] = useState("");
-  const [comments] = useState([]);*/
+interface PostItemProps {
+  post: PostWithProfile
+}
+
+// Simple relative time formatter
+function formatRelativeTime(dateString: string): string {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+
+  if (diffInSeconds < 60) return "just now"
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`
+  return date.toLocaleDateString()
+}
+
+function PostItem({ post }: PostItemProps) {
+  const username = post.user?.username || "Anonymous"
+  const avatarUrl = post.user?.avatar_url || defaultAvatar
 
   return (
     <Card className="mb-6 w-full border border-gray-50 shadow-lg">
@@ -15,25 +32,27 @@ function PostItem() {
         <div className="mb-4 flex items-start gap-4">
           <div className="relative mb-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={defaultAvatar} />
-              <AvatarFallback>Ime Prezime</AvatarFallback>
+              <AvatarImage src={avatarUrl} />
+              <AvatarFallback>{username.substring(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
             <span className="absolute -bottom-1 right-0 h-5 w-5 rounded-full border-2 border-white bg-green-300" />
           </div>
 
           <div className="flex flex-col items-start gap-0 text-black">
-            <p className="font-bold">Ime Prezime</p>
-            <p className="-mt-1 text-sm text-gray-500">Posted just now</p>
+            <p className="font-bold">{username}</p>
+            <p className="-mt-1 text-sm text-gray-500">{formatRelativeTime(post.created_at)}</p>
           </div>
         </div>
 
-        <h3 className="mb-1 text-lg font-semibold text-black">Greska u post titleu</h3>
+        <h3 className="mb-1 text-lg font-semibold text-black">{post.title}</h3>
 
-        <p className="mb-2 text-sm text-gray-600">
-          Average Rating: {/*averageRating?.toFixed(1)*/}3.2 / 5
-        </p>
+        {post.averageRating !== null && (
+          <p className="mb-2 text-sm text-gray-600">
+            Average Rating: {post.averageRating.toFixed(1)} / 5
+          </p>
+        )}
 
-        <p className="text-md mb-4 text-gray-700">Greska u post contentu</p>
+        <p className="text-md mb-4 text-gray-700">{post.content}</p>
 
         <div className="mb-4">
           <p className="mb-2 font-medium text-black">Your Rating:</p>
