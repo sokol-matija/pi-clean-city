@@ -10,6 +10,10 @@ CleanCity is a web platform that enables citizens to report municipal problems s
 
 **[CI/CD Pipeline](docs/CICD_PIPELINE.md)** | **[Release Guide](docs/RELEASE_GUIDE.md)** | **[Changelog](CHANGELOG.md)** | **[Latest Release](https://github.com/sokol-matija/pi-clean-city/releases/latest)**
 
+## Demo
+
+<video src="https://github.com/sokol-matija/pi-clean-city/assets/pi-github.mp4" controls width="100%"></video>
+
 ## Technology Stack
 
 ### Frontend Framework
