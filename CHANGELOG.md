@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.2.0 (2025-12-15)
+
+* feat: implement post display functionality with RLS fix ([1161ded](https://github.com/sokol-matija/pi-clean-city/commit/1161ded))
+* docs: add comprehensive CI/CD pipeline documentation ([eadd8e0](https://github.com/sokol-matija/pi-clean-city/commit/eadd8e0))
+
 ## 1.1.0 (2025-12-15)
 
 * ci: disable Husky git hooks in CI environment ([7353b78](https://github.com/sokol-matija/pi-clean-city/commit/7353b78))
