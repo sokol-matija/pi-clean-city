@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.3.1 (2025-12-15)</small>
+
+* fix: revert package-lock.json ([8866769](https://github.com/sokol-matija/pi-clean-city/commit/8866769))
+* docs: move the documents to the correct location ([1e84b00](https://github.com/sokol-matija/pi-clean-city/commit/1e84b00))
+
 ## 1.3.0 (2025-12-15)
 
 * Merge remote-tracking branch 'origin/main' ([dbc8892](https://github.com/sokol-matija/pi-clean-city/commit/dbc8892))
