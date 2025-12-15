@@ -1,0 +1,18 @@
+This is a test file to try out the new commit hooks!
+
+Try committing this with different commit messages to see what happens:
+
+✅ GOOD COMMITS (these will work):
+- git commit -m "feat: add new test file"
+- git commit -m "test: verify commit hooks work"
+- git commit -m "docs: update README"
+- git commit -m "fix: resolve login bug"
+- git commit -m "chore: test commitlint setup"
+
+❌ BAD COMMITS (these will be REJECTED):
+- git commit -m "add stuff"
+- git commit -m "WIP"
+- git commit -m "fixed it"
+- git commit -m "updates"
+
+Have fun testing!
