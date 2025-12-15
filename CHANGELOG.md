@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.0 (2025-12-15)
+
+* ci: disable Husky git hooks in CI environment ([7353b78](https://github.com/sokol-matija/pi-clean-city/commit/7353b78))
+* ci: upgrade Node.js to v22 for semantic-release compatibility ([9d9ba1a](https://github.com/sokol-matija/pi-clean-city/commit/9d9ba1a))
+* fix: exclude package-lock.json from Prettier formatting ([32cae66](https://github.com/sokol-matija/pi-clean-city/commit/32cae66))
+* fix: resolve dependency conflicts in package-lock.json ([2382877](https://github.com/sokol-matija/pi-clean-city/commit/2382877))
+* feat: add automated release and changelog management ([cb984f4](https://github.com/sokol-matija/pi-clean-city/commit/cb984f4)), closes [#automate-releases](https://github.com/sokol-matija/pi-clean-city/issues/automate-releases)
+
 ## [1.0.0] - 2025-12-15 (Production Release)
 
 ### Added
