@@ -11,12 +11,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
-
     storageKey: "cleancity-auth",
-
     storage: window.localStorage,
-
     autoRefreshToken: true,
     detectSessionInUrl: true,
   },
 })
+
+// Testing to see if the pree commit formating works

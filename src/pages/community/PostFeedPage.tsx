@@ -9,7 +9,7 @@ function PostFeedPage() {
     createPost(
       { title, content },
       {
-        onError: (error: Error) => {
+        onError: (error: Any) => {
           alert(`Greška: ${error.message || "Neočekivana greška"}`)
         },
       }
