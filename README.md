@@ -12,7 +12,9 @@ CleanCity is a web platform that enables citizens to report municipal problems s
 
 ## Demo
 
-<video src="https://github.com/sokol-matija/pi-clean-city/assets/pi-github.mp4" controls width="100%"></video>
+[![CleanCity Demo](https://img.youtube.com/vi/wa_U8I6JZuc/0.jpg)](https://www.youtube.com/watch?v=wa_U8I6JZuc)
+
+Click the image above to watch the demo on YouTube.
 
 ## Technology Stack
 
