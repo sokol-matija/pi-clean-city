@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import defaultAvatar from "@/assets/default_avatar.jpg"
 import type { PostWithProfile } from "@/features/community/hooks/usePosts"
+import { useDeletePost } from "@/features/community/hooks/useDeletePost"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 
 interface PostItemProps {
   post: PostWithProfile
@@ -25,6 +27,21 @@ function formatRelativeTime(dateString: string): string {
 function PostItem({ post }: PostItemProps) {
   const username = post.user?.username || "Anonymous"
   const avatarUrl = post.user?.avatar_url || defaultAvatar
+  const { mutate: deletePost, isPending: isDeleting } = useDeletePost()
+  const { user } = useAuth()
+
+  const handleDeletePost = () => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      deletePost(post.id, {
+        onError: (error: Error) => {
+          alert(`Error deleting post: ${error.message}`)
+        },
+      })
+    }
+  }
+
+  // Only show delete button if current user owns the post
+  const canDelete = user?.id === post.userId
 
   return (
     <Card className="mb-6 w-full border border-gray-50 shadow-lg">
@@ -69,13 +86,16 @@ function PostItem({ post }: PostItemProps) {
             className="mb-2"
           />
           <div className="flex justify-end gap-2">
-            <Button
-              size="sm"
-              /*onClick={handleDeletePost}*/
-              className="bg-gradient-to-r from-[#2f3144] to-[#555879] text-white hover:opacity-90"
-            >
-              Delete post
-            </Button>
+            {canDelete && (
+              <Button
+                size="sm"
+                onClick={handleDeletePost}
+                disabled={isDeleting}
+                className="bg-gradient-to-r from-[#2f3144] to-[#555879] text-white hover:opacity-90 disabled:opacity-50"
+              >
+                {isDeleting ? "Deleting..." : "Delete post"}
+              </Button>
+            )}
             <Button
               size="sm"
               /*onClick={}*/
