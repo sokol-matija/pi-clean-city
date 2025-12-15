@@ -92,6 +92,7 @@
     ],
     "*.{json,md,css}": [
       "prettier --write"
-    ]
+    ],
+    "package-lock.json": []
   }
 }
