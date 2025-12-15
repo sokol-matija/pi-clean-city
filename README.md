@@ -8,7 +8,7 @@
 
 CleanCity is a web platform that enables citizens to report municipal problems such as potholes, trash, broken street lights, and other community issues. Municipal authorities can track, manage, and resolve these reports in real-time.
 
-**[Release Guide](docs/RELEASE_GUIDE.md)** | **[Changelog](CHANGELOG.md)** | **[Latest Release](https://github.com/sokol-matija/pi-clean-city/releases/latest)**
+**[CI/CD Pipeline](docs/CICD_PIPELINE.md)** | **[Release Guide](docs/RELEASE_GUIDE.md)** | **[Changelog](CHANGELOG.md)** | **[Latest Release](https://github.com/sokol-matija/pi-clean-city/releases/latest)**
 
 ## Technology Stack
 
@@ -113,6 +113,31 @@ Build for production:
 ```bash
 npm run build
 ```
+
+Run all quality checks (same as CI):
+
+```bash
+npm run validate
+```
+
+## CI/CD Pipeline
+
+The project uses a comprehensive automated CI/CD pipeline:
+
+- **Git Hooks** (Husky): Pre-commit secret scanning, linting, and formatting; pre-push type checking and testing
+- **Conventional Commits**: Enforced commit message format for automated releases
+- **GitHub Actions CI**: Parallel quality checks (lint, typecheck, test, build) on every push
+- **Automated Releases**: semantic-release manages versioning and changelog based on conventional commits
+- **Deployment**: Automatic deployment to Vercel on successful releases
+
+**Quick Commands:**
+
+```bash
+npm run validate     # Run all checks (lint + typecheck + test + build)
+npm run release:dry  # Preview next release version
+```
+
+For complete pipeline documentation including hooks, workflows, release process, and troubleshooting, see **[CI/CD Pipeline Documentation](docs/CICD_PIPELINE.md)**.
 
 ## Documentation
 
