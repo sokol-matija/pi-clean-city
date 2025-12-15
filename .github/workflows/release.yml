@@ -74,12 +74,14 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HUSKY: 0  # Disable git hooks in CI
         run: npm run release:dry
 
       - name: Run semantic-release
         if: ${{ github.event.inputs.dry_run != 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HUSKY: 0  # Disable git hooks in CI
         run: npm run release
 
       - name: Notify on release
