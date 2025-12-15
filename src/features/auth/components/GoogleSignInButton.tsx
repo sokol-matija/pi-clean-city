@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { useAuth } from "../AuthProvider"
+import { useAuth } from ".."
 
 export function GoogleSignInButton() {
   const { signInWithGoogle } = useAuth()

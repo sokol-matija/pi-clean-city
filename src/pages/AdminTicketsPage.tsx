@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { supabase } from "@/lib/supabase"
-import { useAuth } from "@/features/auth/AuthProvider"
+import { useAuth } from "@/features/auth"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Select,
@@ -93,7 +93,7 @@ export function AdminTicketsPage() {
   }
 
   // Apply filters
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...allReports]
 
     if (selectedStatus !== "all") {
@@ -105,7 +105,7 @@ export function AdminTicketsPage() {
     }
 
     setReports(filtered)
-  }
+  }, [allReports, selectedStatus, selectedCategory])
 
   // Apply filters when selection changes
   useEffect(() => {

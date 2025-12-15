@@ -10,7 +10,7 @@ function PostFeedPage() {
       { title, content },
       {
         onError: (error: Error) => {
-          alert(`Greška: ${error.message || "Neočekivana greška"}`)
+          alert(`Error: ${error.message || "Unexpected error"}`)
         },
       }
     )
@@ -22,8 +22,8 @@ function PostFeedPage() {
 
       <FeedForm onPost={handlePost} />
 
-      {/* TODO - Implementirati listu postova iz baze */}
-      <br></br>
+      {/* TODO - Implement post list from database */}
+      <br />
       <PostItem />
     </div>
   )

@@ -17,5 +17,3 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: true,
   },
 })
-
-// Testing to see if the pree commit formating works
