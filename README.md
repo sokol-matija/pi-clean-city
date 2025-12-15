@@ -1,6 +1,14 @@
 # CleanCity - Municipal Problem Reporting Platform
 
+[![Version](https://img.shields.io/github/v/release/sokol-matija/pi-clean-city?label=version)](https://github.com/sokol-matija/pi-clean-city/releases)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/sokol-matija/pi-clean-city/ci.yml?branch=main&label=CI)](https://github.com/sokol-matija/pi-clean-city/actions/workflows/ci.yml)
+[![Release Status](https://img.shields.io/github/actions/workflow/status/sokol-matija/pi-clean-city/release.yml?branch=main&label=release)](https://github.com/sokol-matija/pi-clean-city/actions/workflows/release.yml)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 CleanCity is a web platform that enables citizens to report municipal problems such as potholes, trash, broken street lights, and other community issues. Municipal authorities can track, manage, and resolve these reports in real-time.
+
+**[Release Guide](docs/RELEASE_GUIDE.md)** | **[Changelog](CHANGELOG.md)** | **[Latest Release](https://github.com/sokol-matija/pi-clean-city/releases/latest)**
 
 ## Technology Stack
 
