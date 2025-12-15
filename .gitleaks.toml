@@ -1,0 +1,59 @@
+# Gitleaks configuration for pi-clean-city
+# Documentation: https://github.com/gitleaks/gitleaks
+
+title = "Gitleaks config for pi-clean-city"
+
+# Extend the default configuration
+[extend]
+useDefault = true
+
+# Additional custom rules
+[[rules]]
+id = "supabase-anon-key"
+description = "Supabase Anonymous Key"
+regex = '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+'''
+tags = ["key", "supabase"]
+
+[[rules]]
+id = "supabase-service-role-key"
+description = "Supabase Service Role Key (CRITICAL - Never commit!)"
+regex = '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+'''
+tags = ["key", "supabase", "critical"]
+
+# Allow these patterns (false positives)
+[allowlist]
+description = "Allowlisted files and patterns"
+paths = [
+  '''^\.env\.example$''',
+  '''^\.env\.template$''',
+  '''^\.env\.local$''',
+  '''^\.env$''',
+  '''^dist/''',
+  '''^build/''',
+  '''^README\.md$''',
+  '''^docs/''',
+  '''^tasks/''',
+]
+
+# Ignore specific patterns that are not secrets
+regexes = [
+  '''placeholder''',
+  '''example''',
+  '''sample''',
+  '''your-[a-z-]+''',
+  '''YOUR_[A-Z_]+''',
+  '''xxx+''',
+  '''test[_-]?(key|token|secret)''',
+]
+
+# Stop words - if these appear, likely not a real secret
+stopwords = [
+  "placeholder",
+  "example",
+  "sample",
+  "demo",
+  "test",
+  "fake",
+  "mock",
+  "dummy",
+]

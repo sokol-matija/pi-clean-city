@@ -9,6 +9,7 @@ CleanCity is a web platform that enables citizens to report municipal problems s
 The application is built with Vite and React 18.3.1. We chose Vite over Create React App due to its significantly faster development server startup and hot module replacement. React 18 was selected for its concurrent rendering features and automatic batching improvements.
 
 We specifically chose not to use Next.js for this project for the following reasons:
+
 - The application is a Single Page Application (SPA) that does not require server-side rendering (SSR) or static site generation (SSG).
 - Supabase provides auto-generated API routes through its REST API, eliminating the need for Next.js API routes.
 - Next.js has known security vulnerabilities that were disclosed recently, making it a security risk for this project.
@@ -34,6 +35,7 @@ Leaflet 1.9.4 with react-leaflet 4.2.1 provides the interactive map functionalit
 ### Backend Services
 
 Supabase provides the complete backend infrastructure:
+
 - PostgreSQL database with Row Level Security (RLS) for data protection
 - Authentication with Google OAuth integration
 - Storage for report photos with automatic CDN delivery
@@ -62,6 +64,7 @@ docs/             # Mintlify documentation
 ## Database Schema
 
 The application uses seven tables with the following relationships:
+
 - profiles: User information extending Supabase auth
 - status: Report status lookup (New, In Progress, Resolved, Closed)
 - category: Problem categories (Potholes, Trash, Lighting, etc.)

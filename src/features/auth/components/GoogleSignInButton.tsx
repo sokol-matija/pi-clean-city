@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { useAuth } from '../AuthProvider'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { useAuth } from "../AuthProvider"
 
 export function GoogleSignInButton() {
   const { signInWithGoogle } = useAuth()
@@ -11,7 +11,7 @@ export function GoogleSignInButton() {
     try {
       await signInWithGoogle()
     } catch (error) {
-      console.error('Failed to sign in:', error)
+      console.error("Failed to sign in:", error)
     } finally {
       setIsLoading(false)
     }
@@ -43,7 +43,7 @@ export function GoogleSignInButton() {
           fill="#EA4335"
         />
       </svg>
-      {isLoading ? 'Signing in...' : 'Continue with Google'}
+      {isLoading ? "Signing in..." : "Continue with Google"}
     </Button>
   )
 }

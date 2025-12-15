@@ -1,14 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider, ProtectedRoute } from '@/features/auth'
-import { Layout } from '@/components/layout/Layout'
-import { LandingPage } from '@/pages/LandingPage'
-import { LoginPage } from '@/pages/LoginPage'
-import { MapPage } from '@/pages/MapPage'
-import { SubmitReportPage } from '@/pages/SubmitReportPage'
-import { ReportDetailsPage } from '@/pages/ReportDetailsPage'
-import { AdminTicketsPage } from './pages/AdminTicketsPage'
-import PostFeedPage from './pages/community/PostFeedPage'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { AuthProvider, ProtectedRoute } from "@/features/auth"
+import { Layout } from "@/components/layout/Layout"
+import { LandingPage } from "@/pages/LandingPage"
+import { LoginPage } from "@/pages/LoginPage"
+import { MapPage } from "@/pages/MapPage"
+import { SubmitReportPage } from "@/pages/SubmitReportPage"
+import { ReportDetailsPage } from "@/pages/ReportDetailsPage"
+import { AdminTicketsPage } from "./pages/AdminTicketsPage"
+import PostFeedPage from "./pages/community/PostFeedPage"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,12 +41,19 @@ function App() {
               <Route
                 path="/admin/tickets"
                 element={
-                  <ProtectedRoute allowedRoles={['admin']}>
+                  <ProtectedRoute allowedRoles={["admin"]}>
                     <AdminTicketsPage />
                   </ProtectedRoute>
                 }
               />
-              <Route path="/community" element={<ProtectedRoute><PostFeedPage /></ProtectedRoute>} />
+              <Route
+                path="/community"
+                element={
+                  <ProtectedRoute>
+                    <PostFeedPage />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
           </Routes>
         </AuthProvider>

@@ -1,21 +1,21 @@
-import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { MapContainer, TileLayer, Marker } from 'react-leaflet'
-import L from 'leaflet'
-import 'leaflet/dist/leaflet.css'
-import { useReport } from '@/features/reports/hooks/useReport'
-import { useAddComment } from '@/features/reports/hooks/useAddComment'
-import { useAuth } from '@/features/auth'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Textarea } from '@/components/ui/textarea'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
+import { useState } from "react"
+import { useParams, Link } from "react-router-dom"
+import { MapContainer, TileLayer, Marker } from "react-leaflet"
+import L from "leaflet"
+import "leaflet/dist/leaflet.css"
+import { useReport } from "@/features/reports/hooks/useReport"
+import { useAddComment } from "@/features/reports/hooks/useAddComment"
+import { useAuth } from "@/features/auth"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Textarea } from "@/components/ui/textarea"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
 
 // Create a simple marker icon
 const markerIcon = L.divIcon({
-  className: 'custom-marker',
+  className: "custom-marker",
   html: `<div style="background-color: #3b82f6; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>`,
   iconSize: [24, 24],
   iconAnchor: [12, 12],
@@ -26,13 +26,13 @@ export function ReportDetailsPage() {
   const { data: report, isLoading, error } = useReport(id)
   const { user } = useAuth()
   const addComment = useAddComment()
-  const [newComment, setNewComment] = useState('')
+  const [newComment, setNewComment] = useState("")
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-8 flex items-center justify-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="container mx-auto flex min-h-[50vh] items-center justify-center py-8">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
       </div>
     )
   }
@@ -60,53 +60,56 @@ export function ReportDetailsPage() {
       reportId: id,
       content: newComment.trim(),
     })
-    setNewComment('')
+    setNewComment("")
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('hr-HR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Date(dateString).toLocaleDateString("hr-HR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     })
   }
 
   const getInitials = (name: string | null | undefined) => {
-    if (!name) return '?'
+    if (!name) return "?"
     return name
-      .split(' ')
+      .split(" ")
       .map((n) => n[0])
-      .join('')
+      .join("")
       .toUpperCase()
       .slice(0, 2)
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto px-4 py-8">
       {/* Back button */}
-      <Link to="/map" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
-        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <Link
+        to="/map"
+        className="mb-4 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+      >
+        <svg className="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
         Back to Map
       </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6 lg:col-span-2">
           {/* Report Header */}
           <Card>
             <CardHeader>
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <CardTitle className="text-2xl mb-2">{report.title}</CardTitle>
+                  <CardTitle className="mb-2 text-2xl">{report.title}</CardTitle>
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge
                       style={{
-                        backgroundColor: report.status?.color || '#95a5a6',
-                        color: 'white',
+                        backgroundColor: report.status?.color || "#95a5a6",
+                        color: "white",
                       }}
                     >
                       {report.status?.name}
@@ -117,16 +120,14 @@ export function ReportDetailsPage() {
                     <Badge variant="secondary">{report.priority} priority</Badge>
                   </div>
                 </div>
-                <div className="text-sm text-muted-foreground text-right">
+                <div className="text-right text-sm text-muted-foreground">
                   <p>Submitted: {formatDate(report.created_at)}</p>
-                  {report.resolved_at && (
-                    <p>Resolved: {formatDate(report.resolved_at)}</p>
-                  )}
+                  {report.resolved_at && <p>Resolved: {formatDate(report.resolved_at)}</p>}
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground whitespace-pre-wrap">{report.description}</p>
+              <p className="whitespace-pre-wrap text-muted-foreground">{report.description}</p>
               {report.address && (
                 <p className="mt-4 text-sm">
                   <span className="font-medium">Location:</span> {report.address}
@@ -142,17 +143,17 @@ export function ReportDetailsPage() {
                 <CardTitle className="text-lg">Photos ({report.photos.length})</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                   {report.photos.map((photo) => (
                     <button
                       key={photo.id}
                       onClick={() => setSelectedImage(photo.url)}
-                      className="aspect-square rounded-lg overflow-hidden hover:opacity-90 transition-opacity"
+                      className="aspect-square overflow-hidden rounded-lg transition-opacity hover:opacity-90"
                     >
                       <img
                         src={photo.url}
                         alt={photo.filename}
-                        className="w-full h-full object-cover"
+                        className="h-full w-full object-cover"
                       />
                     </button>
                   ))}
@@ -164,9 +165,7 @@ export function ReportDetailsPage() {
           {/* Comments Section */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">
-                Comments ({report.comments?.length || 0})
-              </CardTitle>
+              <CardTitle className="text-lg">Comments ({report.comments?.length || 0})</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Comment List */}
@@ -181,9 +180,9 @@ export function ReportDetailsPage() {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-sm">
-                            {comment.user?.username || comment.user?.email || 'Anonymous'}
+                        <div className="mb-1 flex items-center gap-2">
+                          <span className="text-sm font-medium">
+                            {comment.user?.username || comment.user?.email || "Anonymous"}
                           </span>
                           <span className="text-xs text-muted-foreground">
                             {formatDate(comment.created_at)}
@@ -195,7 +194,7 @@ export function ReportDetailsPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground text-center py-4">
+                <p className="py-4 text-center text-sm text-muted-foreground">
                   No comments yet. Be the first to comment!
                 </p>
               )}
@@ -216,14 +215,12 @@ export function ReportDetailsPage() {
                     disabled={!newComment.trim() || addComment.isPending}
                     size="sm"
                   >
-                    {addComment.isPending ? 'Posting...' : 'Post Comment'}
+                    {addComment.isPending ? "Posting..." : "Post Comment"}
                   </Button>
                 </form>
               ) : (
-                <div className="text-center py-2">
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Sign in to leave a comment
-                  </p>
+                <div className="py-2 text-center">
+                  <p className="mb-2 text-sm text-muted-foreground">Sign in to leave a comment</p>
                   <Link to="/login">
                     <Button size="sm" variant="outline">
                       Sign In
@@ -243,7 +240,7 @@ export function ReportDetailsPage() {
               <CardTitle className="text-lg">Location</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="h-[250px] rounded-b-lg overflow-hidden">
+              <div className="h-[250px] overflow-hidden rounded-b-lg">
                 <MapContainer
                   center={[Number(report.latitude), Number(report.longitude)]}
                   zoom={15}
@@ -280,11 +277,9 @@ export function ReportDetailsPage() {
                   </Avatar>
                   <div>
                     <p className="font-medium">
-                      {report.user.username || report.user.email || 'Anonymous'}
+                      {report.user.username || report.user.email || "Anonymous"}
                     </p>
-                    <p className="text-sm text-muted-foreground capitalize">
-                      {report.user.role}
-                    </p>
+                    <p className="text-sm capitalize text-muted-foreground">{report.user.role}</p>
                   </div>
                 </div>
               </CardContent>
@@ -309,9 +304,7 @@ export function ReportDetailsPage() {
                     <p className="font-medium">
                       {report.assigned_worker.username || report.assigned_worker.email}
                     </p>
-                    <p className="text-sm text-muted-foreground capitalize">
-                      Municipal Worker
-                    </p>
+                    <p className="text-sm capitalize text-muted-foreground">Municipal Worker</p>
                   </div>
                 </div>
               </CardContent>
@@ -323,21 +316,26 @@ export function ReportDetailsPage() {
       {/* Lightbox Modal */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
           onClick={() => setSelectedImage(null)}
         >
           <button
-            className="absolute top-4 right-4 text-white hover:text-gray-300"
+            className="absolute right-4 top-4 text-white hover:text-gray-300"
             onClick={() => setSelectedImage(null)}
           >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
           <img
             src={selectedImage}
             alt="Full size"
-            className="max-w-full max-h-full object-contain"
+            className="max-h-full max-w-full object-contain"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

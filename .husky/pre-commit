@@ -1,0 +1,5 @@
+# Check for secrets before committing
+gitleaks protect --staged --verbose --redact --config=.gitleaks.toml
+
+# Run linting and formatting on staged files
+npx lint-staged

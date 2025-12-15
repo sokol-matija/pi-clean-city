@@ -14,34 +14,23 @@
   "navigation": [
     {
       "group": "Uvod",
-      "pages": [
-        "introduction",
-        "o-projektu"
-      ]
+      "pages": ["introduction", "o-projektu"]
     },
     {
       "group": "Matija Sokol",
-      "pages": [
-        "matija-sokol/index"
-      ]
+      "pages": ["matija-sokol/index"]
     },
     {
       "group": "Domagoj Antić",
-      "pages": [
-        "domagoj-antic/index"
-      ]
+      "pages": ["domagoj-antic/index"]
     },
     {
       "group": "Fran Vicić",
-      "pages": [
-        "fran-vicic/index"
-      ]
+      "pages": ["fran-vicic/index"]
     },
     {
       "group": "Mato Jelen Kralj",
-      "pages": [
-        "mato-jelen-kralj/index"
-      ]
+      "pages": ["mato-jelen-kralj/index"]
     }
   ],
   "footer": {

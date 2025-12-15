@@ -1,7 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { useAuth } from '@/features/auth'
-import { MapPin, Menu, LogOut, User } from 'lucide-react'
+import { Link, useNavigate } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { useAuth } from "@/features/auth"
+import { MapPin, Menu, LogOut, User } from "lucide-react"
 
 export function Header() {
   const { user, profile, signOut, isLoading } = useAuth()
@@ -9,36 +9,36 @@ export function Header() {
 
   const handleSignOut = async () => {
     await signOut()
-    navigate('/')
+    navigate("/")
   }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
             <MapPin className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="font-bold text-xl">CleanCity</span>
+          <span className="text-xl font-bold">CleanCity</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden items-center gap-6 md:flex">
           <Link
             to="/"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Home
           </Link>
           <Link
             to="/map"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Map
           </Link>
           {user && (
             <Link
               to="/submit"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Submit Report
             </Link>
@@ -46,23 +46,23 @@ export function Header() {
           {user && (
             <Link
               to="/community"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Community
             </Link>
           )}
-          {profile?.role === 'worker' && (
+          {profile?.role === "worker" && (
             <Link
               to="/worker"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Worker Dashboard
             </Link>
           )}
-          {profile?.role === 'admin' && (
+          {profile?.role === "admin" && (
             <Link
               to="/admin/tickets"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Tickets
             </Link>
@@ -74,11 +74,11 @@ export function Header() {
             <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
           ) : user ? (
             <div className="flex items-center gap-2">
-              <div className="hidden sm:flex items-center gap-2 text-sm">
+              <div className="hidden items-center gap-2 text-sm sm:flex">
                 <User className="h-4 w-4" />
-                <span>{profile?.username || user.email?.split('@')[0]}</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-muted capitalize">
-                  {profile?.role || 'citizen'}
+                <span>{profile?.username || user.email?.split("@")[0]}</span>
+                <span className="rounded-full bg-muted px-2 py-0.5 text-xs capitalize">
+                  {profile?.role || "citizen"}
                 </span>
               </div>
               <Button variant="ghost" size="icon" onClick={handleSignOut}>

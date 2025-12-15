@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
-import { GoogleSignInButton, useAuth } from '@/features/auth'
-import { AlertCircle } from 'lucide-react'
+import { useState, useEffect } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import { GoogleSignInButton, useAuth } from "@/features/auth"
+import { AlertCircle } from "lucide-react"
 
 export function LoginPage() {
   const { user, isLoading, signInWithPassword } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
-  const from = location.state?.from?.pathname || '/'
+  const from = location.state?.from?.pathname || "/"
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -33,10 +33,9 @@ export function LoginPage() {
 
     try {
       await signInWithPassword(email, password)
-
     } catch (err: unknown) {
-      console.error('Login error:', err)
-      setError(err instanceof Error ? err.message : 'Invalid email or password')
+      console.error("Login error:", err)
+      setError(err instanceof Error ? err.message : "Invalid email or password")
     } finally {
       setIsSubmitting(false)
     }
@@ -44,17 +43,17 @@ export function LoginPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/40">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex min-h-screen items-center justify-center bg-muted/40">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
             <svg
               className="h-6 w-6 text-primary"
               fill="none"
@@ -84,7 +83,7 @@ export function LoginPage() {
           {/* Email/Password Login Form */}
           <form onSubmit={handleEmailLogin} className="space-y-4">
             {error && (
-              <div className="flex items-center gap-2 p-3 text-sm text-red-800 bg-red-50 border border-red-200 rounded-md">
+              <div className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">
                 <AlertCircle className="h-4 w-4" />
                 <span>{error}</span>
               </div>
@@ -110,18 +109,14 @@ export function LoginPage() {
                 type="password"
                 placeholder="••••••••"
                 value={password}
-                onChange={(e) => setPassword(e.target. value)}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isSubmitting}
               />
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full" 
-              disabled={isSubmitting}
-            >
-              {isSubmitting ?  'Signing in...' :  'Sign in'}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Signing in..." : "Sign in"}
             </Button>
           </form>
 
@@ -131,16 +126,14 @@ export function LoginPage() {
               <Separator />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
           {/* Google Sign In */}
           <GoogleSignInButton />
 
-          <p className="text-xs text-center text-muted-foreground">
+          <p className="text-center text-xs text-muted-foreground">
             By signing in, you agree to our Terms of Service and Privacy Policy
           </p>
         </CardContent>

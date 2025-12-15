@@ -1,3 +1,3 @@
-export { AuthProvider, useAuth } from './AuthProvider'
-export { ProtectedRoute } from './components/ProtectedRoute'
-export { GoogleSignInButton } from './components/GoogleSignInButton'
+export { AuthProvider, useAuth } from "./AuthProvider"
+export { ProtectedRoute } from "./components/ProtectedRoute"
+export { GoogleSignInButton } from "./components/GoogleSignInButton"

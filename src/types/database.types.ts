@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type Database = {
   public: {
@@ -64,7 +58,7 @@ export type Database = {
             columns: ["user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       photo: {
@@ -95,7 +89,7 @@ export type Database = {
             columns: ["report_id"]
             referencedRelation: "report"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       post: {
@@ -170,7 +164,7 @@ export type Database = {
             columns: ["id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       report: {
@@ -243,7 +237,7 @@ export type Database = {
             columns: ["assigned_worker_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       report_view: {
@@ -277,7 +271,7 @@ export type Database = {
             columns: ["user_id"]
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       status: {
@@ -324,18 +318,21 @@ export type Database = {
 }
 
 // Helper types for easier usage
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
-export type Insertable<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
-export type Updatable<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
+export type Tables<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Row"]
+export type Insertable<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Insert"]
+export type Updatable<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Update"]
 
 // Commonly used types
-export type Report = Tables<'report'>
-export type Profile = Tables<'profiles'>
-export type Category = Tables<'category'>
-export type Status = Tables<'status'>
-export type Photo = Tables<'photo'>
-export type Comment = Tables<'comment'>
-export type Post = Tables<'post'>
+export type Report = Tables<"report">
+export type Profile = Tables<"profiles">
+export type Category = Tables<"category">
+export type Status = Tables<"status">
+export type Photo = Tables<"photo">
+export type Comment = Tables<"comment">
+export type Post = Tables<"post">
 
 // Extended types with relations
 export type ReportWithRelations = Report & {

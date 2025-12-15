@@ -1,21 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
-import type { Insertable } from '@/types/database.types'
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { supabase } from "@/lib/supabase"
+import type { Insertable } from "@/types/database.types"
 
 interface CreateReportData {
-  report: Insertable<'report'>
+  report: Insertable<"report">
   photos?: File[]
 }
 
 // Sanitize filename to be safe for storage
 function sanitizeFilename(filename: string): string {
   // Remove special characters, keep alphanumeric, dots, hyphens, underscores
-  const sanitized = filename
-    .replace(/[^a-zA-Z0-9._-]/g, '_')
-    .replace(/_{2,}/g, '_')
+  const sanitized = filename.replace(/[^a-zA-Z0-9._-]/g, "_").replace(/_{2,}/g, "_")
 
   // Ensure it has a valid extension
-  const parts = sanitized.split('.')
+  const parts = sanitized.split(".")
   if (parts.length < 2) {
     return `${sanitized}.jpg`
   }
@@ -29,13 +27,13 @@ export function useCreateReport() {
     mutationFn: async ({ report, photos }: CreateReportData) => {
       // Insert the report
       const { data: newReport, error: reportError } = await supabase
-        .from('report')
+        .from("report")
         .insert(report)
         .select()
         .single()
 
       if (reportError) {
-        console.error('Error creating report:', reportError)
+        console.error("Error creating report:", reportError)
         throw reportError
       }
 
@@ -47,36 +45,36 @@ export function useCreateReport() {
             const filename = `${newReport.id}/${Date.now()}-${index}-${sanitizedName}`
 
             const { error: uploadError } = await supabase.storage
-              .from('report-photos')
+              .from("report-photos")
               .upload(filename, photo, {
-                contentType: photo.type || 'image/jpeg',
+                contentType: photo.type || "image/jpeg",
                 upsert: false,
               })
 
             if (uploadError) {
-              console.error('Error uploading photo:', uploadError)
+              console.error("Error uploading photo:", uploadError)
               return null
             }
 
-            const { data: { publicUrl } } = supabase.storage
-              .from('report-photos')
-              .getPublicUrl(filename)
+            const {
+              data: { publicUrl },
+            } = supabase.storage.from("report-photos").getPublicUrl(filename)
 
             // Save photo record
-            const { error: photoRecordError } = await supabase.from('photo').insert({
+            const { error: photoRecordError } = await supabase.from("photo").insert({
               report_id: newReport.id,
               url: publicUrl,
               filename: photo.name,
             })
 
             if (photoRecordError) {
-              console.error('Error saving photo record:', photoRecordError)
+              console.error("Error saving photo record:", photoRecordError)
               return null
             }
 
             return publicUrl
           } catch (err) {
-            console.error('Unexpected error uploading photo:', err)
+            console.error("Unexpected error uploading photo:", err)
             return null
           }
         })
@@ -87,7 +85,7 @@ export function useCreateReport() {
       return newReport
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reports'] })
+      queryClient.invalidateQueries({ queryKey: ["reports"] })
     },
   })
 }

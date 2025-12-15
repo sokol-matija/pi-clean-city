@@ -18,13 +18,13 @@ Omogućiti građanima jednostavan i brz način prijave komunalnih problema te os
     Stvoriti intuitivno sučelje za brzu prijavu problema s minimalno klika
   </Step>
 
-  <Step title="Povećati transparentnost">
-    Omogućiti praćenje statusa svake prijave u stvarnom vremenu
-  </Step>
+<Step title="Povećati transparentnost">
+  Omogućiti praćenje statusa svake prijave u stvarnom vremenu
+</Step>
 
-  <Step title="Poboljšati komunikaciju">
-    Uspostaviti direktan kanal između građana i komunalnih službi
-  </Step>
+<Step title="Poboljšati komunikaciju">
+  Uspostaviti direktan kanal između građana i komunalnih službi
+</Step>
 
   <Step title="Prikupiti podatke">
     Analizirati podatke radi boljeg planiranja i preventive
@@ -38,6 +38,7 @@ Omogućiti građanima jednostavan i brz način prijave komunalnih problema te os
 Aplikacija koristi Vite kao build alat i React 18.3.1 kao UI biblioteku. Odabrali smo React 18 umjesto React 19 zbog kritične sigurnosne ranjivosti koja je otkrivena u posljednjih 10 dana u React 19. React 18 ostaje siguran i stabilan izbor dok se ranjivost ne zakrpi.
 
 Nismo koristili Next.js zbog sljedećih razloga:
+
 - Aplikacija je Single Page Application (SPA) koja ne zahtijeva server-side rendering (SSR)
 - Supabase pruža auto-generirane API rute kroz REST API, eliminirajući potrebu za Next.js API rutama
 - Next.js ima poznate sigurnosne ranjivosti koje su nedavno otkrivene
@@ -82,13 +83,14 @@ Supabase pruža kompletnu backend infrastrukturu:
     Relacijska baza s Row Level Security (RLS) za zaštitu podataka. Svaka tablica ima definirane politike pristupa ovisno o ulozi korisnika.
   </Accordion>
 
-  <Accordion title="Autentifikacija">
-    Google OAuth integracija za jednostavnu prijavu. Sesija se automatski osvježava i perzistira između učitavanja stranice.
-  </Accordion>
+<Accordion title="Autentifikacija">
+  Google OAuth integracija za jednostavnu prijavu. Sesija se automatski osvježava i perzistira
+  između učitavanja stranice.
+</Accordion>
 
-  <Accordion title="Storage">
-    Pohrana fotografija prijava s automatskom CDN distribucijom. Maksimalna veličina datoteke je 10MB.
-  </Accordion>
+<Accordion title="Storage">
+  Pohrana fotografija prijava s automatskom CDN distribucijom. Maksimalna veličina datoteke je 10MB.
+</Accordion>
 
   <Accordion title="Real-time (planirano)">
     Supabase subscriptions omogućit će ažuriranje karte i komentara bez osvježavanja stranice.
@@ -103,15 +105,15 @@ Aplikacija se deploya na Vercel s automatskim deploymentima pri svakom pushu na 
 
 Aplikacija koristi sedam tablica:
 
-| Tablica | Opis |
-|---------|------|
-| profiles | Korisnički podaci koji proširuju Supabase auth |
-| status | Lookup tablica za statuse prijava (Novo, U tijeku, Riješeno, Zatvoreno) |
-| category | Kategorije problema (Rupe, Smeće, Rasvjeta, itd.) |
-| report | Glavna tablica prijava s vezama na ostale tablice |
-| photo | Fotografije prijava pohranjene u Supabase Storage |
-| comment | Komentari korisnika na prijave |
-| report_view | Praćenje pregleda prijava za analitiku |
+| Tablica     | Opis                                                                    |
+| ----------- | ----------------------------------------------------------------------- |
+| profiles    | Korisnički podaci koji proširuju Supabase auth                          |
+| status      | Lookup tablica za statuse prijava (Novo, U tijeku, Riješeno, Zatvoreno) |
+| category    | Kategorije problema (Rupe, Smeće, Rasvjeta, itd.)                       |
+| report      | Glavna tablica prijava s vezama na ostale tablice                       |
+| photo       | Fotografije prijava pohranjene u Supabase Storage                       |
+| comment     | Komentari korisnika na prijave                                          |
+| report_view | Praćenje pregleda prijava za analitiku                                  |
 
 ## Korisničke uloge
 
@@ -136,21 +138,17 @@ Trenutno implementirane funkcionalnosti (MVP faza):
     Google OAuth prijava s automatskim kreiranjem profila
   </Step>
 
-  <Step title="Karta s prijavama">
-    Interaktivna karta s obojenim markerima prema statusu
-  </Step>
+<Step title="Karta s prijavama">Interaktivna karta s obojenim markerima prema statusu</Step>
 
-  <Step title="Prijava problema">
-    Obrazac za prijavu s odabirom lokacije na karti i uploadom fotografija
-  </Step>
+<Step title="Prijava problema">
+  Obrazac za prijavu s odabirom lokacije na karti i uploadom fotografija
+</Step>
 
-  <Step title="Detalji prijave">
-    Stranica s punim informacijama, galerijom fotografija i mini-kartom
-  </Step>
+<Step title="Detalji prijave">
+  Stranica s punim informacijama, galerijom fotografija i mini-kartom
+</Step>
 
-  <Step title="Komentari">
-    Sustav komentara za komunikaciju između građana i službi
-  </Step>
+<Step title="Komentari">Sustav komentara za komunikaciju između građana i službi</Step>
 
   <Step title="CI/CD">
     Automatski deployment putem GitHub Actions i Vercel
@@ -166,13 +164,9 @@ Sljedeće funkcionalnosti planirane su za implementaciju:
     Tablični prikaz s filterima, Moje prijave dashboard
   </Step>
 
-  <Step title="Prioritet 2: Worker Features">
-    Dashboard za radnike, Ažuriranje statusa
-  </Step>
+<Step title="Prioritet 2: Worker Features">Dashboard za radnike, Ažuriranje statusa</Step>
 
-  <Step title="Prioritet 3: Admin Features">
-    Admin dashboard sa statistikama
-  </Step>
+<Step title="Prioritet 3: Admin Features">Admin dashboard sa statistikama</Step>
 
   <Step title="Prioritet 4: Enhancements">
     Real-time ažuriranja, Notifikacije
@@ -180,16 +174,17 @@ Sljedeće funkcionalnosti planirane su za implementaciju:
 </Steps>
 
 <Note>
-  Detaljan pregled implementiranih i planiranih funkcionalnosti dostupan je u `/docs/project/implementation-log.md`.
+  Detaljan pregled implementiranih i planiranih funkcionalnosti dostupan je u
+  `/docs/project/implementation-log.md`.
 </Note>
 
 ## Struktura dokumentacije
 
 Dokumentacija je organizirana po članovima tima, gdje svaki član dokumentira svoj dio projekta:
 
-| Član | Područje |
-|------|----------|
-| Matija Sokol | Funkcionalnosti i moduli, ER dijagram, Class dijagram |
-| Domagoj Antic | U izradi |
-| Fran Vicic | U izradi |
-| Mato Jelen Kralj | U izradi |
+| Član             | Područje                                              |
+| ---------------- | ----------------------------------------------------- |
+| Matija Sokol     | Funkcionalnosti i moduli, ER dijagram, Class dijagram |
+| Domagoj Antic    | U izradi                                              |
+| Fran Vicic       | U izradi                                              |
+| Mato Jelen Kralj | U izradi                                              |

@@ -9,12 +9,15 @@ Last updated: 2025-11-17
 ## User Roles Overview
 
 ### 1. Citizens (Građani)
+
 Users who report municipal problems and track their status.
 
 ### 2. Municipal Workers (Građanski Radnici)
+
 Staff who process reports, update status, and communicate with citizens.
 
 ### 3. Administrators (Administratori)
+
 System managers with full access to statistics, user management, and system configuration.
 
 ---
@@ -233,6 +236,7 @@ Landing Page (Public)
 ## Wireframe Design Priorities
 
 ### Phase 1: Core MVP (Week 1-2)
+
 1. Landing Page with Map
 2. Report Submission Form
 3. Report Details Modal
@@ -241,6 +245,7 @@ Landing Page (Public)
 6. Admin Dashboard (basic)
 
 ### Phase 2: Enhanced Features (Week 3-4)
+
 7. Report Management Table
 8. Report Processing View
 9. User Management
@@ -248,6 +253,7 @@ Landing Page (Public)
 11. FAQ Page
 
 ### Phase 3: Polish & Refinement (Week 5+)
+
 12. My Reports Dashboard
 13. Report History
 14. Advanced Filters
@@ -259,22 +265,26 @@ Landing Page (Public)
 ## Design Considerations
 
 ### Visual Hierarchy
+
 - **Primary Actions:** Submit report, Update status, Export data
 - **Secondary Actions:** Filter, Sort, Search
 - **Tertiary Actions:** Share, Archive, Delete
 
 ### Color Coding (Status)
+
 - **New/Pending:** Red/Orange (#FF6B6B)
 - **In Progress:** Yellow (#FFD93D)
 - **Resolved:** Green (#6BCF7F)
 - **Closed:** Gray (#95A5A6)
 
 ### Responsive Breakpoints
+
 - Mobile: 320px - 767px
 - Tablet: 768px - 1023px
 - Desktop: 1024px+
 
 ### Accessibility
+
 - WCAG 2.1 AA compliance
 - Keyboard navigation
 - Screen reader support
