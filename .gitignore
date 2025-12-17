@@ -34,4 +34,5 @@ wireframes
 
 tasks/
 
-docs/project/
+# Allow SOLID documentation
+!docs/project/SOLID/
