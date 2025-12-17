@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.3.2 (2025-12-17)</small>
+
+* chore: remove finished docs ([c8394d9](https://github.com/sokol-matija/pi-clean-city/commit/c8394d9))
+* chore: update gitignore ([6738842](https://github.com/sokol-matija/pi-clean-city/commit/6738842))
+* chore: update gitignore ([49e21a5](https://github.com/sokol-matija/pi-clean-city/commit/49e21a5))
+* Merge branch 'feature/solid-dip' ([a486f39](https://github.com/sokol-matija/pi-clean-city/commit/a486f39))
+* Merge branch 'feature/solid-isp' ([236ddc8](https://github.com/sokol-matija/pi-clean-city/commit/236ddc8))
+* Merge branch 'feature/solid-lsp' ([c5638b9](https://github.com/sokol-matija/pi-clean-city/commit/c5638b9))
+* Merge branch 'feature/solid-ocp' ([55aa2f1](https://github.com/sokol-matija/pi-clean-city/commit/55aa2f1))
+* refactor(solid): apply Dependency Inversion Principle to repository layer ([d5d6e78](https://github.com/sokol-matija/pi-clean-city/commit/d5d6e78))
+* refactor(solid): apply Interface Segregation Principle to report operations ([556f021](https://github.com/sokol-matija/pi-clean-city/commit/556f021))
+* refactor(solid): apply Liskov Substitution Principle with interface composition ([5a62c80](https://github.com/sokol-matija/pi-clean-city/commit/5a62c80))
+* refactor(solid): apply Open/Closed Principle to badge styling ([0ddfdc4](https://github.com/sokol-matija/pi-clean-city/commit/0ddfdc4))
+* refactor(solid): apply Single Responsibility Principle to SubmitReportPage ([018634b](https://github.com/sokol-matija/pi-clean-city/commit/018634b))
+* docs: add demo video to README ([02b3493](https://github.com/sokol-matija/pi-clean-city/commit/02b3493))
+* docs: embed YouTube video directly in README ([dcd2d15](https://github.com/sokol-matija/pi-clean-city/commit/dcd2d15))
+* docs: fix demo link in README.md ([97c3cf3](https://github.com/sokol-matija/pi-clean-city/commit/97c3cf3))
+* docs: fix README video embed - use clickable thumbnail ([3100532](https://github.com/sokol-matija/pi-clean-city/commit/3100532)), closes [hi#resolution](https://github.com/hi/issues/resolution)
+* docs: update README with YouTube demo link ([65dfe21](https://github.com/sokol-matija/pi-clean-city/commit/65dfe21))
+
 ## <small>1.3.1 (2025-12-15)</small>
 
 * fix: revert package-lock.json ([8866769](https://github.com/sokol-matija/pi-clean-city/commit/8866769))
