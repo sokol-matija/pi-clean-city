@@ -36,3 +36,5 @@ tasks/
 
 # Allow SOLID documentation
 !docs/project/SOLID/
+
+docs/project/
