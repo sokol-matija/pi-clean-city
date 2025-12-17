@@ -13,7 +13,7 @@
  * - Clean separation of concerns
  */
 
-import { createContext, useContext, useMemo, type ReactNode } from "react"
+import { createContext, useMemo, type ReactNode } from "react"
 import type { IReportRepository, IPhotoStorage, IPhotoRepository } from "./IReportRepository"
 import {
   createSupabaseReportRepository,
@@ -32,10 +32,10 @@ interface RepositoryContextValue {
 }
 
 // =============================================================================
-// CONTEXT
+// CONTEXT (exported for hooks in useRepositories.ts)
 // =============================================================================
 
-const RepositoryContext = createContext<RepositoryContextValue | null>(null)
+export const RepositoryContext = createContext<RepositoryContextValue | null>(null)
 
 // =============================================================================
 // PROVIDER
@@ -88,44 +88,10 @@ export function RepositoryProvider({
 }
 
 // =============================================================================
-// HOOKS - Access repositories following DIP
+// RE-EXPORT HOOKS for convenience
 // =============================================================================
 
-/**
- * Access the report repository.
- * Returns the INTERFACE, not the concrete implementation.
- */
-export function useReportRepository(): IReportRepository {
-  const context = useContext(RepositoryContext)
-  if (!context) {
-    throw new Error("useReportRepository must be used within RepositoryProvider")
-  }
-  return context.reportRepository
-}
-
-/**
- * Access the photo storage.
- * Returns the INTERFACE, not the concrete implementation.
- */
-export function usePhotoStorage(): IPhotoStorage {
-  const context = useContext(RepositoryContext)
-  if (!context) {
-    throw new Error("usePhotoStorage must be used within RepositoryProvider")
-  }
-  return context.photoStorage
-}
-
-/**
- * Access the photo repository.
- * Returns the INTERFACE, not the concrete implementation.
- */
-export function usePhotoRepository(): IPhotoRepository {
-  const context = useContext(RepositoryContext)
-  if (!context) {
-    throw new Error("usePhotoRepository must be used within RepositoryProvider")
-  }
-  return context.photoRepository
-}
+export { useReportRepository, usePhotoStorage, usePhotoRepository } from "./useRepositories"
 
 // =============================================================================
 // EXAMPLE: How hooks use DIP
