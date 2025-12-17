@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.3.3 (2025-12-17)</small>
+
+* fix: split repository hooks to fix React Fast Refresh warnings ([37cb28d](https://github.com/sokol-matija/pi-clean-city/commit/37cb28d))
+
 ## <small>1.3.2 (2025-12-17)</small>
 
 * chore: remove finished docs ([c8394d9](https://github.com/sokol-matija/pi-clean-city/commit/c8394d9))
