@@ -7,7 +7,7 @@
 
 import { useContext } from "react"
 import type { IReportRepository, IPhotoStorage, IPhotoRepository } from "./IReportRepository"
-import { RepositoryContext } from "./RepositoryContext"
+import { RepositoryContext } from "./repositoryContextInstance"
 
 /**
  * Access the report repository.

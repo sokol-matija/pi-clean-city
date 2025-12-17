@@ -11,9 +11,11 @@
  * - Swap implementations by changing the provider (e.g., for testing)
  * - Components don't know or care about Supabase
  * - Clean separation of concerns
+ *
+ * Note: Context and hooks are in separate files to satisfy React Fast Refresh.
  */
 
-import { createContext, useMemo, type ReactNode } from "react"
+import { useMemo, type ReactNode } from "react"
 import type { IReportRepository, IPhotoStorage, IPhotoRepository } from "./IReportRepository"
 import {
   createSupabaseReportRepository,
@@ -25,7 +27,7 @@ import {
 // CONTEXT TYPE
 // =============================================================================
 
-interface RepositoryContextValue {
+export interface RepositoryContextValue {
   reportRepository: IReportRepository
   photoStorage: IPhotoStorage
   photoRepository: IPhotoRepository
@@ -35,7 +37,8 @@ interface RepositoryContextValue {
 // CONTEXT (exported for hooks in useRepositories.ts)
 // =============================================================================
 
-export const RepositoryContext = createContext<RepositoryContextValue | null>(null)
+// Context is in a separate file for Fast Refresh compatibility
+export { RepositoryContext } from "./repositoryContextInstance"
 
 // =============================================================================
 // PROVIDER
@@ -74,6 +77,10 @@ export function RepositoryProvider({
   photoStorage,
   photoRepository,
 }: RepositoryProviderProps) {
+  // Lazy import to avoid circular dependency
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { RepositoryContext } = require("./repositoryContextInstance")
+
   // Create default Supabase implementations if not provided
   const value = useMemo<RepositoryContextValue>(
     () => ({
@@ -86,12 +93,6 @@ export function RepositoryProvider({
 
   return <RepositoryContext.Provider value={value}>{children}</RepositoryContext.Provider>
 }
-
-// =============================================================================
-// RE-EXPORT HOOKS for convenience
-// =============================================================================
-
-export { useReportRepository, usePhotoStorage, usePhotoRepository } from "./useRepositories"
 
 // =============================================================================
 // EXAMPLE: How hooks use DIP
@@ -114,7 +115,7 @@ export { useReportRepository, usePhotoStorage, usePhotoRepository } from "./useR
  * }
  *
  * // After DIP (GOOD):
- * import { useReportRepository } from "./RepositoryContext"
+ * import { useReportRepository } from "./useRepositories"
  *
  * export function useCreateReport() {
  *   const repository = useReportRepository()  // Depends on abstraction!
