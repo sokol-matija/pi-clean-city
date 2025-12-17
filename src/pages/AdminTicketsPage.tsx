@@ -1,3 +1,16 @@
+/**
+ * Admin Tickets Page
+ *
+ * SOLID Principle: Open/Closed Principle (OCP)
+ * Badge color resolution is now configuration-based, not hardcoded if-else chains.
+ *
+ * Before (BAD): getStatusColor/getPriorityColor used if-else chains that required
+ * modification every time a new status or priority was added.
+ *
+ * After (GOOD): Uses badgeConfig.ts which is OPEN for extension (add new entries)
+ * but CLOSED for modification (resolver functions never change).
+ */
+
 import { useState, useEffect, useCallback } from "react"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/features/auth"
@@ -20,6 +33,11 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { TicketDetailsModal } from "@/components/admin/TicketDetailsModal"
 import type { ReportWithRelations, Category, Status } from "@/types/database.types"
+// OCP: Import configuration-based badge resolvers instead of hardcoded if-else
+import {
+  getStatusBadgeVariant,
+  getPriorityBadgeVariant,
+} from "@/features/reports/config/badgeConfig"
 
 export function AdminTicketsPage() {
   const { profile } = useAuth()
@@ -132,27 +150,10 @@ export function AdminTicketsPage() {
     loadData()
   }
 
-  // Helper:  Get status badge color
-  const getStatusColor = (statusName: string | undefined) => {
-    if (!statusName) return "default"
-    const name = statusName.toLowerCase()
-    if (name.includes("new") || name.includes("open")) return "destructive"
-    if (name.includes("progress")) return "default"
-    if (name.includes("resolved")) return "default"
-    if (name.includes("closed")) return "secondary"
-    return "default"
-  }
-
-  // Helper:  Get priority badge color
-  const getPriorityColor = (priority: string | null | undefined) => {
-    if (!priority) return "secondary"
-    const p = priority.toLowerCase()
-    if (p === "critical") return "destructive"
-    if (p === "high") return "destructive"
-    if (p === "medium") return "default"
-    if (p === "low") return "secondary"
-    return "secondary"
-  }
+  // OCP: Badge color functions removed!
+  // Previously had if-else chains here that violated Open/Closed Principle.
+  // Now using configuration-based resolvers from badgeConfig.ts
+  // See: src/features/reports/config/badgeConfig.ts
 
   if (!profile || profile.role !== "admin") {
     return (
@@ -294,12 +295,14 @@ export function AdminTicketsPage() {
                         </TableCell>
                         <TableCell className="font-medium">{report.title}</TableCell>
                         <TableCell>
-                          <Badge variant={getStatusColor(report.status?.name)}>
+                          {/* OCP: Using config-based variant resolver */}
+                          <Badge variant={getStatusBadgeVariant(report.status?.name)}>
                             {report.status?.name || "Unknown"}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge variant={getPriorityColor(report.priority)}>
+                          {/* OCP: Using config-based variant resolver */}
+                          <Badge variant={getPriorityBadgeVariant(report.priority)}>
                             {report.priority || "N/A"}
                           </Badge>
                         </TableCell>
