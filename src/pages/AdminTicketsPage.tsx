@@ -13,7 +13,7 @@
 
 import { useAuth } from "@/features/auth"
 import { Card, CardContent } from "@/components/ui/card"
-import { TicketDetailsModal } from "@/components/admin/TicketDetailsModal"
+import { TicketDetailsModal } from "@/features/admin/components/TicketDetailsModal"
 
 // SRP: Import hooks (business logic)
 import { useAdminTickets } from "@/features/admin/hooks/useAdminTickets"
