@@ -8,6 +8,7 @@ import { MapPage } from "@/pages/MapPage"
 import { SubmitReportPage } from "@/pages/SubmitReportPage"
 import { ReportDetailsPage } from "@/pages/ReportDetailsPage"
 import { AdminTicketsPage } from "./pages/AdminTicketsPage"
+import { TicketServiceProvider } from "./features/admin/context/TicketServiceContext"
 import PostFeedPage from "./pages/community/PostFeedPage"
 
 const queryClient = new QueryClient({
@@ -42,7 +43,9 @@ function App() {
                 path="/admin/tickets"
                 element={
                   <ProtectedRoute allowedRoles={["admin"]}>
-                    <AdminTicketsPage />
+                    <TicketServiceProvider>
+                      <AdminTicketsPage />
+                    </TicketServiceProvider>
                   </ProtectedRoute>
                 }
               />
