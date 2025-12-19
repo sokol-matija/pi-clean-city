@@ -1,30 +1,21 @@
+// usePosts -> DIP (IPostRepository umjesto direktnog supabasea), SRP (repo dohvaca podatke)
 import { useQuery } from "@tanstack/react-query"
-import { supabase } from "@/lib/supabase"
 import type { Post, Profile } from "@/types/database.types"
+import { SupabasePostRepository } from "../repositories/SupabasePostRepository"
+import type { IPostRepository } from "../interfaces/IPostRepository"
 
 export interface PostWithProfile extends Post {
   user: Profile | null
 }
 
+const postRepository: IPostRepository = new SupabasePostRepository()
+
 export function usePosts() {
   return useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("post")
-        .select(
-          `
-          *,
-          user:profiles!post_userId_fkey(*)
-        `
-        )
-        .order("created_at", { ascending: false })
-
-      if (error) {
-        throw new Error(error.message)
-      }
-
-      return data as PostWithProfile[]
+      // DIP + SRP: repo dohvaca podatke, lako mogu zamjeniti bazu samo pormjenim rpeo
+      return await postRepository.getAllPosts()
     },
   })
 }

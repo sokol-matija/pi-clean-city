@@ -1,6 +1,11 @@
+// useDeletePost -> DIP (IPostRepository umjesto dir. supa), SRP (samo crudalica nad repoom)
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { supabase } from "@/lib/supabase"
+import { SupabasePostRepository } from "../repositories/SupabasePostRepository"
+import type { IPostRepository } from "../interfaces/IPostRepository"
+
+const postRepository: IPostRepository = new SupabasePostRepository()
 
 export function useDeletePost() {
   const queryClient = useQueryClient()
@@ -16,11 +21,8 @@ export function useDeletePost() {
         throw new Error("You must be logged in to delete a post")
       }
 
-      const { error } = await supabase.from("post").delete().eq("id", postId).eq("userId", user.id)
-
-      if (error) {
-        throw error
-      }
+      // DIP + SRP: Koristimo repository za brisanje
+      await postRepository.deletePost(postId, user.id)
 
       return postId
     },

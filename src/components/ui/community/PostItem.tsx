@@ -1,3 +1,4 @@
+// PostItem -> LSP (IPostFormatter), DIP (IPostFormatter interface)
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -7,25 +8,19 @@ import type { PostWithProfile } from "@/features/community/hooks/usePosts"
 import { useDeletePost } from "@/features/community/hooks/useDeletePost"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 
+// LSP: Importamo formatter - možemo koristiti bilo koji koji implementira IPostFormatter
+import { createFormatter, type IPostFormatter } from "@/features/community/services/PostFormatter"
+
 interface PostItemProps {
   post: PostWithProfile
+  formatter?: IPostFormatter
 }
 
-// Simple relative time formatter
-function formatRelativeTime(dateString: string): string {
-  const date = new Date(dateString)
-  const now = new Date()
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+const defaultFormatter = createFormatter("relative")
 
-  if (diffInSeconds < 60) return "just now"
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`
-  return date.toLocaleDateString()
-}
-
-function PostItem({ post }: PostItemProps) {
-  const username = post.user?.username || "Anonymous"
+function PostItem({ post, formatter = defaultFormatter }: PostItemProps) {
+  const formattedPost = formatter.formatPost(post)
+  const username = formattedPost.authorName
   const avatarUrl = post.user?.avatar_url || defaultAvatar
   const { mutate: deletePost, isPending: isDeleting } = useDeletePost()
   const { user } = useAuth()
@@ -57,11 +52,12 @@ function PostItem({ post }: PostItemProps) {
 
           <div className="flex flex-col items-start gap-0 text-black">
             <p className="font-bold">{username}</p>
-            <p className="-mt-1 text-sm text-gray-500">{formatRelativeTime(post.created_at)}</p>
+            {/* LSP: Koristimo formatirani datum iz formattera */}
+            <p className="-mt-1 text-sm text-gray-500">{formattedPost.formattedDate}</p>
           </div>
         </div>
 
-        <h3 className="mb-1 text-lg font-semibold text-black">{post.title}</h3>
+        <h3 className="mb-1 text-lg font-semibold text-black">{formattedPost.title}</h3>
 
         {post.averageRating !== null && (
           <p className="mb-2 text-sm text-gray-600">
@@ -69,7 +65,7 @@ function PostItem({ post }: PostItemProps) {
           </p>
         )}
 
-        <p className="text-md mb-4 text-gray-700">{post.content}</p>
+        <p className="text-md mb-4 text-gray-700">{formattedPost.content}</p>
 
         <div className="mb-4">
           <p className="mb-2 font-medium text-black">Your Rating:</p>
