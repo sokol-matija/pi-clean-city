@@ -5,7 +5,7 @@ import type { Profile } from "@/types/database.types"
 
 interface TicketAssignment {
   assigned_worker_id: string | null
-  assigned_worker: Profile | null
+  assigned_worker: Profile | null | undefined
 }
 
 interface TicketAssignmentBadgeProps {
