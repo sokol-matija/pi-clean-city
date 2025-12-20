@@ -1,18 +1,32 @@
+// useCreatePost -> DIP (IPostRepostiory umjesto dir. supabasea), SRP (repo sa bazom, validator s validacijom), OCP (mogu se dodati nova pravila validiranja bez mjenjanja ovog hooka)
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { supabase } from "@/lib/supabase"
+import { SupabasePostRepository } from "../repositories/SupabasePostRepository"
+import { createBasicValidator } from "../services/PostValidator"
+import type { IPostRepository } from "../interfaces/IPostRepository"
 
 interface CreatePostData {
   title: string
   content: string
 }
 
+// DIP: Kreiramo instancu repository-a koji implementira IPostRepository interface
+const postRepository: IPostRepository = new SupabasePostRepository()
+
+// OCP: Validator s pravilima - mozemo dodati nova pravila bez mijenjanja koda
+const postValidator = createBasicValidator()
+
 export function useCreatePost() {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ title, content }: CreatePostData) => {
-      //console.log('useCreatePost - Insertam sa:', { title, content })
+      // OCP: Validacija kroz PostValidator
+      const validationResult = postValidator.validate({ title, content })
+      if (!validationResult.isValid) {
+        throw new Error(validationResult.errors.join(", "))
+      }
 
       // Get current user from Supabase auth
       const {
@@ -24,33 +38,13 @@ export function useCreatePost() {
         throw new Error("You must be logged in to create a post")
       }
 
-      try {
-        console.log("Slanje zahtjeva")
-        const response = await supabase
-          .from("post")
-          .insert({ title, content, userId: user.id })
-          .select()
-          .single()
+      const newPost = await postRepository.createPost({
+        title,
+        content,
+        userId: user.id,
+      })
 
-        console.log("Response je:", response)
-        const { data: newPost, error: postError, status } = response
-
-        console.log("Parsean response:", {
-          status,
-          newPost,
-          postError: postError ? { message: postError.message, code: postError.code } : null,
-        })
-
-        if (postError) {
-          console.error("Error:", postError)
-          throw postError
-        }
-
-        return newPost
-      } catch (err) {
-        console.error("Error:", err)
-        throw err
-      }
+      return newPost
     },
     onSuccess: (data) => {
       console.log("Post uspjesan:", data)
