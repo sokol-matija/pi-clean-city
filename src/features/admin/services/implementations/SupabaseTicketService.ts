@@ -1,9 +1,9 @@
 import { supabase } from "@/lib/supabase";
 import { Profile, Status } from "@/types/database.types";
-import { ITicketService } from "../interfaces/ITicketService";
+import { ITicketService, TicketUpdatePayload } from "../interfaces/ITicketService";
 
 export class SupabaseTicketService implements ITicketService {
-    async updateTicket(ticketId: string, changes: Record<string, any>): Promise<void> {
+    async updateTicket(ticketId: string, changes: TicketUpdatePayload): Promise<void> {
         const { error } = await supabase
             .from('report')
             .update(changes)

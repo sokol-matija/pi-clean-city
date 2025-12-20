@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 //import { supabase } from "@/lib/supabase"
 import { useTicketService } from "../context/TicketServiceContext"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -42,12 +42,7 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
     hasChanges,
   } = useTicketForm(report)
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const [servicesData, statusesData] = await Promise.all([
         ticketService.getCityServices(),
@@ -60,7 +55,11 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
       console.error("Error loading modal data:", err)
       alert("Failed to load dropdown data")
     }
-  }
+  }, [ticketService])
+
+  useEffect(() => {
+    loadData()
+  }, [loadData])
 
   // const loadData = async () => {
   //   try {
