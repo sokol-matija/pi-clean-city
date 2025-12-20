@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.4.0 (2025-12-20)
+
+* Fixes ([b5355b5](https://github.com/sokol-matija/pi-clean-city/commit/b5355b5))
+* Fixes ([c3f514b](https://github.com/sokol-matija/pi-clean-city/commit/c3f514b))
+* Fixes ([31ca2ce](https://github.com/sokol-matija/pi-clean-city/commit/31ca2ce))
+* Fixes ([d2e7a97](https://github.com/sokol-matija/pi-clean-city/commit/d2e7a97))
+* Fixes ([964326e](https://github.com/sokol-matija/pi-clean-city/commit/964326e))
+* Merge pull request #5 from sokol-matija/refactor/ticketing ([6ce0d11](https://github.com/sokol-matija/pi-clean-city/commit/6ce0d11)), closes [#5](https://github.com/sokol-matija/pi-clean-city/issues/5)
+* Merge pull request #6 from sokol-matija/refactor/SOLID-community ([e61fb0b](https://github.com/sokol-matija/pi-clean-city/commit/e61fb0b)), closes [#6](https://github.com/sokol-matija/pi-clean-city/issues/6)
+* fix: update TicketAssignment interface to allow undefined for assigned_worker ([ba52f9a](https://github.com/sokol-matija/pi-clean-city/commit/ba52f9a))
+* feat: add index file for ticket service exports ([4610c4c](https://github.com/sokol-matija/pi-clean-city/commit/4610c4c))
+* feat: add ITicketService interface for ticket management operations ([b42b9ef](https://github.com/sokol-matija/pi-clean-city/commit/b42b9ef))
+* feat: add priority configuration with options and utility functions ([15bb1fd](https://github.com/sokol-matija/pi-clean-city/commit/15bb1fd))
+* feat: add TicketAssignmentBadge component and integrate it into TicketsTable ([c6c5e2e](https://github.com/sokol-matija/pi-clean-city/commit/c6c5e2e))
+* feat: add TicketDetailsModal component for viewing and updating ticket details ([71b503d](https://github.com/sokol-matija/pi-clean-city/commit/71b503d))
+* feat: add TicketFilters component for managing ticket status and category filtering ([0b672ec](https://github.com/sokol-matija/pi-clean-city/commit/0b672ec))
+* feat: add TicketServiceContext for dependency injection of ITicketService ([e806fab](https://github.com/sokol-matija/pi-clean-city/commit/e806fab))
+* feat: add useTicketFilters hook for managing ticket filtering logic ([eda7fbb](https://github.com/sokol-matija/pi-clean-city/commit/eda7fbb))
+* feat: add useTicketModal hook for managing ticket details modal state ([32639b3](https://github.com/sokol-matija/pi-clean-city/commit/32639b3))
+* feat: implement SupabaseTicketService for ticket management operations ([2f5d577](https://github.com/sokol-matija/pi-clean-city/commit/2f5d577))
+* feat: implement TicketsTable component for rendering ticket reports ([898b7a9](https://github.com/sokol-matija/pi-clean-city/commit/898b7a9))
+* feat: implement useAdminTickets hook for fetching and managing admin ticket data ([dde20ab](https://github.com/sokol-matija/pi-clean-city/commit/dde20ab))
+* feat: implement useTicketForm hook for managing ticket form state and changes ([6422e82](https://github.com/sokol-matija/pi-clean-city/commit/6422e82))
+* feat: post interfaces ([447992b](https://github.com/sokol-matija/pi-clean-city/commit/447992b))
+* feat: post services ([5d4d0fd](https://github.com/sokol-matija/pi-clean-city/commit/5d4d0fd))
+* feat: replace hardcoded priority options with dynamic configuration from priorityConfig ([e98b551](https://github.com/sokol-matija/pi-clean-city/commit/e98b551))
+* feat: supabase post repo ([4eada60](https://github.com/sokol-matija/pi-clean-city/commit/4eada60))
+* feat: wrap AdminTicketsPage with TicketServiceProvider for context access ([13f1b40](https://github.com/sokol-matija/pi-clean-city/commit/13f1b40))
+* refactor: move TicketDetailsModal component ([e3251c2](https://github.com/sokol-matija/pi-clean-city/commit/e3251c2))
+* refactor: post component/hooks ([8519cc8](https://github.com/sokol-matija/pi-clean-city/commit/8519cc8))
+* refactor: streamline AdminTicketsPage by delegating logic to hooks and components ([3f80ea8](https://github.com/sokol-matija/pi-clean-city/commit/3f80ea8))
+* refactor: update import path for TicketDetailsModal component ([94f8c08](https://github.com/sokol-matija/pi-clean-city/commit/94f8c08))
+
 ## <small>1.3.4 (2025-12-17)</small>
 
 * fix: properly separate context instance to resolve React Fast Refresh warnings ([6480288](https://github.com/sokol-matija/pi-clean-city/commit/6480288))
