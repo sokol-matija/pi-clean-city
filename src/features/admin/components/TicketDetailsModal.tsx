@@ -14,6 +14,8 @@ import {
 import { X, MapPin } from "lucide-react"
 import type { ReportWithRelations, Profile, Status } from "@/types/database.types"
 
+import { PRIORITY_OPTIONS  } from "../config/priorityConfig"
+
 import { useTicketForm } from "../hooks/useTicketForm"
 
 interface TicketDetailsModalProps {
@@ -278,10 +280,14 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
+                    {/* <SelectItem value="low">Low</SelectItem>
                     <SelectItem value="medium">Medium</SelectItem>
                     <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="critical">Critical</SelectItem>
+                    <SelectItem value="critical">Critical</SelectItem> */}
+                    {PRIORITY_OPTIONS.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>))}
                   </SelectContent>
                 </Select>
                 {report.priority && (
