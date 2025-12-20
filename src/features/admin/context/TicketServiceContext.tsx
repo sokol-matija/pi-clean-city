@@ -22,6 +22,8 @@ export function TicketServiceProvider({ children, service = new SupabaseTicketSe
     )
 }
 
+// Fast refresh: ignore non-component export warning for custom hook
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTicketService(): ITicketService {
     const context = useContext(TicketServiceContext);
     if (!context) {

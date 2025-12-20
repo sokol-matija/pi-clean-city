@@ -5,13 +5,9 @@
     This interface defines operations for managing tickets
 */
 
-import { Profile, Status } from "@/types/database.types";
+import { Database, Profile, Status } from "@/types/database.types";
 
-export interface TicketUpdatePayload {
-    assigned_worker_id?: string | null
-    priority?: string
-    status_id?: number | null
-}
+export type TicketUpdatePayload = Database["public"]["Tables"]["report"]["Update"]
 
 export interface ITicketService {
     //update tickets with changes

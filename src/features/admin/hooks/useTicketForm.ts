@@ -1,11 +1,6 @@
 import { useState, useMemo } from "react"
 import type { ReportWithRelations } from "@/types/database.types"
-
-interface TicketFormChanges {
-  assigned_worker_id?:  string | null
-  priority?:  string
-  status_id?: number
-}
+import type { TicketUpdatePayload } from "../services/interfaces/ITicketService"
 
 export function useTicketForm(report: ReportWithRelations) {
   const [selectedWorker, setSelectedWorker] = useState<string>(
@@ -20,7 +15,7 @@ export function useTicketForm(report: ReportWithRelations) {
 
   // Detect changes
   const changes = useMemo(() => {
-    const updates: TicketFormChanges = {}
+    const updates: TicketUpdatePayload = {}
 
     // Worker assignment
     const newWorkerId = selectedWorker || null
@@ -36,11 +31,11 @@ export function useTicketForm(report: ReportWithRelations) {
     }
 
     // Status
-    const newStatusId = selectedStatus ?  parseInt(selectedStatus) : null
-    const currentStatusId = report.status_id || null
+    const newStatusId = selectedStatus ? parseInt(selectedStatus, 10) : undefined
+    const currentStatusId = report.status_id
     
-    if (newStatusId !== currentStatusId) {
-      updates.status_id = newStatusId! 
+    if (newStatusId !== undefined && newStatusId !== currentStatusId) {
+      updates.status_id = newStatusId
     }
 
     return updates
