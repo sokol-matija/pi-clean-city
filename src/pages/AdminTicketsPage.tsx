@@ -15,35 +15,32 @@ import { useAuth } from "@/features/auth"
 import { Card, CardContent } from "@/components/ui/card"
 import { TicketDetailsModal } from "@/features/admin/components/TicketDetailsModal"
 
-// SRP: Import hooks (business logic)
 import { useAdminTickets } from "@/features/admin/hooks/useAdminTickets"
 import { useTicketFilters } from "@/features/admin/hooks/useTicketFilters"
 import { useTicketModal } from "@/features/admin/hooks/useTicketModal"
 
-// SRP: Import components (presentation)
+
 import { TicketFilters } from "@/features/admin/components/TicketFilters"
 import { TicketsTable } from "@/features/admin/components/TicketsTable"
 
 export function AdminTicketsPage() {
   const { profile } = useAuth()
 
-  // SRP: Data fetching delegated to hook
+  // SRP: data fetching hook
   const { reports, categories, statuses, isLoading, error, refreshTickets } = useAdminTickets()
 
-  // SRP: Filtering delegated to hook
+  // SRP: filtering hook
   const { filteredReports, filters, setStatusFilter, setCategoryFilter, clearFilters } =
     useTicketFilters(reports)
 
-  // SRP: Modal management delegated to hook
+  // SRP: MOdal management
   const { selectedTicket, isModalOpen, openModal, closeModal } = useTicketModal()
 
-  // Handler for ticket updates (orchestration logic)
   const handleTicketUpdate = () => {
     refreshTickets()
     closeModal()
   }
 
-  // Guard:  Check admin role
   if (!profile || profile.role !== "admin") {
     return (
       <div className="container mx-auto p-8">

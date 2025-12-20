@@ -10,26 +10,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
 import { getStatusBadgeVariant, getPriorityBadgeVariant } from "@/features/reports/config/badgeConfig";
 import { ReportWithRelations } from "@/types/database.types";
+import { TicketAssignmentBadge } from "./TicketAssignmentBadge"
 
 
 interface TicketsTableProps {
-    reports: ReportWithRelations[]
-    onRowClick: (report: ReportWithRelations) => void
+  reports: ReportWithRelations[]
+  onRowClick: (report: ReportWithRelations) => void
 }
 
-export function TicketsTable({reports, onRowClick}: TicketsTableProps) {
-    if (reports.length === 0) {
-        return (
-            <Card>
-                <CardContent className="py-12 text-center text-muted-foreground">
-                <p>No reports found.</p>
-                <p className="mt-1 text-sm">Try adjusting your filters</p>
-                </CardContent>
-            </Card>
-        )
-    }
-
+export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
+  if (reports.length === 0) {
     return (
+      <Card>
+        <CardContent className="py-12 text-center text-muted-foreground">
+          <p>No reports found.</p>
+          <p className="mt-1 text-sm">Try adjusting your filters</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  return (
     <Card>
       <CardHeader>
         <CardTitle>
@@ -63,11 +64,11 @@ export function TicketsTable({reports, onRowClick}: TicketsTableProps) {
                   onClick={() => onRowClick(report)}
                 >
                   <TableCell className="font-mono text-sm">
-                    {report.id. slice(0, 8)}...
+                    {report.id.slice(0, 8)}...
                   </TableCell>
                   <TableCell className="font-medium">{report.title}</TableCell>
                   <TableCell>
-                    <Badge variant={getStatusBadgeVariant(report.status?. name)}>
+                    <Badge variant={getStatusBadgeVariant(report.status?.name)}>
                       {report.status?.name || "Unknown"}
                     </Badge>
                   </TableCell>
@@ -81,12 +82,12 @@ export function TicketsTable({reports, onRowClick}: TicketsTableProps) {
                     {report.user?.email || "Unknown"}
                   </TableCell>
                   <TableCell className="text-sm">
-                    {report.address ?  `${report.address}` : "N/A"}
+                    {report.address ? `${report.address}` : "N/A"}
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
                     {new Date(report.created_at).toLocaleDateString()}
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     {report.assigned_worker ?  (
                       <Badge variant="outline">
                         {report.assigned_worker.username || report.assigned_worker.email}
@@ -94,13 +95,21 @@ export function TicketsTable({reports, onRowClick}: TicketsTableProps) {
                     ) : (
                       <span className="text-sm text-muted-foreground">Unassigned</span>
                     )}
-                  </TableCell>
+                  </TableCell> */}
+                  <TableCell>
+                  <TicketAssignmentBadge
+                    assignment={{
+                      assigned_worker_id: report.assigned_worker_id,
+                      assigned_worker: report.assigned_worker,
+                    }}
+                  />
+                </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
-          </Table>
-        </div>
-      </CardContent>
-    </Card>
+          </TableBody>
+        </Table>
+      </div>
+    </CardContent>
+    </Card >
   )
 }
