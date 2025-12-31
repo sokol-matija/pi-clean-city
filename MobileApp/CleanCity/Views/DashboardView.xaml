@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<components:RectangleUraniumContentPage
+    x:Class="CleanCity.Views.DashboardView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CleanCity.Components"
+    xmlns:converters="clr-namespace:CleanCity.Converters"
+    xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+    Padding="0"
+    BackgroundColor="#F5F5F5"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False">
+
+    <components:RectangleUraniumContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SortDirectionConverter x:Key="SortDirectionConverter" />
+        </ResourceDictionary>
+    </components:RectangleUraniumContentPage.Resources>
+
+    <!--  Wrapper Grid  -->
+    <Grid BackgroundColor="#F5F5F5">
+        <!--  Main Content Grid  -->
+        <Grid
+            Margin="0"
+            Padding="0"
+            BackgroundColor="#F5F5F5"
+            RowDefinitions="Auto,Auto,*"
+            RowSpacing="0">
+
+            <!--  Header  -->
+            <Grid
+                Grid.Row="0"
+                Margin="0"
+                Padding="20,20,20,20"
+                BackgroundColor="#6200EE"
+                ColumnDefinitions="Auto,*">
+
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="100"
+                    Stroke="#FFD700"
+                    StrokeShape="Ellipse"
+                    StrokeThickness="10"
+                    VerticalOptions="Center"
+                    WidthRequest="100">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="48"
+                        HorizontalTextAlignment="Center"
+                        Text="CC"
+                        TextColor="#FFD700"
+                        VerticalTextAlignment="Center" />
+                </Border>
+
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Margin="15,0,0,0"
+                    HorizontalOptions="End"
+                    Spacing="4"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="26"
+                        HorizontalTextAlignment="End"
+                        Text="Moje prijave"
+                        TextColor="#000000" />
+                    <Label
+                        FontSize="14"
+                        HorizontalTextAlignment="End"
+                        Text="CleanCity - evidencija prijava"
+                        TextColor="#90CAF9" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!--  Filter Bar  -->
+            <Grid
+                Grid.Row="1"
+                Margin="0"
+                Padding="20,15,20,15"
+                BackgroundColor="White"
+                ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="10">
+
+                <Border
+                    Grid.Column="0"
+                    Padding="15,8"
+                    BackgroundColor="White"
+                    Stroke="#2196F3"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="1">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnStatusButtonTapped" />
+                    </Border.GestureRecognizers>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="STATUS"
+                        TextColor="#2196F3"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+
+                <Border
+                    Grid.Column="2"
+                    Padding="12,8"
+                    BackgroundColor="White"
+                    Stroke="#2196F3"
+                    StrokeShape="RoundRectangle 8"
+                    StrokeThickness="1">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleSortCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Sortiraj"
+                            TextColor="#2196F3"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="{Binding IsAscending, Converter={StaticResource SortDirectionConverter}}"
+                            TextColor="#2196F3"
+                            VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+
+            <!--  Reports List Component  -->
+            <components:ReportsList Grid.Row="2" Reports="{Binding Reports}" />
+
+        </Grid>
+
+        <!--  FAB Button  -->
+        <components:FABButton Clicked="OnFABClicked" />
+
+        <!--  Filter Popup Component - NA VRHU  -->
+        <components:FilterPopup x:Name="FilterPopupComponent" FilterSelected="OnFilterSelected" />
+
+    </Grid>
+
+</components:RectangleUraniumContentPage>
