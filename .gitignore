@@ -38,3 +38,5 @@ tasks/
 !docs/project/SOLID/
 
 docs/project/
+
+.serena/

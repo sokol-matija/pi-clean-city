@@ -317,7 +317,6 @@ export type Database = {
   }
 }
 
-// Helper types for easier usage
 export type Tables<T extends keyof Database["public"]["Tables"]> =
   Database["public"]["Tables"][T]["Row"]
 export type Insertable<T extends keyof Database["public"]["Tables"]> =
@@ -325,7 +324,6 @@ export type Insertable<T extends keyof Database["public"]["Tables"]> =
 export type Updatable<T extends keyof Database["public"]["Tables"]> =
   Database["public"]["Tables"][T]["Update"]
 
-// Commonly used types
 export type Report = Tables<"report">
 export type Profile = Tables<"profiles">
 export type Category = Tables<"category">
@@ -334,7 +332,6 @@ export type Photo = Tables<"photo">
 export type Comment = Tables<"comment">
 export type Post = Tables<"post">
 
-// Extended types with relations
 export type ReportWithRelations = Report & {
   category: Category
   status: Status
