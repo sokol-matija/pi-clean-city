@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.4.1 (2026-01-01)</small>
+
+* chore: update dependencies and remove unused media ([cb1208f](https://github.com/sokol-matija/pi-clean-city/commit/cb1208f))
+* refactor: remove verbose documentation across all features ([ff3e472](https://github.com/sokol-matija/pi-clean-city/commit/ff3e472))
+
 ## 1.4.0 (2025-12-20)
 
 * Fixes ([b5355b5](https://github.com/sokol-matija/pi-clean-city/commit/b5355b5))
