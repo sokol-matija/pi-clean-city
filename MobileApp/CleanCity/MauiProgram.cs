@@ -28,7 +28,22 @@ public static class MauiProgram
 #endif
 
         // Register Services
-        builder.Services.AddSingleton<IReportService, ReportService>();
+
+        // =====================================================================================
+        // #2: STRUKTURNI OBRAZAC: DECORATOR
+        // =====================================================================================
+        // builder.Services.AddSingleton<IReportService, ReportService>();
+        builder.Services.AddSingleton<ReportService>();
+        // 2. Registriramo sučelje IReportService. Kada ga netko zatraži, DI kontejner će:
+        //    a) Pronaći registrirani ReportService.
+        //    b) Stvoriti LoggingReportServiceDecorator i proslijediti mu ReportService.
+        //    c) Vratiti dekorator kao rezultat.
+        // Na ovaj način ostatak aplikacije nije svjestan da koristi dekorator,
+        // a mi smo dodali novu funkcionalnost bez izmjene originalne klase.
+        builder.Services.AddSingleton<IReportService>(serviceProvider =>
+            new Services.Decorators.LoggingReportServiceDecorator(
+                serviceProvider.GetRequiredService<ReportService>()
+            ));
 
         // Register ViewModels
         builder.Services.AddTransient<DashboardViewModel>();

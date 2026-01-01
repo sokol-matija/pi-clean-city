@@ -3,6 +3,7 @@ namespace CleanCity.ViewModels;
 using CleanCity.Interfaces.Services;
 using CleanCity.Models;
 using CleanCity.Services;
+using CleanCity.Services.Sorting; // << NOVI USING
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -18,11 +19,19 @@ public class DashboardViewModel : INotifyPropertyChanged
     private ReportStatus? _selectedFilter;
     private bool _isAscending;
 
+    // =====================================================================================
+    // #3: OBRAZAC PONAŠANJA: STRATEGY (Context)
+    // =====================================================================================
+    // ViewModel sada sadrži referencu na strategiju sortiranja.
+    private ISortStrategy _currentSortStrategy;
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     public DashboardViewModel(IReportService reportService)
     {
         _reportService = reportService;
+        // Inicijaliziramo default strategiju sortiranja (po datumu)
+        _currentSortStrategy = new SortByDateStrategy(); // << INICIJALIZACIJA DEFAULTNE STRATEGIJE
         LoadReportsCommand = new Command(async () => await LoadReportsAsync());
         ApplyFilterCommand = new Command<ReportStatus?>(ApplyFilter);
         ToggleSortCommand = new Command(ToggleSort);
@@ -145,10 +154,16 @@ public class DashboardViewModel : INotifyPropertyChanged
             filtered = AllReports.Where(r => r.Status == SelectedFilter);
         }
 
-        var sorted = IsAscending
-            ? filtered.OrderBy(r => r.CreatedDate)
-            : filtered.OrderByDescending(r => r.CreatedDate);
-
+        // =====================================================================================
+        // #3: OBRAZAC PONAŠANJA: STRATEGY
+        // =====================================================================================
+        // STARI KOD: Logika sortiranja bila je hardkodirana unutar ove metode,
+        // čime je bila nefleksibilna i teško proširiva za nove načine sortiranja.
+        // var sorted = IsAscending
+        //     ? filtered.OrderBy(r => r.CreatedDate)
+        //     : filtered.OrderByDescending(r => r.CreatedDate);
+        var sorted = _currentSortStrategy.Sort(filtered, IsAscending); // Proslijedi smjer sortiranja strategiji
+        
         Reports = new ObservableCollection<Report>(sorted);
     }
 
@@ -162,3 +177,4 @@ public class DashboardViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
+

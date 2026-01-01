@@ -10,9 +10,18 @@ public class ReportService : IReportService
 
     public ReportService()
     {
-        InitializeMockData();
+        // =====================================================================================
+        // #1: KREACIJSKI OBRAZAC: SINGLETON
+        // =====================================================================================
+        // InitializeMockData();
+        _reports.AddRange(MockReportFactory.Instance.CreateReports());
     }
 
+    /*
+    // =====================================================================================
+    // #1: KREACIJSKI OBRAZAC: SINGLETON
+    // =====================================================================================
+    // Ova funkcionalnost je premještena u MockReportFactory.
     private void InitializeMockData()
     {
         _reports.AddRange(new[]
@@ -25,6 +34,7 @@ public class ReportService : IReportService
             new Report { Id = 6, Title = "Razbijeno stakleno zvono - Heinzelova 62", Description = "Stakleno zvono za reciklažu razbijeno", CreatedDate = new DateTime(2025, 9, 20), Status = ReportStatus.Zaprimljeno, Location = "Heinzelova 62" }
         });
     }
+    */
 
     public Task<List<Report>> GetReportsAsync()
     {
