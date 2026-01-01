@@ -3,25 +3,11 @@ import { MockReportRepository, MockPhotoStorage, MockPhotoRepository } from "./M
 import type { IReportRepository, IPhotoStorage, IPhotoRepository } from "./IReportRepository"
 import type { Report, Insertable } from "@/types/database.types"
 
-/**
- * Dependency Inversion Principle Tests
- *
- * These tests demonstrate that:
- * 1. Business logic can work with ANY implementation of the interfaces
- * 2. Mock implementations fully satisfy the interface contracts
- * 3. We can test without a real database
- *
- * Key insight: These tests use the INTERFACE types, not the concrete types.
- * This proves that any implementation can be swapped in.
- */
-
 describe("Dependency Inversion Principle", () => {
   describe("IReportRepository interface", () => {
-    // Use INTERFACE type, not concrete MockReportRepository
     let repository: IReportRepository
 
     beforeEach(() => {
-      // In tests, we inject the mock. In production, Supabase is injected.
       repository = new MockReportRepository()
     })
 
@@ -116,7 +102,6 @@ describe("Dependency Inversion Principle", () => {
       const file = new File(["photo content"], "test.jpg", { type: "image/jpeg" })
       await storage.upload("reports/123/photo.jpg", file)
 
-      // Should not throw
       await expect(storage.delete("reports/123/photo.jpg")).resolves.toBeUndefined()
     })
   })
@@ -153,7 +138,7 @@ describe("Dependency Inversion Principle", () => {
       await photoRepository.create({
         url: "https://example.com/photo3.jpg",
         filename: "photo3.jpg",
-        report_id: "report-456", // Different report
+        report_id: "report-456",
       })
 
       const photos = await photoRepository.findByReportId("report-123")
@@ -163,12 +148,6 @@ describe("Dependency Inversion Principle", () => {
   })
 
   describe("DIP in action - business logic using interfaces", () => {
-    /**
-     * This test demonstrates how business logic can work with
-     * ANY implementation of the interfaces.
-     */
-
-    // Business logic function that depends on ABSTRACTION
     async function createReportWithPhotos(
       reportRepository: IReportRepository,
       photoStorage: IPhotoStorage,
@@ -176,10 +155,8 @@ describe("Dependency Inversion Principle", () => {
       reportData: Insertable<"report">,
       files: File[]
     ): Promise<{ report: Report; photoUrls: string[] }> {
-      // Create the report
       const report = await reportRepository.create(reportData)
 
-      // Upload photos and create records
       const photoUrls: string[] = []
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
@@ -197,7 +174,6 @@ describe("Dependency Inversion Principle", () => {
     }
 
     it("business logic works with mock implementations", async () => {
-      // Inject mock implementations
       const reportRepo = new MockReportRepository()
       const photoStorage = new MockPhotoStorage()
       const photoRepo = new MockPhotoRepository()
@@ -225,23 +201,16 @@ describe("Dependency Inversion Principle", () => {
       expect(result.report.title).toBe("Report with photos")
       expect(result.photoUrls).toHaveLength(2)
 
-      // Verify photos were stored
       const photos = await photoRepo.findByReportId(result.report.id)
       expect(photos).toHaveLength(2)
     })
 
     it("demonstrates swappable implementations", async () => {
-      // The same business logic function works with different implementations
-      // In production: Supabase implementations
-      // In tests: Mock implementations
-
-      // This function accepts INTERFACES, not concrete types
       async function getReportCount(repository: IReportRepository): Promise<number> {
         const reports = await repository.findAll()
         return reports.length
       }
 
-      // Works with mock
       const mockRepo = new MockReportRepository()
       await mockRepo.create({
         title: "Test",
@@ -253,9 +222,6 @@ describe("Dependency Inversion Principle", () => {
 
       const count = await getReportCount(mockRepo)
       expect(count).toBe(1)
-
-      // In production, the same function would work with SupabaseReportRepository
-      // because both implement IReportRepository
     })
   })
 })

@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react"
-//import { supabase } from "@/lib/supabase"
 import { useTicketService } from "../context/TicketServiceContext"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -14,7 +13,7 @@ import {
 import { X, MapPin } from "lucide-react"
 import type { ReportWithRelations, Profile, Status } from "@/types/database.types"
 
-import { PRIORITY_OPTIONS  } from "../config/priorityConfig"
+import { PRIORITY_OPTIONS } from "../config/priorityConfig"
 
 import { useTicketForm } from "../hooks/useTicketForm"
 
@@ -46,7 +45,7 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
     try {
       const [servicesData, statusesData] = await Promise.all([
         ticketService.getCityServices(),
-        ticketService.getStatuses()
+        ticketService.getStatuses(),
       ])
 
       setCityServices(servicesData)
@@ -61,37 +60,12 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
     loadData()
   }, [loadData])
 
-  // const loadData = async () => {
-  //   try {
-  //     const { data: servicesData, error:  servicesError } = await supabase
-  //       .from("profiles")
-  //       .select("*")
-  //       .eq("role", "cityservice")
-  //       .order("username")
-
-  //     if (servicesError) throw servicesError
-
-  //     const { data: statusesData, error: statusesError } = await supabase
-  //       .from("status")
-  //       .select("*")
-  //       .order("sort_order")
-
-  //     if (statusesError) throw statusesError
-
-  //     setCityServices(servicesData as Profile[])
-  //     setStatuses(statusesData as Status[])
-  //   } catch (err) {
-  //     console.error("Error loading modal data:", err)
-  //     alert("Failed to load dropdown data")
-  //   }
-  // }
-
   const handleSaveChanges = async () => {
     if (!hasChanges) {
       alert("No changes to save")
       return
     }
-    
+
     try {
       setIsLoading(true)
       await ticketService.updateTicket(report.id, changes)
@@ -101,38 +75,11 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
       onClose()
     } catch (err) {
       console.error("Error saving changes:", err)
-      alert(err instanceof Error ? err.message :  "Failed to save changes")
+      alert(err instanceof Error ? err.message : "Failed to save changes")
     } finally {
       setIsLoading(false)
     }
   }
-
-  // const handleSaveChanges = async () => {
-  //   if (!hasChanges) {
-  //     alert("No changes to save")
-  //     return
-  //   }
-
-  //   try {
-  //     setIsLoading(true)
-
-  //     const { error } = await supabase
-  //       .from("report")
-  //       .update(changes)
-  //       .eq("id", report.id)
-
-  //     if (error) throw error
-
-  //     alert("Ticket updated successfully!")
-  //     onUpdate()
-  //     onClose()
-  //   } catch (err) {
-  //     console.error("Error saving changes:", err)
-  //     alert(err instanceof Error ? err.message :  "Failed to save changes")
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }
 
   const formatServiceName = (profile: Profile | null | undefined): string => {
     if (!profile) return "Unknown"
@@ -140,7 +87,7 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
     if (profile.username) return profile.username
 
     const email = profile.email || ""
-    const serviceNames:  Record<string, string> = {
+    const serviceNames: Record<string, string> = {
       "roads@cleancity.com": "Roads Service",
       "lighting@cleancity.com": "Public Lighting Service",
       "waste@cleancity.com": "Waste Management Service",
@@ -219,7 +166,7 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
               {report.address && (
                 <div className="grid grid-cols-3 gap-2">
                   <span className="flex items-center gap-1 font-medium">
-                    <MapPin className="h-4 w-4" /> Location: 
+                    <MapPin className="h-4 w-4" /> Location:
                   </span>
                   <span className="col-span-2">
                     {report.address}
@@ -286,7 +233,8 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
                     {PRIORITY_OPTIONS.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
-                      </SelectItem>))}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 {report.priority && (

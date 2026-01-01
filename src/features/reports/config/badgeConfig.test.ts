@@ -94,12 +94,8 @@ describe("Badge Configuration (Open/Closed Principle)", () => {
     })
 
     it("demonstrates extensibility: adding new status requires only config change", () => {
-      // This test demonstrates that extending the system is trivial
-      // In real usage, you would just add: STATUS_BADGE_CONFIG["escalated"] = "destructive"
-      // No modification to getStatusBadgeVariant needed!
-
       const configKeysCount = Object.keys(STATUS_BADGE_CONFIG).length
-      expect(configKeysCount).toBeGreaterThanOrEqual(4) // At least our 4 statuses
+      expect(configKeysCount).toBeGreaterThanOrEqual(4)
     })
   })
 })

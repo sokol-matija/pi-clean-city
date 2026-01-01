@@ -1,17 +1,19 @@
-/* 
-    SRP Principle
-    Render tickets table
-
-    This component is responsible only for rendering table
-*/
-
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
-import { getStatusBadgeVariant, getPriorityBadgeVariant } from "@/features/reports/config/badgeConfig";
-import { ReportWithRelations } from "@/types/database.types";
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  Table,
+} from "@/components/ui/table"
+import {
+  getStatusBadgeVariant,
+  getPriorityBadgeVariant,
+} from "@/features/reports/config/badgeConfig"
+import { ReportWithRelations } from "@/types/database.types"
 import { TicketAssignmentBadge } from "./TicketAssignmentBadge"
-
 
 interface TicketsTableProps {
   reports: ReportWithRelations[]
@@ -63,9 +65,7 @@ export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
                   className="cursor-pointer hover:bg-muted/50"
                   onClick={() => onRowClick(report)}
                 >
-                  <TableCell className="font-mono text-sm">
-                    {report.id.slice(0, 8)}...
-                  </TableCell>
+                  <TableCell className="font-mono text-sm">{report.id.slice(0, 8)}...</TableCell>
                   <TableCell className="font-medium">{report.title}</TableCell>
                   <TableCell>
                     <Badge variant={getStatusBadgeVariant(report.status?.name)}>
@@ -87,29 +87,20 @@ export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
                   <TableCell className="text-sm text-muted-foreground">
                     {new Date(report.created_at).toLocaleDateString()}
                   </TableCell>
-                  {/* <TableCell>
-                    {report.assigned_worker ?  (
-                      <Badge variant="outline">
-                        {report.assigned_worker.username || report.assigned_worker.email}
-                      </Badge>
-                    ) : (
-                      <span className="text-sm text-muted-foreground">Unassigned</span>
-                    )}
-                  </TableCell> */}
                   <TableCell>
-                  <TicketAssignmentBadge
-                    assignment={{
-                      assigned_worker_id: report.assigned_worker_id,
-                      assigned_worker: report.assigned_worker,
-                    }}
-                  />
-                </TableCell>
+                    <TicketAssignmentBadge
+                      assignment={{
+                        assigned_worker_id: report.assigned_worker_id,
+                        assigned_worker: report.assigned_worker,
+                      }}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
-        </Table>
-      </div>
-    </CardContent>
-    </Card >
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
   )
 }

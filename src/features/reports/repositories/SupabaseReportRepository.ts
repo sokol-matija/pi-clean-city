@@ -1,16 +1,3 @@
-/**
- * Supabase Report Repository
- *
- * SOLID Principle: Dependency Inversion Principle (DIP)
- *
- * This is a CONCRETE IMPLEMENTATION of the IReportRepository interface.
- * It contains all the Supabase-specific code, isolating it from business logic.
- *
- * Key insight: The application doesn't import this directly.
- * Instead, it imports the interface and receives this implementation
- * through dependency injection (via React Context or direct instantiation).
- */
-
 import { supabase } from "@/lib/supabase"
 import type { Report, Photo, Insertable } from "@/types/database.types"
 import type {
@@ -20,14 +7,6 @@ import type {
   ReportFilters,
 } from "./IReportRepository"
 
-// =============================================================================
-// SUPABASE REPORT REPOSITORY
-// =============================================================================
-
-/**
- * Supabase implementation of IReportRepository.
- * All Supabase-specific code is contained here.
- */
 export class SupabaseReportRepository implements IReportRepository {
   async create(report: Insertable<"report">): Promise<Report> {
     const { data, error } = await supabase.from("report").insert(report).select().single()
@@ -119,14 +98,6 @@ export class SupabaseReportRepository implements IReportRepository {
   }
 }
 
-// =============================================================================
-// SUPABASE PHOTO STORAGE
-// =============================================================================
-
-/**
- * Supabase implementation of IPhotoStorage.
- * Handles file uploads to Supabase Storage.
- */
 export class SupabasePhotoStorage implements IPhotoStorage {
   private bucketName = "report-photos"
 
@@ -159,14 +130,6 @@ export class SupabasePhotoStorage implements IPhotoStorage {
   }
 }
 
-// =============================================================================
-// SUPABASE PHOTO REPOSITORY
-// =============================================================================
-
-/**
- * Supabase implementation of IPhotoRepository.
- * Manages photo metadata in the database.
- */
 export class SupabasePhotoRepository implements IPhotoRepository {
   async create(photo: Insertable<"photo">): Promise<Photo> {
     const { data, error } = await supabase.from("photo").insert(photo).select().single()
@@ -204,28 +167,14 @@ export class SupabasePhotoRepository implements IPhotoRepository {
   }
 }
 
-// =============================================================================
-// FACTORY FUNCTIONS - Create repository instances
-// =============================================================================
-
-/**
- * Create a new Supabase report repository instance.
- * This is called by the DI container/context to provide implementations.
- */
 export function createSupabaseReportRepository(): IReportRepository {
   return new SupabaseReportRepository()
 }
 
-/**
- * Create a new Supabase photo storage instance.
- */
 export function createSupabasePhotoStorage(): IPhotoStorage {
   return new SupabasePhotoStorage()
 }
 
-/**
- * Create a new Supabase photo repository instance.
- */
 export function createSupabasePhotoRepository(): IPhotoRepository {
   return new SupabasePhotoRepository()
 }

@@ -1,6 +1,3 @@
-/* OCP -> open/closed principle -> klase,moduli moraju biti otvoreni za proširenje, ali zatvoreni za modifikaciju
-    tu je ono kada dolazi do nestanja if-else statementa, da bi to sredili koristimo interface za proširenje */
-
 export interface CreatePostData {
   title: string
   content: string
@@ -11,13 +8,11 @@ export interface ValidationResult {
   errors: string[]
 }
 
-// Interface za validacijska pravila, mogu se dodati nova pravila bez mijenjanja postojećeg koda
 export interface IValidationRule {
   validate(data: CreatePostData): ValidationResult
   ruleName: string
 }
 
-// Osnovna pravila validacije
 export class RequiredFieldsRule implements IValidationRule {
   ruleName = "RequiredFields"
 
@@ -39,7 +34,6 @@ export class RequiredFieldsRule implements IValidationRule {
   }
 }
 
-// Validacija min lenghta
 export class MinLengthRule implements IValidationRule {
   ruleName = "MinLength"
 
@@ -66,7 +60,6 @@ export class MinLengthRule implements IValidationRule {
   }
 }
 
-// Validacija protiv spama
 export class NoSpamRule implements IValidationRule {
   ruleName = "NoSpam"
 
@@ -90,17 +83,14 @@ export class NoSpamRule implements IValidationRule {
   }
 }
 
-// PostValidator -> moze se expandeati, ali ne moze se modificirati
 export class PostValidator {
   private rules: IValidationRule[] = []
 
-  // Dodavanje novog pravila validiranja (OCP), prosirujem funkcionalnost bez mjenjanja koda
   addRule(rule: IValidationRule): PostValidator {
     this.rules.push(rule)
-    return this // Enable chaining
+    return this
   }
 
-  // Validira post prema definiramim pravilima
   validate(data: CreatePostData): ValidationResult {
     const allErrors: string[] = []
 
@@ -118,7 +108,6 @@ export class PostValidator {
   }
 }
 
-// Factory funkcije za uobičajene konfiguracije
 export function createBasicValidator(): PostValidator {
   return new PostValidator().addRule(new RequiredFieldsRule()).addRule(new MinLengthRule(3, 10))
 }

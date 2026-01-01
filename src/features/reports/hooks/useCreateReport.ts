@@ -7,12 +7,8 @@ interface CreateReportData {
   photos?: File[]
 }
 
-// Sanitize filename to be safe for storage
 function sanitizeFilename(filename: string): string {
-  // Remove special characters, keep alphanumeric, dots, hyphens, underscores
   const sanitized = filename.replace(/[^a-zA-Z0-9._-]/g, "_").replace(/_{2,}/g, "_")
-
-  // Ensure it has a valid extension
   const parts = sanitized.split(".")
   if (parts.length < 2) {
     return `${sanitized}.jpg`
@@ -25,7 +21,6 @@ export function useCreateReport() {
 
   return useMutation({
     mutationFn: async ({ report, photos }: CreateReportData) => {
-      // Insert the report
       const { data: newReport, error: reportError } = await supabase
         .from("report")
         .insert(report)
@@ -37,7 +32,6 @@ export function useCreateReport() {
         throw reportError
       }
 
-      // Upload photos if any
       if (photos && photos.length > 0) {
         const uploadPromises = photos.map(async (photo, index) => {
           try {
@@ -60,7 +54,6 @@ export function useCreateReport() {
               data: { publicUrl },
             } = supabase.storage.from("report-photos").getPublicUrl(filename)
 
-            // Save photo record
             const { error: photoRecordError } = await supabase.from("photo").insert({
               report_id: newReport.id,
               url: publicUrl,

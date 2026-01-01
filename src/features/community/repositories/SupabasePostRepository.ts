@@ -1,14 +1,9 @@
-/* SRP -> single principle repository -> svaka kalsa ima jednu odgovornost
-    ovdje klasa samo komunicira sa supabase bazom podataka i implementira post repository
-    dakle CRUD nad postovima u supabaseu */
-
 import { supabase } from "@/lib/supabase"
 import type { Post } from "@/types/database.types"
 import type { IPostRepository, CreatePostData, UpdatePostData } from "../interfaces/IPostRepository"
 import type { PostWithProfile } from "../hooks/usePosts"
 
 export class SupabasePostRepository implements IPostRepository {
-  // Dohvaca sve postove s profilima korisnika
   async getAllPosts(): Promise<PostWithProfile[]> {
     const { data, error } = await supabase
       .from("post")
@@ -27,7 +22,6 @@ export class SupabasePostRepository implements IPostRepository {
     return data as PostWithProfile[]
   }
 
-  // Dohvaca pojedinačni post po ID-u
   async getPostById(postId: number): Promise<PostWithProfile | null> {
     const { data, error } = await supabase
       .from("post")
@@ -47,7 +41,6 @@ export class SupabasePostRepository implements IPostRepository {
     return data as PostWithProfile
   }
 
-  // Kreira novi post u bazi
   async createPost(data: CreatePostData): Promise<Post> {
     const { data: newPost, error } = await supabase
       .from("post")
@@ -66,7 +59,6 @@ export class SupabasePostRepository implements IPostRepository {
     return newPost
   }
 
-  // Briše post iz baze (samo ako korisnik ima pravo)
   async deletePost(postId: number, userId: string): Promise<void> {
     const { error } = await supabase.from("post").delete().eq("id", postId).eq("userId", userId)
 
@@ -75,7 +67,6 @@ export class SupabasePostRepository implements IPostRepository {
     }
   }
 
-  // Azurira postojeci post u bazi
   async updatePost(postId: number, data: UpdatePostData): Promise<Post> {
     const { data: updatedPost, error } = await supabase
       .from("post")

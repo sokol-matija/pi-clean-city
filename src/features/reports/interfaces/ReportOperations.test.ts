@@ -11,26 +11,8 @@ import type {
 } from "./ReportOperations"
 import type { Report, Photo, Comment } from "@/types/database.types"
 
-/**
- * Interface Segregation Principle Tests
- *
- * These tests demonstrate that:
- * 1. Each role-based service only implements methods it needs
- * 2. Clients depend on minimal interfaces
- * 3. No "throw new Error('Not implemented')" anywhere
- */
-
 describe("Interface Segregation Principle", () => {
-  // ==========================================================================
-  // Mock implementations that satisfy ONLY their required interfaces
-  // ==========================================================================
-
-  /**
-   * Citizen service - implements ONLY citizen interfaces.
-   * No admin methods, no analytics, no worker-specific methods.
-   */
   class MockCitizenService implements ICitizenReportService {
-    // IReportReader
     async getReport(id: string): Promise<Report | null> {
       return { id, title: "Test", description: "Test report" } as Report
     }
@@ -41,12 +23,10 @@ describe("Interface Segregation Principle", () => {
       return null
     }
 
-    // IReportCreator
     async createReport(data: CreateReportData): Promise<Report> {
       return { id: "new-1", title: data.title, description: data.description } as Report
     }
 
-    // IPhotoManager
     async uploadPhoto(_reportId: string, _file: File): Promise<Photo> {
       return { id: "photo-1", url: "http://test.com/photo.jpg" } as Photo
     }
@@ -79,17 +59,9 @@ describe("Interface Segregation Principle", () => {
     async getStatus() {
       return null
     }
-
-    // NOTE: No updateStatus, assignWorker, deleteReport, getStatistics, exportToCSV!
-    // Citizens don't need these, so they're not in the interface.
   }
 
-  /**
-   * Worker service - implements ONLY worker interfaces.
-   * No create report, no photos, no admin operations.
-   */
   class MockWorkerService implements IWorkerReportService {
-    // IReportReader
     async getReport(id: string): Promise<Report | null> {
       return { id, title: "Test" } as Report
     }
@@ -100,12 +72,10 @@ describe("Interface Segregation Principle", () => {
       return null
     }
 
-    // IReportUpdater
     async updateReport(id: string, data: Partial<Report>): Promise<Report> {
       return { id, ...data } as Report
     }
 
-    // ICommentManager
     async addComment(_reportId: string, _content: string, _userId: string): Promise<Comment> {
       return { id: "comment-1" } as Comment
     }
@@ -129,17 +99,9 @@ describe("Interface Segregation Principle", () => {
     async getStatus() {
       return null
     }
-
-    // NOTE: No createReport, uploadPhoto, updateStatus, assignWorker, getStatistics!
-    // Workers don't need these operations.
   }
 
-  /**
-   * Admin service - implements ALL interfaces.
-   * Full access to everything.
-   */
   class MockAdminService implements IAdminReportService {
-    // IReportReader
     async getReport(id: string): Promise<Report | null> {
       return { id } as Report
     }
@@ -155,12 +117,10 @@ describe("Interface Segregation Principle", () => {
       return { title: data.title } as Report
     }
 
-    // IReportUpdater
     async updateReport(id: string, data: Partial<Report>): Promise<Report> {
       return { id, ...data } as Report
     }
 
-    // IPhotoManager
     async uploadPhoto(_reportId: string, _file: File): Promise<Photo> {
       return { id: "photo-1" } as Photo
     }
@@ -178,7 +138,6 @@ describe("Interface Segregation Principle", () => {
     }
     async deleteComment(_commentId: string): Promise<void> {}
 
-    // IReportAdmin - Only admin has these!
     async updateStatus(reportId: string, statusId: number): Promise<Report> {
       return { id: reportId, status_id: statusId } as Report
     }
@@ -193,7 +152,6 @@ describe("Interface Segregation Principle", () => {
       return { id: reportId, priority } as Report
     }
 
-    // IReportAnalytics - Only admin has these!
     async getStatistics() {
       return { totalReports: 100, byStatus: {}, byCategory: {}, byPriority: {} }
     }
@@ -204,7 +162,6 @@ describe("Interface Segregation Principle", () => {
       return "csv data"
     }
 
-    // ICategoryManager
     async getCategories() {
       return []
     }
@@ -212,7 +169,6 @@ describe("Interface Segregation Principle", () => {
       return null
     }
 
-    // IStatusManager
     async getStatuses() {
       return []
     }
@@ -220,10 +176,6 @@ describe("Interface Segregation Principle", () => {
       return null
     }
   }
-
-  // ==========================================================================
-  // Tests demonstrating ISP benefits
-  // ==========================================================================
 
   describe("Citizen service (ICitizenReportService)", () => {
     const citizenService = new MockCitizenService()
@@ -255,14 +207,6 @@ describe("Interface Segregation Principle", () => {
     })
 
     it("does NOT have admin methods (ISP enforced by TypeScript)", () => {
-      // These would be compile errors:
-      // citizenService.updateStatus("1", 2)
-      // citizenService.assignWorker("1", "worker-1")
-      // citizenService.deleteReport("1")
-      // citizenService.getStatistics()
-      // citizenService.exportToCSV()
-
-      // Verify the methods don't exist at runtime
       expect((citizenService as unknown as Record<string, unknown>).updateStatus).toBeUndefined()
       expect((citizenService as unknown as Record<string, unknown>).assignWorker).toBeUndefined()
       expect((citizenService as unknown as Record<string, unknown>).getStatistics).toBeUndefined()
@@ -288,13 +232,6 @@ describe("Interface Segregation Principle", () => {
     })
 
     it("does NOT have create or admin methods (ISP enforced by TypeScript)", () => {
-      // These would be compile errors:
-      // workerService.createReport(...)
-      // workerService.uploadPhoto(...)
-      // workerService.updateStatus(...)
-      // workerService.getStatistics()
-
-      // Verify the methods don't exist at runtime
       expect((workerService as unknown as Record<string, unknown>).createReport).toBeUndefined()
       expect((workerService as unknown as Record<string, unknown>).uploadPhoto).toBeUndefined()
       expect((workerService as unknown as Record<string, unknown>).updateStatus).toBeUndefined()
@@ -305,10 +242,7 @@ describe("Interface Segregation Principle", () => {
     const adminService = new MockAdminService()
 
     it("has ALL capabilities", async () => {
-      // Reader
       expect(await adminService.getReport("1")).toBeDefined()
-
-      // Creator
       expect(
         await adminService.createReport({
           title: "Admin Report",
@@ -318,22 +252,12 @@ describe("Interface Segregation Principle", () => {
           longitude: 15.9,
         })
       ).toBeDefined()
-
-      // Updater
       expect(await adminService.updateReport("1", {})).toBeDefined()
-
-      // Photo manager
       expect(await adminService.uploadPhoto("1", new File([], "test.jpg"))).toBeDefined()
-
-      // Comment manager
       expect(await adminService.addComment("1", "Admin note", "admin-1")).toBeDefined()
-
-      // Admin operations
       expect(await adminService.updateStatus("1", 2)).toBeDefined()
       expect(await adminService.assignWorker("1", "worker-1")).toBeDefined()
       expect(await adminService.setPriority("1", "high")).toBeDefined()
-
-      // Analytics
       expect(await adminService.getStatistics()).toBeDefined()
       expect(await adminService.exportToCSV()).toBe("csv data")
     })
@@ -341,13 +265,11 @@ describe("Interface Segregation Principle", () => {
 
   describe("Interface segregation benefits", () => {
     it("allows functions to accept minimal interfaces", async () => {
-      // Function that only needs IReportReader
       async function countReports(reader: IReportReader): Promise<number> {
         const reports = await reader.getReports()
         return reports.length
       }
 
-      // ALL services can be passed - they all implement IReportReader
       const citizenService = new MockCitizenService()
       const workerService = new MockWorkerService()
       const adminService = new MockAdminService()
@@ -358,7 +280,6 @@ describe("Interface Segregation Principle", () => {
     })
 
     it("allows functions to require specific capabilities", async () => {
-      // Function that needs admin capabilities
       async function performAdminTask(admin: IReportAdmin): Promise<void> {
         await admin.updateStatus("1", 2)
         await admin.assignWorker("1", "worker-1")
@@ -366,16 +287,10 @@ describe("Interface Segregation Principle", () => {
 
       const adminService = new MockAdminService()
 
-      // Only admin service can be passed
       await expect(performAdminTask(adminService)).resolves.toBeUndefined()
-
-      // These would be compile errors:
-      // await performAdminTask(citizenService) // Missing IReportAdmin methods
-      // await performAdminTask(workerService)  // Missing IReportAdmin methods
     })
 
     it("allows composition of interfaces for specific use cases", async () => {
-      // A function that needs both reading and analytics
       type ReportAnalyst = IReportReader & IReportAnalytics
 
       async function analyzeReports(analyst: ReportAnalyst): Promise<string> {
@@ -386,7 +301,6 @@ describe("Interface Segregation Principle", () => {
 
       const adminService = new MockAdminService()
 
-      // Only admin has both interfaces
       const result = await analyzeReports(adminService)
       expect(result).toContain("total")
     })

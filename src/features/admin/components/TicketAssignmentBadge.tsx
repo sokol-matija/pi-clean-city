@@ -1,5 +1,3 @@
-//ISP TicketAssignmentBadge.tsx
-
 import { Badge } from "@/components/ui/badge"
 import type { Profile } from "@/types/database.types"
 
@@ -9,7 +7,7 @@ interface TicketAssignment {
 }
 
 interface TicketAssignmentBadgeProps {
-  assignment: TicketAssignment 
+  assignment: TicketAssignment
 }
 
 export function TicketAssignmentBadge({ assignment }: TicketAssignmentBadgeProps) {
@@ -21,11 +19,7 @@ export function TicketAssignmentBadge({ assignment }: TicketAssignmentBadgeProps
     )
   }
 
-   const workerName = assignment.assigned_worker.username || assignment.assigned_worker.email
+  const workerName = assignment.assigned_worker.username || assignment.assigned_worker.email
 
-   return (
-    <Badge variant="secondary">
-      {workerName}
-    </Badge>
-  )
+  return <Badge variant="secondary">{workerName}</Badge>
 }
