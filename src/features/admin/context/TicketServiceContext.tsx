@@ -1,6 +1,7 @@
 import { createContext, useContext, type ReactNode } from "react"
 import type { ITicketService } from "../services"
 import { SupabaseTicketService } from "../services"
+import { LoggingTicketServiceDecorator } from "../services/decorators/TicketServiceDecorator"
 
 const TicketServiceContext = createContext<ITicketService | undefined>(undefined)
 
@@ -9,11 +10,15 @@ interface TicketServiceProviderProps {
   service?: ITicketService //STRATEGY: Allow injection of different service implementations
 }
 
-export function TicketServiceProvider({
-  children,
-  service = new SupabaseTicketService(),
-}: TicketServiceProviderProps) {
-  return <TicketServiceContext.Provider value={service}>{children}</TicketServiceContext.Provider>
+export function TicketServiceProvider({ children, service }: TicketServiceProviderProps) {
+  const baseService = service || new SupabaseTicketService()
+  const decoratedService = new LoggingTicketServiceDecorator(baseService)
+
+  return (
+    <TicketServiceContext.Provider value={decoratedService}>
+      {children}
+    </TicketServiceContext.Provider>
+  )
 }
 
 export function useTicketService(): ITicketService {

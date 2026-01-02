@@ -60,23 +60,60 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
     loadData()
   }, [loadData])
 
+  // const handleSaveChanges = async () => {
+  //   if (!hasChanges) {
+  //     alert("No changes to save")
+  //     return
+  //   }
+
+  //   try {
+  //     setIsLoading(true)
+  //     await ticketService.updateTicket(report.id, changes)
+
+  //     alert("Ticket updated successfully!")
+  //     onUpdate()
+  //     onClose()
+  //   } catch (err) {
+  //     console.error("Error saving changes:", err)
+  //     alert(err instanceof Error ? err.message : "Failed to save changes")
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
+
   const handleSaveChanges = async () => {
+    console.log("[Modal] handleSaveChanges called")
+
     if (!hasChanges) {
+      console.log("[Modal] No changes detected")
       alert("No changes to save")
       return
     }
 
+    console.log("[Modal] Has changes, starting save...")
+
     try {
       setIsLoading(true)
+      console.log("[Modal] isLoading set to true")
+
+      console.log("[Modal] Calling ticketService.updateTicket...")
       await ticketService.updateTicket(report.id, changes)
+      console.log("[Modal] ticketService.updateTicket completed")
 
       alert("Ticket updated successfully!")
+
+      console.log("[Modal] Calling onUpdate...")
       onUpdate()
+      console.log("[Modal] onUpdate completed")
+
+      console.log("[Modal] Calling onClose...")
       onClose()
+      console.log("[Modal] onClose completed")
     } catch (err) {
-      console.error("Error saving changes:", err)
+      console.error("[Modal] Error in handleSaveChanges:", err)
       alert(err instanceof Error ? err.message : "Failed to save changes")
     } finally {
+      console.log("[Modal] Finally block - setting isLoading to false")
       setIsLoading(false)
     }
   }
