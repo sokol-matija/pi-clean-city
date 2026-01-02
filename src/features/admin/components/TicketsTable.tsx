@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BadgeFactory, BadgeRenderer } from "../factories/BadgeFactory"
 import {
   TableHeader,
   TableRow,
@@ -8,12 +9,7 @@ import {
   TableCell,
   Table,
 } from "@/components/ui/table"
-import {
-  getStatusBadgeVariant,
-  getPriorityBadgeVariant,
-} from "@/features/reports/config/badgeConfig"
 import { ReportWithRelations } from "@/types/database.types"
-import { TicketAssignmentBadge } from "./TicketAssignmentBadge"
 
 interface TicketsTableProps {
   reports: ReportWithRelations[]
@@ -68,6 +64,47 @@ export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
                   <TableCell className="font-mono text-sm">{report.id.slice(0, 8)}...</TableCell>
                   <TableCell className="font-medium">{report.title}</TableCell>
                   <TableCell>
+                    {/* Factory Method: kreira Status badge */}
+                    <BadgeRenderer badge={BadgeFactory.createStatusBadge(report.status)} />
+                  </TableCell>
+                  <TableCell>
+                    {/* Factory Method: kreira Priority badge */}
+                    <BadgeRenderer badge={BadgeFactory.createPriorityBadge(report.priority)} />
+                  </TableCell>
+                  <TableCell>
+                    {/* Factory Method:  kreira Category badge */}
+                    <BadgeRenderer
+                      badge={BadgeFactory.createCategoryBadge(report.category?.name)}
+                    />
+                  </TableCell>
+                  <TableCell className="text-sm text-muted-foreground">
+                    {report.user?.email || "Unknown"}
+                  </TableCell>
+                  <TableCell className="text-sm">
+                    {report.address ? `${report.address}` : "N/A"}
+                  </TableCell>
+                  <TableCell className="text-sm text-muted-foreground">
+                    {new Date(report.created_at).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {/* Factory Method: kreira Assignment badge */}
+                    <BadgeRenderer
+                      badge={BadgeFactory.createAssignmentBadge(report.assigned_worker)}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            {/* <TableBody>
+              {reports.map((report) => (
+                <TableRow
+                  key={report.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => onRowClick(report)}
+                >
+                  <TableCell className="font-mono text-sm">{report.id.slice(0, 8)}...</TableCell>
+                  <TableCell className="font-medium">{report.title}</TableCell>
+                  <TableCell>
                     <Badge variant={getStatusBadgeVariant(report.status?.name)}>
                       {report.status?.name || "Unknown"}
                     </Badge>
@@ -97,7 +134,7 @@ export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
+            </TableBody> */}
           </Table>
         </div>
       </CardContent>
