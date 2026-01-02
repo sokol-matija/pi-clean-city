@@ -6,7 +6,7 @@ const TicketServiceContext = createContext<ITicketService | undefined>(undefined
 
 interface TicketServiceProviderProps {
   children: ReactNode
-  service?: ITicketService
+  service?: ITicketService //STRATEGY: Allow injection of different service implementations
 }
 
 export function TicketServiceProvider({
@@ -21,5 +21,5 @@ export function useTicketService(): ITicketService {
   if (!context) {
     throw new Error("useTicketService must be used within a TicketServiceProvider")
   }
-  return context
+  return context // SINGLETON: Return the existing service instance for all components
 }

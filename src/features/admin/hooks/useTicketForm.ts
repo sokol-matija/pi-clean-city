@@ -13,7 +13,7 @@ export function useTicketForm(report: ReportWithRelations) {
     report.status_id?.toString() || ""
   )
 
-  // Detect changes
+  // Facade pattern: Simplify complex state management 
   const changes = useMemo(() => {
     const updates: TicketUpdatePayload = {}
 
