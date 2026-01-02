@@ -11,14 +11,19 @@ import { useAuth } from "@/features/auth/hooks/useAuth"
 // LSP: Importamo formatter - možemo koristiti bilo koji koji implementira IPostFormatter
 import { createFormatter, type IPostFormatter } from "@/features/community/services/PostFormatter"
 
+// DECORATOR PATTERN: Import za badge-ove
+import type { PostBadge } from "@/features/community/patterns/Decorator/PostDecorator"
+
 interface PostItemProps {
   post: PostWithProfile
   formatter?: IPostFormatter
+  // DECORATOR PATTERN: Opcionalni badge-ovi koje dekorator dodaje
+  badges?: PostBadge[]
 }
 
 const defaultFormatter = createFormatter("relative")
 
-function PostItem({ post, formatter = defaultFormatter }: PostItemProps) {
+function PostItem({ post, formatter = defaultFormatter, badges = [] }: PostItemProps) {
   const formattedPost = formatter.formatPost(post)
   const username = formattedPost.authorName
   const avatarUrl = post.user?.avatar_url || defaultAvatar
@@ -57,7 +62,23 @@ function PostItem({ post, formatter = defaultFormatter }: PostItemProps) {
           </div>
         </div>
 
-        <h3 className="mb-1 text-lg font-semibold text-black">{formattedPost.title}</h3>
+        <div className="mb-1 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-black">{formattedPost.title}</h3>
+          {/* DECORATOR PATTERN: Prikaz badge-ova */}
+          {badges.length > 0 && (
+            <div className="flex gap-1">
+              {badges.map((badge, index) => (
+                <span
+                  key={`${badge.type}-${index}`}
+                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium text-white ${badge.color}`}
+                >
+                  {badge.icon && <span>{badge.icon}</span>}
+                  {badge.label}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
 
         {post.averageRating !== null && (
           <p className="mb-2 text-sm text-gray-600">

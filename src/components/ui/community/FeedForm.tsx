@@ -4,6 +4,9 @@ import { Input } from "../input"
 import { Textarea } from "../textarea"
 import { Button } from "../button"
 
+// SINGLETON PATTERN: Koristimo glavnu instancu za validaciju
+import { postServiceManager } from "@/features/community/patterns/Singleton/PostServiceManager"
+
 type FeedFormProps = {
   onPost?: (payload: { title: string; content: string }) => Promise<void> | void
 }
@@ -12,7 +15,22 @@ const FeedForm: React.FC<FeedFormProps> = ({ onPost }) => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
 
+  // SINGLETON PATTERN: Dohvacamo konfiguraciju iz jedine instance
+  const config = postServiceManager.getConfig()
+
+  // SINGLETON PATTERN: Koristimo metode iz Singletona za validaciju
+  const isTitleValid = postServiceManager.isTitleValid(title)
+  const isContentValid = postServiceManager.isPostContentValid(content)
+  const canPost = isTitleValid && isContentValid
+
   const handlePost = async () => {
+    if (!canPost) {
+      alert(
+        `Title mora imati min ${config.minTitleLength} znaka, content mora imati 1-${config.maxPostLength} znakova`
+      )
+      return
+    }
+
     await onPost?.({ title, content })
 
     // reset form after post
@@ -44,13 +62,24 @@ const FeedForm: React.FC<FeedFormProps> = ({ onPost }) => {
 
         <div className="flex w-full flex-col gap-4">
           <div className="w-full">
+            {/* SINGLETON PATTERN: Prikaz validacije u realtimeu */}
+            <div className="mb-2 text-xs text-gray-500">
+              <span className={isTitleValid ? "text-green-600" : "text-red-500"}>
+                Naslov: {title.length}/{config.minTitleLength}+ znakova {isTitleValid ? "✓" : "✗"}
+              </span>
+              <span className="mx-2">|</span>
+              <span className={isContentValid ? "text-green-600" : "text-red-500"}>
+                Sadrzaj: {content.length}/{config.maxPostLength} {isContentValid ? "✓" : "✗"}
+              </span>
+            </div>
+
             <Input
               type="text"
               id="postTitle"
               placeholder="Feed title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mb-2"
+              className={`mb-2 ${!isTitleValid && title.length > 0 ? "border-red-300" : ""}`}
             />
 
             <Textarea
@@ -58,11 +87,15 @@ const FeedForm: React.FC<FeedFormProps> = ({ onPost }) => {
               placeholder="Type your message here."
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="mb-2"
+              className={`mb-2 ${!isContentValid && content.length > 0 ? "border-red-300" : ""}`}
             />
 
             <div className="mt-4 flex justify-end">
-              <Button onClick={handlePost} className="mr-2">
+              <Button
+                onClick={handlePost}
+                disabled={!canPost}
+                className={`mr-2 ${!canPost ? "opacity-50" : ""}`}
+              >
                 Post
               </Button>
             </div>
