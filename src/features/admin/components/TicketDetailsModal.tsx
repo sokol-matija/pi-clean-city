@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select"
 import { X, MapPin } from "lucide-react"
 import type { ReportWithRelations, Profile, Status } from "@/types/database.types"
+import { ticketSubject, UIRefreshObserver, LoggerObserver } from "../observers/TicketObserver"
 
 import { PRIORITY_OPTIONS } from "../config/priorityConfig"
 
@@ -29,6 +30,25 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
   const [cityServices, setCityServices] = useState<Profile[]>([])
   const [statuses, setStatuses] = useState<Status[]>([])
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    // Create observers
+    const uiObserver = new UIRefreshObserver(onUpdate)
+    const loggerObserver = new LoggerObserver()
+
+    // Subscribe to ticket updates
+    ticketSubject.attach(uiObserver)
+    ticketSubject.attach(loggerObserver)
+
+    console.log("[Modal] Observers attached")
+
+    // Cleanup:  unsubscribe when modal closes
+    return () => {
+      ticketSubject.detach(uiObserver)
+      ticketSubject.detach(loggerObserver)
+      console.log("[Modal] Observers detached")
+    }
+  }, [onUpdate])
 
   const {
     selectedWorker,
@@ -81,39 +101,63 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
   //   }
   // }
 
-  const handleSaveChanges = async () => {
-    console.log("[Modal] handleSaveChanges called")
+  // const handleSaveChanges = async () => {
+  //   console.log("[Modal] handleSaveChanges called")
 
+  //   if (!hasChanges) {
+  //     console.log("[Modal] No changes detected")
+  //     alert("No changes to save")
+  //     return
+  //   }
+
+  //   console.log("[Modal] Has changes, starting save...")
+
+  //   try {
+  //     setIsLoading(true)
+  //     console.log("[Modal] isLoading set to true")
+
+  //     console.log("[Modal] Calling ticketService.updateTicket...")
+  //     await ticketService.updateTicket(report.id, changes)
+  //     console.log("[Modal] ticketService.updateTicket completed")
+  //     ticketSubject.notify(report.id, changes)
+  //     alert("Ticket updated successfully!")
+
+  //     console.log("[Modal] Calling onUpdate...")
+  //     onUpdate()
+  //     console.log("[Modal] onUpdate completed")
+
+  //     console.log("[Modal] Calling onClose...")
+  //     onClose()
+  //     console.log("[Modal] onClose completed")
+  //   } catch (err) {
+  //     console.error("[Modal] Error in handleSaveChanges:", err)
+  //     alert(err instanceof Error ? err.message : "Failed to save changes")
+  //   } finally {
+  //     console.log("[Modal] Finally block - setting isLoading to false")
+  //     setIsLoading(false)
+  //   }
+  // }
+
+  const handleSaveChanges = async () => {
     if (!hasChanges) {
-      console.log("[Modal] No changes detected")
       alert("No changes to save")
       return
     }
 
-    console.log("[Modal] Has changes, starting save...")
-
     try {
       setIsLoading(true)
-      console.log("[Modal] isLoading set to true")
 
-      console.log("[Modal] Calling ticketService.updateTicket...")
       await ticketService.updateTicket(report.id, changes)
-      console.log("[Modal] ticketService.updateTicket completed")
+
+      // Observer Pattern: Notify all observers about the update
+      ticketSubject.notify(report.id, changes)
 
       alert("Ticket updated successfully!")
-
-      console.log("[Modal] Calling onUpdate...")
-      onUpdate()
-      console.log("[Modal] onUpdate completed")
-
-      console.log("[Modal] Calling onClose...")
       onClose()
-      console.log("[Modal] onClose completed")
     } catch (err) {
-      console.error("[Modal] Error in handleSaveChanges:", err)
+      console.error("Error saving changes:", err)
       alert(err instanceof Error ? err.message : "Failed to save changes")
     } finally {
-      console.log("[Modal] Finally block - setting isLoading to false")
       setIsLoading(false)
     }
   }
