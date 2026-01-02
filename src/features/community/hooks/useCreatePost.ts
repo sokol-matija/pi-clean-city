@@ -1,10 +1,13 @@
 // useCreatePost -> DIP (IPostRepostiory umjesto dir. supabasea), SRP (repo sa bazom, validator s validacijom), OCP (mogu se dodati nova pravila validiranja bez mjenjanja ovog hooka)
+// + OBSERVER PATTERN - emitira događaj kada se post kreira
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { supabase } from "@/lib/supabase"
 import { SupabasePostRepository } from "../repositories/SupabasePostRepository"
 import { createBasicValidator } from "../services/PostValidator"
 import type { IPostRepository } from "../interfaces/IPostRepository"
+// Observer Pattern - import event emittera
+import { postEventEmitter } from "../patterns/Observer/PostEventEmitter"
 
 interface CreatePostData {
   title: string
@@ -42,6 +45,12 @@ export function useCreatePost() {
         title,
         content,
         userId: user.id,
+      })
+
+      // OBSERVER PATTERN: Emitiramo događaj da je post kreiran
+      postEventEmitter.emit("post:created", {
+        post: newPost,
+        authorId: user.id,
       })
 
       return newPost
