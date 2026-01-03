@@ -32,10 +32,10 @@ export class NotificationFactory {
   }): INotification {
     return {
       topic: params.topic,
-      title: "New Comment 💬",
+      title: "New Comment",
       message: `${params.commenterName} commented: "${params.commentPreview}"`,
       priority: 3,
-      tags: ["speech_balloon", "💬"],
+      tags: ["speech_balloon"],
       click: `${window.location.origin}/reports/${params.reportId}`,
       actions: [
         {
@@ -63,16 +63,13 @@ export class NotificationFactory {
     newStatus: string
     reportTitle: string
   }): INotification {
-    const { emoji, color } = this.getStatusMetadata(params.newStatus)
-
     return {
       topic: params.topic,
-      title: "Report Status Updated 📊",
+      title: "Report Status Updated",
       message: `Status changed: ${params.oldStatus} → ${params.newStatus}`,
       priority: 4,
-      tags: [emoji, color],
+      tags: ["chart_with_upwards_trend"],
       click: `${window.location.origin}/reports/${params.reportId}`,
-      icon: this.getStatusIcon(params.newStatus),
     }
   }
 
@@ -89,10 +86,10 @@ export class NotificationFactory {
   }): INotification {
     return {
       topic: params.topic,
-      title: "New Assignment 📋",
+      title: "New Assignment",
       message: `Assigned to ${params.assigneeName}: ${params.reportTitle}`,
       priority: 5,
-      tags: ["person_raising_hand", "🔴"],
+      tags: ["clipboard"],
       click: `${window.location.origin}/reports/${params.reportId}`,
       actions: [
         {
@@ -121,12 +118,11 @@ export class NotificationFactory {
   }): INotification {
     return {
       topic: params.topic,
-      title: "Report Resolved ✅",
+      title: "Report Resolved",
       message: `Your report "${params.reportTitle}" has been resolved by ${params.resolvedBy}`,
       priority: 4,
-      tags: ["white_check_mark", "🟢"],
+      tags: ["white_check_mark"],
       click: `${window.location.origin}/reports/${params.reportId}`,
-      icon: "✅",
     }
   }
 
@@ -142,40 +138,11 @@ export class NotificationFactory {
   }): INotification {
     return {
       topic: params.topic,
-      title: "You were mentioned 📢",
+      title: "You were mentioned",
       message: `${params.mentionerName} mentioned you: "${params.context}"`,
       priority: 3,
-      tags: ["at", "📢"],
+      tags: ["loudspeaker"],
       click: `${window.location.origin}/reports/${params.reportId}`,
     }
-  }
-
-  /**
-   * Helper: Get status metadata for styling
-   */
-  private static getStatusMetadata(status: string): {
-    emoji: string
-    color: string
-  } {
-    const metadata: Record<string, { emoji: string; color: string }> = {
-      pending: { emoji: "hourglass", color: "🟡" },
-      in_progress: { emoji: "construction", color: "🔵" },
-      resolved: { emoji: "white_check_mark", color: "🟢" },
-      closed: { emoji: "lock", color: "⚫" },
-    }
-    return metadata[status.toLowerCase()] || { emoji: "info", color: "⚪" }
-  }
-
-  /**
-   * Helper: Get status icon
-   */
-  private static getStatusIcon(status: string): string {
-    const icons: Record<string, string> = {
-      pending: "⏳",
-      in_progress: "🚧",
-      resolved: "✅",
-      closed: "🔒",
-    }
-    return icons[status.toLowerCase()] || "ℹ️"
   }
 }

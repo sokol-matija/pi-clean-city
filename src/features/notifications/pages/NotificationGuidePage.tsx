@@ -10,13 +10,14 @@ import { useAuth } from "@/features/auth/hooks/useAuth"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { getUserTopic } from "@/features/notifications/utils/topicHelpers"
 
 export function NotificationGuidePage() {
-  const { user } = useAuth()
+  const { user, profile } = useAuth()
   const [copied, setCopied] = useState(false)
 
-  // Generate user topic
-  const topic = user?.username ? `pi-clean-city-${user.username}` : ""
+  // Generate user topic from profile username (URL-safe)
+  const topic = profile?.username ? getUserTopic(profile.username) : ""
 
   const copyTopic = async () => {
     if (topic) {
@@ -31,8 +32,8 @@ export function NotificationGuidePage() {
       <div className="container mx-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Prijava potrebna</CardTitle>
-            <CardDescription>Molimo prijavite se da biste vidjeli svoj NTFY topic.</CardDescription>
+            <CardTitle>Login Required</CardTitle>
+            <CardDescription>Please sign in to view your NTFY topic.</CardDescription>
           </CardHeader>
         </Card>
       </div>
@@ -43,9 +44,9 @@ export function NotificationGuidePage() {
     <div className="container mx-auto max-w-4xl p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold">Postavi obavijesti 🔔</h1>
+        <h1 className="mb-2 text-3xl font-bold">Setup Notifications</h1>
         <p className="text-gray-600">
-          Primaj obavijesti o svojim prijavama u realnom vremenu putem NTFY aplikacije
+          Receive real-time notifications about your reports via the NTFY app
         </p>
       </div>
 
@@ -54,9 +55,9 @@ export function NotificationGuidePage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Bell className="h-5 w-5" />
-            Tvoj NTFY Topic
+            Your NTFY Topic
           </CardTitle>
-          <CardDescription>Ovo je tvoj jedinstveni topic za primanje obavijesti</CardDescription>
+          <CardDescription>This is your unique topic for receiving notifications</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="mb-4 flex items-center gap-3 rounded-lg bg-gray-50 p-4">
@@ -65,21 +66,21 @@ export function NotificationGuidePage() {
               {copied ? (
                 <>
                   <Check className="h-4 w-4" />
-                  Kopirano!
+                  Copied!
                 </>
               ) : (
                 <>
                   <Copy className="h-4 w-4" />
-                  Kopiraj
+                  Copy
                 </>
               )}
             </Button>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">📱 Mobilna aplikacija</Badge>
-            <Badge variant="secondary">💻 Web pregledač</Badge>
-            <Badge variant="secondary">🔔 Besplatno</Badge>
+            <Badge variant="secondary">Mobile app</Badge>
+            <Badge variant="secondary">Web browser</Badge>
+            <Badge variant="secondary">Free</Badge>
           </div>
         </CardContent>
       </Card>
@@ -90,41 +91,41 @@ export function NotificationGuidePage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Smartphone className="h-5 w-5" />
-              Korak 1: Preuzmi NTFY aplikaciju
+              Step 1: Download NTFY app
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <h4 className="mb-2 font-semibold">📱 Za Android:</h4>
+              <h4 className="mb-2 font-semibold">For Android:</h4>
               <a
                 href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
-                Preuzmi s Google Play Store →
+                Download from Google Play Store →
               </a>
             </div>
             <div>
-              <h4 className="mb-2 font-semibold">🍎 Za iOS:</h4>
+              <h4 className="mb-2 font-semibold">For iOS:</h4>
               <a
                 href="https://apps.apple.com/us/app/ntfy/id1625396347"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
-                Preuzmi s App Store →
+                Download from App Store →
               </a>
             </div>
             <div>
-              <h4 className="mb-2 font-semibold">💻 Za web pregledač:</h4>
+              <h4 className="mb-2 font-semibold">For web browser:</h4>
               <a
                 href="https://ntfy.sh"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
-                Otvori ntfy.sh u pregledniku →
+                Open ntfy.sh in browser →
               </a>
             </div>
           </CardContent>
@@ -132,36 +133,36 @@ export function NotificationGuidePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Korak 2: Pretplati se na svoj topic</CardTitle>
+            <CardTitle>Step 2: Subscribe to your topic</CardTitle>
           </CardHeader>
           <CardContent>
             <ol className="list-inside list-decimal space-y-3">
-              <li>Otvori NTFY aplikaciju ili web stranicu</li>
+              <li>Open the NTFY app or website</li>
               <li>
-                Klikni na <strong>"Subscribe to topic"</strong> ili <strong>"+"</strong> gumb
+                Click on <strong>"Subscribe to topic"</strong> or the <strong>"+"</strong> button
               </li>
               <li>
-                Zalijepi svoj topic:{" "}
+                Paste your topic:{" "}
                 <code className="rounded bg-gray-100 px-2 py-1 font-mono text-sm">{topic}</code>
               </li>
               <li>
-                Klikni <strong>"Subscribe"</strong>
+                Click <strong>"Subscribe"</strong>
               </li>
-              <li>Gotovo! 🎉</li>
+              <li>Done!</li>
             </ol>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Korak 3: Omogući obavijesti</CardTitle>
+            <CardTitle>Step 3: Enable notifications</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-4">Kako bi primao/la obavijesti i kada aplikacija nije otvorena:</p>
+            <p className="mb-4">To receive notifications even when the app is not open:</p>
             <ul className="list-inside list-disc space-y-2">
-              <li>U postavkama telefona omogući obavijesti za NTFY</li>
-              <li>Omogući zvuk i vibraciju za obavijesti</li>
-              <li>U NTFY aplikaciji omogući Background/Push notifikacije</li>
+              <li>In your phone settings, enable notifications for NTFY</li>
+              <li>Enable sound and vibration for notifications</li>
+              <li>In the NTFY app, enable Background/Push notifications</li>
             </ul>
           </CardContent>
         </Card>
@@ -169,40 +170,34 @@ export function NotificationGuidePage() {
         {/* What notifications you'll receive */}
         <Card className="border-blue-200 bg-blue-50">
           <CardHeader>
-            <CardTitle>Koje obavijesti ćeš primati?</CardTitle>
+            <CardTitle>What notifications will you receive?</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <span className="text-2xl">💬</span>
                 <div>
-                  <h4 className="font-semibold">Novi komentari</h4>
-                  <p className="text-sm text-gray-600">Kada netko komentira na tvoju prijavu</p>
+                  <h4 className="font-semibold">New comments</h4>
+                  <p className="text-sm text-gray-600">When someone comments on your report</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">📊</span>
                 <div>
-                  <h4 className="font-semibold">Promjena statusa</h4>
+                  <h4 className="font-semibold">Status changes</h4>
                   <p className="text-sm text-gray-600">
-                    Kada komunalni radnik promijeni status tvoje prijave
+                    When a worker changes the status of your report
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">✅</span>
                 <div>
-                  <h4 className="font-semibold">Riješena prijava</h4>
-                  <p className="text-sm text-gray-600">
-                    Kada je tvoja prijava označena kao riješena
-                  </p>
+                  <h4 className="font-semibold">Resolved reports</h4>
+                  <p className="text-sm text-gray-600">When your report is marked as resolved</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">📢</span>
                 <div>
-                  <h4 className="font-semibold">Spomenut/a si</h4>
-                  <p className="text-sm text-gray-600">Kada te netko spomene u komentaru</p>
+                  <h4 className="font-semibold">Mentions</h4>
+                  <p className="text-sm text-gray-600">When someone mentions you in a comment</p>
                 </div>
               </div>
             </div>
@@ -212,9 +207,9 @@ export function NotificationGuidePage() {
         {/* Test notification */}
         <Card>
           <CardHeader>
-            <CardTitle>Testiraj obavijesti</CardTitle>
+            <CardTitle>Test notifications</CardTitle>
             <CardDescription>
-              Pošalji testnu obavijest kako bi provjerio/la je li sve ispravno postavljeno
+              Send a test notification to verify everything is set up correctly
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -228,20 +223,20 @@ export function NotificationGuidePage() {
                     },
                     body: JSON.stringify({
                       topic: topic,
-                      title: "Test obavijest 🎉",
-                      message: "Uspješno si postavio/la NTFY obavijesti za Pi Clean City!",
+                      title: "Test notification",
+                      message: "You've successfully set up NTFY notifications for Pi Clean City!",
                       priority: 3,
-                      tags: ["white_check_mark", "✅"],
+                      tags: ["white_check_mark"],
                     }),
                   })
-                  alert("Testna obavijest poslana! Provjeri svoj NTFY.")
+                  alert("Test notification sent! Check your NTFY app.")
                 } catch {
-                  alert("Greška pri slanju testne obavijesti.")
+                  alert("Error sending test notification.")
                 }
               }}
               className="w-full"
             >
-              Pošalji testnu obavijest
+              Send test notification
             </Button>
           </CardContent>
         </Card>
@@ -249,26 +244,27 @@ export function NotificationGuidePage() {
         {/* Help section */}
         <Card>
           <CardHeader>
-            <CardTitle>Trebaš pomoć?</CardTitle>
+            <CardTitle>Need help?</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <p>
-              📖 Pročitaj{" "}
+              Read the{" "}
               <a
                 href="https://docs.ntfy.sh"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
-                službenu NTFY dokumentaciju
+                official NTFY documentation
               </a>
             </p>
             <p>
-              💡 NTFY je potpuno besplatan i open-source! Tvoj topic je javan, ali samo ti i naša
-              aplikacija znamo za njega.
+              NTFY is completely free and open-source! Your topic is public, but only you and our
+              application know about it.
             </p>
             <p className="text-sm text-gray-500">
-              Napomena: Obavijesti se šalju putem NTFY.sh servisa i ne koriste Pi Network API.
+              Note: Notifications are sent via the NTFY.sh service and do not use the Pi Network
+              API.
             </p>
           </CardContent>
         </Card>
