@@ -83,7 +83,13 @@ export class NoSpamRule implements IValidationRule {
   }
 }
 
-export class PostValidator {
+// Interface za PostValidator (koristi se u Singleton patternu)
+export interface IPostValidator {
+  validate(data: CreatePostData): ValidationResult
+  addRule(rule: IValidationRule): IPostValidator
+}
+
+export class PostValidator implements IPostValidator {
   private rules: IValidationRule[] = []
 
   addRule(rule: IValidationRule): PostValidator {
