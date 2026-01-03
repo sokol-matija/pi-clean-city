@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.6.0 (2026-01-03)
+
+* Merge pull request #8 from sokol-matija/feature/community-design-patterns ([7683c2c](https://github.com/sokol-matija/pi-clean-city/commit/7683c2c)), closes [#8](https://github.com/sokol-matija/pi-clean-city/issues/8)
+* feat: decorator pattern ([648c868](https://github.com/sokol-matija/pi-clean-city/commit/648c868))
+* feat: observer pattern ([4dcf6c5](https://github.com/sokol-matija/pi-clean-city/commit/4dcf6c5))
+* feat: singleton pattern + patterns impl ([db7827b](https://github.com/sokol-matija/pi-clean-city/commit/db7827b))
+
 ## 1.5.0 (2026-01-03)
 
 * Merge pull request #7 from sokol-matija/feature/ticketing-design-patterns ([2106719](https://github.com/sokol-matija/pi-clean-city/commit/2106719)), closes [#7](https://github.com/sokol-matija/pi-clean-city/issues/7)
