@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.7.0 (2026-01-03)
+
+* Merge branch 'feature/design-patterns-ms' ([f3bbe7c](https://github.com/sokol-matija/pi-clean-city/commit/f3bbe7c))
+* fix: resolve TypeScript type errors in notification system ([a79b3a4](https://github.com/sokol-matija/pi-clean-city/commit/a79b3a4))
+* refactor: remove redundant comments ([3f6e46d](https://github.com/sokol-matija/pi-clean-city/commit/3f6e46d))
+* feat: add base types and NTFY service for notifications ([7b19e84](https://github.com/sokol-matija/pi-clean-city/commit/7b19e84))
+* feat: add notification guide page for users ([ddfaf8b](https://github.com/sokol-matija/pi-clean-city/commit/ddfaf8b))
+* feat: add notification system with comment notifications ([4758a9a](https://github.com/sokol-matija/pi-clean-city/commit/4758a9a))
+* feat: implement Decorator pattern for notification enrichment ([4be9969](https://github.com/sokol-matija/pi-clean-city/commit/4be9969))
+* feat: implement Factory pattern for notification creation ([cc41975](https://github.com/sokol-matija/pi-clean-city/commit/cc41975))
+* feat: implement Observer pattern for notification events ([79b326a](https://github.com/sokol-matija/pi-clean-city/commit/79b326a))
+* docs: add comprehensive notification system documentation ([fead6be](https://github.com/sokol-matija/pi-clean-city/commit/fead6be))
+
 ## 1.6.0 (2026-01-03)
 
 * Merge pull request #8 from sokol-matija/feature/community-design-patterns ([7683c2c](https://github.com/sokol-matija/pi-clean-city/commit/7683c2c)), closes [#8](https://github.com/sokol-matija/pi-clean-city/issues/8)
