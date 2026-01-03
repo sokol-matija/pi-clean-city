@@ -1,10 +1,18 @@
 import type { NtfyMessage } from "../types"
 
 export class NtfyService {
-  constructor(
-    private baseUrl: string = "https://ntfy.sh",
-    private authToken?: string
-  ) {}
+  private static instance: NtfyService
+  private baseUrl: string = "https://ntfy.sh"
+  private authToken?: string
+
+  private constructor() {}
+
+  public static getInstance(): NtfyService {
+    if (!NtfyService.instance) {
+      NtfyService.instance = new NtfyService()
+    }
+    return NtfyService.instance
+  }
 
   async publishSimple(topic: string, message: string): Promise<void> {
     const headers: HeadersInit = {

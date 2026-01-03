@@ -12,7 +12,7 @@ interface AddCommentData {
 
 export function useAddComment() {
   const queryClient = useQueryClient()
-  const ntfyService = new NtfyService()
+  const ntfyService = NtfyService.getInstance()
 
   return useMutation({
     mutationFn: async ({ reportId, content }: AddCommentData) => {
