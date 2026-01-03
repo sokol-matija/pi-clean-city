@@ -19,17 +19,19 @@ export function useAddComment() {
         data: { user },
       } = await supabase.auth.getUser()
 
+      if (!user) throw new Error("User not authenticated")
+
       const { data: commenterProfile } = await supabase
         .from("profiles")
         .select("username")
-        .eq("id", user?.id)
+        .eq("id", user.id)
         .single()
 
       const { data, error } = await supabase
         .from("comment")
         .insert({
           report_id: reportId,
-          user_id: user?.id,
+          user_id: user.id,
           content,
         })
         .select(
@@ -53,7 +55,7 @@ export function useAddComment() {
         .eq("id", reportId)
         .single()
 
-      if (report && report.user && user?.id !== report.user_id) {
+      if (report && report.user?.username && user.id !== report.user_id) {
         try {
           const notification = NotificationFactory.createCommentNotification({
             topic: getUserTopic(report.user.username),

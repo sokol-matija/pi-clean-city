@@ -108,15 +108,14 @@ export class NotificationEventEmitter {
       this.listeners.set(event, new Set())
     }
 
-    this.listeners.get(event)!.add(handler)
+    this.listeners.get(event)!.add(handler as NotificationEventHandler<NotificationEvent>)
 
     console.log(
       `[NotificationEventEmitter] Subscribed to ${event} (${this.getListenerCount(event)} listeners)`
     )
 
-    // Return unsubscribe function
     return () => {
-      this.listeners.get(event)?.delete(handler)
+      this.listeners.get(event)?.delete(handler as NotificationEventHandler<NotificationEvent>)
       console.log(
         `[NotificationEventEmitter] Unsubscribed from ${event} (${this.getListenerCount(event)} listeners)`
       )
@@ -132,7 +131,9 @@ export class NotificationEventEmitter {
   ): void {
     const wrappedHandler = async (payload: NotificationEventPayloads[T]) => {
       await handler(payload)
-      this.listeners.get(event)?.delete(wrappedHandler)
+      this.listeners
+        .get(event)
+        ?.delete(wrappedHandler as NotificationEventHandler<NotificationEvent>)
       console.log(`[NotificationEventEmitter] Auto-unsubscribed from ${event}`)
     }
 
@@ -140,7 +141,7 @@ export class NotificationEventEmitter {
       this.listeners.set(event, new Set())
     }
 
-    this.listeners.get(event)!.add(wrappedHandler)
+    this.listeners.get(event)!.add(wrappedHandler as NotificationEventHandler<NotificationEvent>)
     console.log(`[NotificationEventEmitter] Subscribed once to ${event}`)
   }
 
