@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.5.0 (2026-01-03)
+
+* Merge pull request #7 from sokol-matija/feature/ticketing-design-patterns ([2106719](https://github.com/sokol-matija/pi-clean-city/commit/2106719)), closes [#7](https://github.com/sokol-matija/pi-clean-city/issues/7)
+* feat: implement Decorator pattern for service logging ([b5fa68f](https://github.com/sokol-matija/pi-clean-city/commit/b5fa68f))
+* feat: implement Factory Method pattern for badge creation ([4dae102](https://github.com/sokol-matija/pi-clean-city/commit/4dae102))
+* feat: implement Observer pattern for ticket updates and UI refresh ([e8306e3](https://github.com/sokol-matija/pi-clean-city/commit/e8306e3))
+* docs: add design pattern comments (Singleton, Strategy, Facade) ([f2ea834](https://github.com/sokol-matija/pi-clean-city/commit/f2ea834))
+
 ## <small>1.4.1 (2026-01-01)</small>
 
 * chore: update dependencies and remove unused media ([cb1208f](https://github.com/sokol-matija/pi-clean-city/commit/cb1208f))
