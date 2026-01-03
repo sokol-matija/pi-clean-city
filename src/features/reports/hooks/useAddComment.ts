@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase"
 import { NotificationFactory } from "@/features/notifications/patterns/Factory/NotificationFactory"
 import { NtfyService } from "@/features/notifications/services/NtfyService"
 import { getUserTopic } from "@/features/notifications/utils/topicHelpers"
+import { createDefaultDecoratorChain } from "@/features/notifications/patterns/Decorator/NotificationDecorator"
 
 interface AddCommentData {
   reportId: string
@@ -63,6 +64,16 @@ export function useAddComment() {
             commenterName: commenterProfile?.username || "Someone",
             commentPreview: content.substring(0, 50) + (content.length > 50 ? "..." : ""),
             reportTitle: report.title,
+          })
+
+          const decoratorChain = createDefaultDecoratorChain()
+          const decoratedNotification = decoratorChain.decorate(notification)
+
+          console.log("[Notification] Decorated notification metadata:", {
+            urgencyLevel: decoratedNotification.decorations.urgencyLevel,
+            category: decoratedNotification.decorations.category,
+            timestamp: decoratedNotification.decorations.timestamp,
+            badges: decoratedNotification.decorations.badges,
           })
 
           await ntfyService.publish({
