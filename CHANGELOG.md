@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.8.0 (2026-01-03)
+
+* fix: correct notification URL from /reports/ to /report/ ([612cdc3](https://github.com/sokol-matija/pi-clean-city/commit/612cdc3))
+* feat: integrate Decorator pattern in comment notifications ([d7be852](https://github.com/sokol-matija/pi-clean-city/commit/d7be852))
+* Merge remote-tracking branch 'origin/main' ([5ae9c87](https://github.com/sokol-matija/pi-clean-city/commit/5ae9c87))
+* chore: remote redundant comments ([ece1c9e](https://github.com/sokol-matija/pi-clean-city/commit/ece1c9e))
+* docs: add design patterns presentation documents ([f8562a5](https://github.com/sokol-matija/pi-clean-city/commit/f8562a5))
+
 ## 1.7.0 (2026-01-03)
 
 * Merge branch 'feature/design-patterns-ms' ([f3bbe7c](https://github.com/sokol-matija/pi-clean-city/commit/f3bbe7c))
