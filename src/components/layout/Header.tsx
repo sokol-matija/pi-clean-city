@@ -51,6 +51,14 @@ export function Header() {
               Community
             </Link>
           )}
+          {user && (
+            <Link
+              to="/notifications/guide"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Notifications
+            </Link>
+          )}
           {profile?.role === "worker" && (
             <Link
               to="/worker"

@@ -10,6 +10,7 @@ import { ReportDetailsPage } from "@/pages/ReportDetailsPage"
 import { AdminTicketsPage } from "./pages/AdminTicketsPage"
 import { TicketServiceProvider } from "./features/admin/context/TicketServiceContext"
 import PostFeedPage from "./pages/community/PostFeedPage"
+import { NotificationGuidePage } from "./features/notifications/pages/NotificationGuidePage"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -54,6 +55,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <PostFeedPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notifications/guide"
+                element={
+                  <ProtectedRoute>
+                    <NotificationGuidePage />
                   </ProtectedRoute>
                 }
               />
