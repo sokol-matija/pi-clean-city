@@ -1,9 +1,3 @@
-/**
- * Notification Guide Page
- *
- * Shows users their NTFY topic and provides setup instructions
- */
-
 import { useState } from "react"
 import { Copy, Check, Bell, Smartphone } from "lucide-react"
 import { useAuth } from "@/features/auth/hooks/useAuth"
@@ -16,7 +10,6 @@ export function NotificationGuidePage() {
   const { user, profile } = useAuth()
   const [copied, setCopied] = useState(false)
 
-  // Generate user topic from profile username (URL-safe)
   const topic = profile?.username ? getUserTopic(profile.username) : ""
 
   const copyTopic = async () => {
@@ -42,7 +35,6 @@ export function NotificationGuidePage() {
 
   return (
     <div className="container mx-auto max-w-4xl p-6">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold">Setup Notifications</h1>
         <p className="text-gray-600">
@@ -50,7 +42,6 @@ export function NotificationGuidePage() {
         </p>
       </div>
 
-      {/* Your Topic Card */}
       <Card className="mb-6 border-2 border-primary">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -85,7 +76,6 @@ export function NotificationGuidePage() {
         </CardContent>
       </Card>
 
-      {/* Setup Instructions */}
       <div className="space-y-6">
         <Card>
           <CardHeader>
@@ -167,7 +157,6 @@ export function NotificationGuidePage() {
           </CardContent>
         </Card>
 
-        {/* What notifications you'll receive */}
         <Card className="border-blue-200 bg-blue-50">
           <CardHeader>
             <CardTitle>What notifications will you receive?</CardTitle>
@@ -204,7 +193,6 @@ export function NotificationGuidePage() {
           </CardContent>
         </Card>
 
-        {/* Test notification */}
         <Card>
           <CardHeader>
             <CardTitle>Test notifications</CardTitle>
@@ -241,7 +229,6 @@ export function NotificationGuidePage() {
           </CardContent>
         </Card>
 
-        {/* Help section */}
         <Card>
           <CardHeader>
             <CardTitle>Need help?</CardTitle>

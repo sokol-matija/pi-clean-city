@@ -19,14 +19,12 @@ export function useAddComment() {
         data: { user },
       } = await supabase.auth.getUser()
 
-      // Get commenter's profile
       const { data: commenterProfile } = await supabase
         .from("profiles")
         .select("username")
         .eq("id", user?.id)
         .single()
 
-      // Insert comment
       const { data, error } = await supabase
         .from("comment")
         .insert({
@@ -44,7 +42,6 @@ export function useAddComment() {
 
       if (error) throw error
 
-      // Get report details to send notification
       const { data: report } = await supabase
         .from("report")
         .select(
@@ -56,7 +53,6 @@ export function useAddComment() {
         .eq("id", reportId)
         .single()
 
-      // Send notification to report author (if not commenting on own report)
       if (report && report.user && user?.id !== report.user_id) {
         try {
           const notification = NotificationFactory.createCommentNotification({
@@ -77,7 +73,6 @@ export function useAddComment() {
             actions: notification.actions,
           })
         } catch (notifError) {
-          // Don't fail the comment if notification fails
           console.error("Failed to send notification:", notifError)
         }
       }

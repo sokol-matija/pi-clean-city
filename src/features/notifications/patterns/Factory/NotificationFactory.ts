@@ -1,28 +1,8 @@
-/**
- * FACTORY PATTERN - NotificationFactory
- *
- * Purpose: Creates different types of notifications with consistent structure
- *
- * This pattern centralizes notification creation logic, making it easy to:
- * - Create different notification types (comment, status, assignment, etc.)
- * - Ensure consistent structure across all notifications
- * - Add new notification types without modifying existing code
- *
- * Similar to BadgeFactory from feature/ticketing-design-patterns
- */
-
 import type { INotification } from "../../types"
 
 export type NotificationType = "comment" | "status_update" | "assignment" | "resolution" | "mention"
 
-/**
- * Factory class for creating different types of notifications
- */
 export class NotificationFactory {
-  /**
-   * Create comment notification
-   * Triggered when someone comments on a user's report
-   */
   static createCommentNotification(params: {
     topic: string
     reportId: string
@@ -52,10 +32,6 @@ export class NotificationFactory {
     }
   }
 
-  /**
-   * Create status update notification
-   * Triggered when report status changes
-   */
   static createStatusUpdateNotification(params: {
     topic: string
     reportId: string
@@ -73,10 +49,6 @@ export class NotificationFactory {
     }
   }
 
-  /**
-   * Create assignment notification
-   * Triggered when report is assigned to a worker
-   */
   static createAssignmentNotification(params: {
     topic: string
     reportId: string
@@ -106,10 +78,6 @@ export class NotificationFactory {
     }
   }
 
-  /**
-   * Create resolution notification
-   * Triggered when report is marked as resolved
-   */
   static createResolutionNotification(params: {
     topic: string
     reportId: string
@@ -126,10 +94,6 @@ export class NotificationFactory {
     }
   }
 
-  /**
-   * Create mention notification
-   * Triggered when user is mentioned in a comment
-   */
   static createMentionNotification(params: {
     topic: string
     reportId: string
