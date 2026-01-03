@@ -16,17 +16,17 @@ export class NotificationFactory {
       message: `${params.commenterName} commented: "${params.commentPreview}"`,
       priority: 3,
       tags: ["speech_balloon"],
-      click: `${window.location.origin}/reports/${params.reportId}`,
+      click: `${window.location.origin}/report/${params.reportId}`,
       actions: [
         {
           action: "view",
           label: "View Report",
-          url: `${window.location.origin}/reports/${params.reportId}`,
+          url: `${window.location.origin}/report/${params.reportId}`,
         },
         {
           action: "view",
           label: "Reply",
-          url: `${window.location.origin}/reports/${params.reportId}#comments`,
+          url: `${window.location.origin}/report/${params.reportId}#comments`,
         },
       ],
     }
@@ -45,7 +45,7 @@ export class NotificationFactory {
       message: `Status changed: ${params.oldStatus} → ${params.newStatus}`,
       priority: 4,
       tags: ["chart_with_upwards_trend"],
-      click: `${window.location.origin}/reports/${params.reportId}`,
+      click: `${window.location.origin}/report/${params.reportId}`,
     }
   }
 
@@ -62,12 +62,12 @@ export class NotificationFactory {
       message: `Assigned to ${params.assigneeName}: ${params.reportTitle}`,
       priority: 5,
       tags: ["clipboard"],
-      click: `${window.location.origin}/reports/${params.reportId}`,
+      click: `${window.location.origin}/report/${params.reportId}`,
       actions: [
         {
           action: "view",
           label: "View Report",
-          url: `${window.location.origin}/reports/${params.reportId}`,
+          url: `${window.location.origin}/report/${params.reportId}`,
         },
         {
           action: "view",
@@ -90,7 +90,7 @@ export class NotificationFactory {
       message: `Your report "${params.reportTitle}" has been resolved by ${params.resolvedBy}`,
       priority: 4,
       tags: ["white_check_mark"],
-      click: `${window.location.origin}/reports/${params.reportId}`,
+      click: `${window.location.origin}/report/${params.reportId}`,
     }
   }
 
@@ -106,7 +106,7 @@ export class NotificationFactory {
       message: `${params.mentionerName} mentioned you: "${params.context}"`,
       priority: 3,
       tags: ["loudspeaker"],
-      click: `${window.location.origin}/reports/${params.reportId}`,
+      click: `${window.location.origin}/report/${params.reportId}`,
     }
   }
 }
