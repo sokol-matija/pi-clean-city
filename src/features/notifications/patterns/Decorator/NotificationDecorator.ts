@@ -1,22 +1,5 @@
-/**
- * DECORATOR PATTERN - NotificationDecorator
- *
- * Purpose: Enrich notifications with additional metadata without modifying core structure
- *
- * This pattern allows adding features to notifications dynamically:
- * - Add timestamps, urgency levels, badges, icons
- * - Multiple decorators can be chained together
- * - Original notification object remains unchanged
- * - Easy to add new decorations without modifying existing code
- *
- * Based on PostDecorator from feature/community-design-patterns
- */
-
 import type { INotification, NotificationType } from "../../types"
 
-/**
- * Extended notification with decorations
- */
 export interface DecoratedNotification extends INotification {
   decorations: {
     priority: number
@@ -30,16 +13,10 @@ export interface DecoratedNotification extends INotification {
   }
 }
 
-/**
- * Base decorator interface
- */
 export interface INotificationDecorator {
   decorate(notification: INotification | DecoratedNotification): DecoratedNotification
 }
 
-/**
- * Priority Decorator - Calculates urgency level from priority
- */
 export class PriorityNotificationDecorator implements INotificationDecorator {
   decorate(notification: INotification): DecoratedNotification {
     const priority = notification.priority || 3
@@ -87,9 +64,6 @@ export class PriorityNotificationDecorator implements INotificationDecorator {
   }
 }
 
-/**
- * Timestamp Decorator - Adds human-readable relative time
- */
 export class TimestampNotificationDecorator implements INotificationDecorator {
   decorate(notification: DecoratedNotification): DecoratedNotification {
     const timeAgo = this.getTimeAgo(notification.decorations.timestamp)
@@ -113,9 +87,6 @@ export class TimestampNotificationDecorator implements INotificationDecorator {
   }
 }
 
-/**
- * Category Icon Decorator - Adds category-specific icons
- */
 export class CategoryIconDecorator implements INotificationDecorator {
   decorate(notification: DecoratedNotification): DecoratedNotification {
     const categoryIcon = this.getCategoryIcon(notification.decorations.category)
@@ -141,28 +112,17 @@ export class CategoryIconDecorator implements INotificationDecorator {
   }
 }
 
-/**
- * Decorator Chain - Combines multiple decorators
- */
 export class NotificationDecoratorChain {
   private decorators: INotificationDecorator[] = []
 
-  /**
-   * Add decorator to chain
-   */
   addDecorator(decorator: INotificationDecorator): this {
     this.decorators.push(decorator)
     return this
   }
 
-  /**
-   * Apply all decorators in sequence
-   */
   decorate(notification: INotification): DecoratedNotification {
-    // First apply priority decorator (creates base decorated notification)
     let decorated = new PriorityNotificationDecorator().decorate(notification)
 
-    // Then apply all additional decorators
     for (const decorator of this.decorators) {
       decorated = decorator.decorate(decorated)
     }
@@ -171,18 +131,12 @@ export class NotificationDecoratorChain {
   }
 }
 
-/**
- * Factory function for creating default decorator chain
- */
 export function createDefaultDecoratorChain(): NotificationDecoratorChain {
   return new NotificationDecoratorChain()
     .addDecorator(new TimestampNotificationDecorator())
     .addDecorator(new CategoryIconDecorator())
 }
 
-/**
- * Factory function for minimal decorator chain (priority only)
- */
 export function createMinimalDecoratorChain(): NotificationDecoratorChain {
   return new NotificationDecoratorChain()
 }

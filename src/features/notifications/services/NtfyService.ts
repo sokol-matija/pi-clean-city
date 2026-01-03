@@ -1,8 +1,3 @@
-/**
- * NTFY Service
- * Handles communication with NTFY.sh server
- */
-
 import type { NtfyMessage } from "../types"
 
 export class NtfyService {
@@ -11,9 +6,6 @@ export class NtfyService {
     private authToken?: string
   ) {}
 
-  /**
-   * Send a notification using simple POST to topic URL
-   */
   async publishSimple(topic: string, message: string): Promise<void> {
     const headers: HeadersInit = {
       "Content-Type": "text/plain",
@@ -34,9 +26,6 @@ export class NtfyService {
     }
   }
 
-  /**
-   * Send a notification with full options using JSON format
-   */
   async publish(options: NtfyMessage): Promise<void> {
     const headers: HeadersInit = {
       "Content-Type": "application/json",
@@ -57,9 +46,6 @@ export class NtfyService {
     }
   }
 
-  /**
-   * Send notification with headers (alternative to JSON)
-   */
   async publishWithHeaders(
     topic: string,
     message: string,

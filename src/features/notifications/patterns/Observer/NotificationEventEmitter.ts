@@ -1,17 +1,3 @@
-/**
- * OBSERVER PATTERN - NotificationEventEmitter
- *
- * Purpose: Event-driven system for triggering notifications
- *
- * This pattern allows decoupling notification triggers from notification sending:
- * - Components emit events when actions occur (e.g., comment added)
- * - Observers listen for events and react (e.g., send notification)
- * - Multiple observers can react to the same event
- * - Easy to add/remove observers without modifying existing code
- *
- * Based on PostEventEmitter from feature/community-design-patterns
- */
-
 export type NotificationEvent =
   | "report:commented"
   | "report:status_changed"
@@ -19,9 +5,6 @@ export type NotificationEvent =
   | "report:resolved"
   | "user:mentioned"
 
-/**
- * Type-safe event payloads
- */
 export interface NotificationEventPayloads {
   "report:commented": {
     reportId: string
@@ -66,17 +49,10 @@ export interface NotificationEventPayloads {
   }
 }
 
-/**
- * Event handler function type
- */
 export type NotificationEventHandler<T extends NotificationEvent> = (
   payload: NotificationEventPayloads[T]
 ) => void | Promise<void>
 
-/**
- * Singleton event emitter for notifications
- * Combines Singleton + Observer patterns
- */
 export class NotificationEventEmitter {
   private static instance: NotificationEventEmitter
   private listeners: Map<NotificationEvent, Set<NotificationEventHandler<NotificationEvent>>> =
@@ -86,9 +62,6 @@ export class NotificationEventEmitter {
     console.log("[NotificationEventEmitter] Instance created")
   }
 
-  /**
-   * Get singleton instance
-   */
   public static getInstance(): NotificationEventEmitter {
     if (!NotificationEventEmitter.instance) {
       NotificationEventEmitter.instance = new NotificationEventEmitter()
@@ -96,10 +69,6 @@ export class NotificationEventEmitter {
     return NotificationEventEmitter.instance
   }
 
-  /**
-   * Subscribe to notification event
-   * Returns unsubscribe function for cleanup
-   */
   public subscribe<T extends NotificationEvent>(
     event: T,
     handler: NotificationEventHandler<T>
@@ -122,9 +91,6 @@ export class NotificationEventEmitter {
     }
   }
 
-  /**
-   * Subscribe once (auto-unsubscribe after first call)
-   */
   public subscribeOnce<T extends NotificationEvent>(
     event: T,
     handler: NotificationEventHandler<T>
@@ -145,9 +111,6 @@ export class NotificationEventEmitter {
     console.log(`[NotificationEventEmitter] Subscribed once to ${event}`)
   }
 
-  /**
-   * Emit notification event to all subscribers
-   */
   public async emit<T extends NotificationEvent>(
     event: T,
     payload: NotificationEventPayloads[T]
@@ -164,7 +127,6 @@ export class NotificationEventEmitter {
       payload
     )
 
-    // Execute all handlers in parallel
     const promises = Array.from(handlers).map(async (handler) => {
       try {
         await handler(payload)
@@ -176,9 +138,6 @@ export class NotificationEventEmitter {
     await Promise.all(promises)
   }
 
-  /**
-   * Clear all listeners for an event (or all events)
-   */
   public clearListeners(event?: NotificationEvent): void {
     if (event) {
       this.listeners.delete(event)
@@ -189,22 +148,13 @@ export class NotificationEventEmitter {
     }
   }
 
-  /**
-   * Get listener count for debugging
-   */
   public getListenerCount(event: NotificationEvent): number {
     return this.listeners.get(event)?.size || 0
   }
 
-  /**
-   * Get all active events
-   */
   public getActiveEvents(): NotificationEvent[] {
     return Array.from(this.listeners.keys())
   }
 }
 
-/**
- * Export singleton instance for easy access
- */
 export const notificationEventEmitter = NotificationEventEmitter.getInstance()
