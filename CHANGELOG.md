@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.8.4 (2026-01-04)</small>
+
+* fix: eliminate semgrep findings by removing command parameter wrapper ([1a84ba4](https://github.com/sokol-matija/pi-clean-city/commit/1a84ba4))
+* fix: use spawnSync instead of execSync to prevent command injection ([16ba834](https://github.com/sokol-matija/pi-clean-city/commit/16ba834))
+
 ## <small>1.8.3 (2026-01-04)</small>
 
 * Merge remote-tracking branch 'origin/main' ([deb3288](https://github.com/sokol-matija/pi-clean-city/commit/deb3288))
