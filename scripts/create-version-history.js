@@ -9,16 +9,30 @@
  * Usage: npm run version:history
  */
 
-import { execSync } from 'child_process'
+import { spawnSync } from 'child_process'
 import { writeFileSync } from 'fs'
 import * as readline from 'readline'
 
 /**
- * Safe wrapper for execSync with parameterized commands
+ * Safe command execution using spawn (prevents shell injection)
  */
 function safeExec(command, args = [], options = {}) {
-  const fullCommand = [command, ...args].join(' ')
-  return execSync(fullCommand, { stdio: 'pipe', ...options })
+  const result = spawnSync(command, args, {
+    encoding: 'utf-8',
+    ...options
+  })
+
+  if (result.error) {
+    throw result.error
+  }
+
+  if (result.status !== 0) {
+    const error = new Error(result.stderr || `Command failed with status ${result.status}`)
+    error.status = result.status
+    throw error
+  }
+
+  return result.stdout
 }
 
 // Version data with commit hashes and changelog content
@@ -359,8 +373,14 @@ async function main() {
   if (pushAnswer === 'yes' || pushAnswer === 'y') {
     console.log('\n📤 Pushing tags to GitHub...')
     try {
-      execSync('git push origin --tags', { stdio: 'inherit' })
-      console.log('\n✅ Tags pushed successfully!')
+      const pushResult = spawnSync('git', ['push', 'origin', '--tags'], {
+        stdio: 'inherit'
+      })
+      if (pushResult.status === 0) {
+        console.log('\n✅ Tags pushed successfully!')
+      } else {
+        console.error('\n❌ Error pushing tags')
+      }
     } catch (error) {
       console.error('\n❌ Error pushing tags:', error.message)
     }
