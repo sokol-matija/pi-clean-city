@@ -1,6 +1,12 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BadgeFactory, BadgeRenderer } from "../factories/BadgeFactory"
+import {
+  createStatusBadge,
+  createPriorityBadge,
+  createAssignmentBadge,
+  createCategoryBadge,
+  BadgeRenderer,
+} from "../factories/BadgeFactory"
 import {
   TableHeader,
   TableRow,
@@ -65,17 +71,15 @@ export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
                   <TableCell className="font-medium">{report.title}</TableCell>
                   <TableCell>
                     {/* Factory Method: kreira Status badge */}
-                    <BadgeRenderer badge={BadgeFactory.createStatusBadge(report.status)} />
+                    <BadgeRenderer badge={createStatusBadge(report.status)} />
                   </TableCell>
                   <TableCell>
-                    {/* Factory Method: kreira Priority badge */}
-                    <BadgeRenderer badge={BadgeFactory.createPriorityBadge(report.priority)} />
+                    {/* Factory Method: kreja Priority badge */}
+                    <BadgeRenderer badge={createPriorityBadge(report.priority)} />
                   </TableCell>
                   <TableCell>
                     {/* Factory Method:  kreira Category badge */}
-                    <BadgeRenderer
-                      badge={BadgeFactory.createCategoryBadge(report.category?.name)}
-                    />
+                    <BadgeRenderer badge={createCategoryBadge(report.category?.name)} />
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
                     {report.user?.email || "Unknown"}
@@ -88,9 +92,7 @@ export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
                   </TableCell>
                   <TableCell>
                     {/* Factory Method: kreira Assignment badge */}
-                    <BadgeRenderer
-                      badge={BadgeFactory.createAssignmentBadge(report.assigned_worker)}
-                    />
+                    <BadgeRenderer badge={createAssignmentBadge(report.assigned_worker)} />
                   </TableCell>
                 </TableRow>
               ))}

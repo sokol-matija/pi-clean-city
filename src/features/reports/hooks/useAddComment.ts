@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/lib/supabase"
-import { NotificationFactory } from "@/features/notifications/patterns/Factory/NotificationFactory"
+import { createCommentNotification } from "@/features/notifications/patterns/Factory/NotificationFactory"
 import { NtfyService } from "@/features/notifications/services/NtfyService"
 import { getUserTopic } from "@/features/notifications/utils/topicHelpers"
 import { createDefaultDecoratorChain } from "@/features/notifications/patterns/Decorator/NotificationDecorator"
@@ -58,7 +58,7 @@ export function useAddComment() {
 
       if (report && report.user?.username && user.id !== report.user_id) {
         try {
-          const notification = NotificationFactory.createCommentNotification({
+          const notification = createCommentNotification({
             topic: getUserTopic(report.user.username),
             reportId: reportId,
             commenterName: commenterProfile?.username || "Someone",
