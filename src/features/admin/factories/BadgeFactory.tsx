@@ -106,40 +106,38 @@ class CategoryBadge implements BadgeComponent {
 /**
  * FACTORY METHOD
  */
-export class BadgeFactory {
-  static createStatusBadge(status: Status | null | undefined): BadgeComponent {
-    return new StatusBadge(status)
-  }
+export const createStatusBadge = (status: Status | null | undefined): BadgeComponent => {
+  return new StatusBadge(status)
+}
 
-  static createPriorityBadge(priority: string | null | undefined): BadgeComponent {
-    return new PriorityBadge(priority)
-  }
+export const createPriorityBadge = (priority: string | null | undefined): BadgeComponent => {
+  return new PriorityBadge(priority)
+}
 
-  static createAssignmentBadge(worker: Profile | null | undefined): BadgeComponent {
-    return new AssignmentBadge(worker)
-  }
+export const createAssignmentBadge = (worker: Profile | null | undefined): BadgeComponent => {
+  return new AssignmentBadge(worker)
+}
 
-  static createCategoryBadge(categoryName: string | null | undefined): BadgeComponent {
-    return new CategoryBadge(categoryName)
-  }
+export const createCategoryBadge = (categoryName: string | null | undefined): BadgeComponent => {
+  return new CategoryBadge(categoryName)
+}
 
-  static create(
-    type: "status" | "priority" | "assignment" | "category",
-    data: Status | string | Profile | null | undefined
-  ): BadgeComponent {
-    switch (type) {
-      case "status":
-        return this.createStatusBadge(data as Status | null | undefined)
-      case "priority":
-        return this.createPriorityBadge(data as string | null | undefined)
-      case "assignment":
-        return this.createAssignmentBadge(data as Profile | null | undefined)
-      case "category":
-        return this.createCategoryBadge(data as string | null | undefined)
-      default: {
-        const exhaustiveCheck: never = type
-        throw new Error(`Unknown badge type: ${exhaustiveCheck}`)
-      }
+export const createBadge = (
+  type: "status" | "priority" | "assignment" | "category",
+  data: Status | string | Profile | null | undefined
+): BadgeComponent => {
+  switch (type) {
+    case "status":
+      return createStatusBadge(data as Status | null | undefined)
+    case "priority":
+      return createPriorityBadge(data as string | null | undefined)
+    case "assignment":
+      return createAssignmentBadge(data as Profile | null | undefined)
+    case "category":
+      return createCategoryBadge(data as string | null | undefined)
+    default: {
+      const exhaustiveCheck: never = type
+      throw new Error(`Unknown badge type: ${exhaustiveCheck}`)
     }
   }
 }
