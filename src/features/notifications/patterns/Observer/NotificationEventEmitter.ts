@@ -77,7 +77,10 @@ export class NotificationEventEmitter {
       this.listeners.set(event, new Set())
     }
 
-    this.listeners.get(event)!.add(handler as NotificationEventHandler<NotificationEvent>)
+    const listeners = this.listeners.get(event)
+    if (listeners) {
+      listeners.add(handler as NotificationEventHandler<NotificationEvent>)
+    }
 
     console.log(
       `[NotificationEventEmitter] Subscribed to ${event} (${this.getListenerCount(event)} listeners)`
@@ -107,7 +110,10 @@ export class NotificationEventEmitter {
       this.listeners.set(event, new Set())
     }
 
-    this.listeners.get(event)!.add(wrappedHandler as NotificationEventHandler<NotificationEvent>)
+    const listeners = this.listeners.get(event)
+    if (listeners) {
+      listeners.add(wrappedHandler as NotificationEventHandler<NotificationEvent>)
+    }
     console.log(`[NotificationEventEmitter] Subscribed once to ${event}`)
   }
 
