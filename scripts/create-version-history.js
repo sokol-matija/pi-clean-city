@@ -13,28 +13,6 @@ import { spawnSync } from 'child_process'
 import { writeFileSync } from 'fs'
 import * as readline from 'readline'
 
-/**
- * Safe command execution using spawn (prevents shell injection)
- */
-function safeExec(command, args = [], options = {}) {
-  const result = spawnSync(command, args, {
-    encoding: 'utf-8',
-    ...options
-  })
-
-  if (result.error) {
-    throw result.error
-  }
-
-  if (result.status !== 0) {
-    const error = new Error(result.stderr || `Command failed with status ${result.status}`)
-    error.status = result.status
-    throw error
-  }
-
-  return result.stdout
-}
-
 // Version data with commit hashes and changelog content
 const versions = [
   {
@@ -287,19 +265,29 @@ function createGitTags(dryRun = false) {
 
     try {
       // Check if tag already exists
-      try {
-        safeExec('git', ['rev-parse', tag])
+      const checkResult = spawnSync('git', ['rev-parse', tag], {
+        encoding: 'utf-8',
+        stdio: 'pipe'
+      })
+
+      if (checkResult.status === 0) {
         console.log(`⏭️  Tag ${tag} already exists, skipping...`)
         return
-      } catch (e) {
-        // Tag doesn't exist, create it
       }
 
       if (dryRun) {
         console.log(`[DRY RUN] Would create tag: git tag -a ${tag} ${commit} -m "${message}"`)
       } else {
-        safeExec('git', ['tag', '-a', tag, commit, '-m', message])
-        console.log(`✅ Created tag ${tag} at commit ${commit}`)
+        const createResult = spawnSync('git', ['tag', '-a', tag, commit, '-m', message], {
+          encoding: 'utf-8',
+          stdio: 'pipe'
+        })
+
+        if (createResult.status === 0) {
+          console.log(`✅ Created tag ${tag} at commit ${commit}`)
+        } else {
+          throw new Error(createResult.stderr || 'Failed to create tag')
+        }
       }
     } catch (error) {
       console.error(`❌ Error creating tag ${tag}: ${error.message}`)
@@ -337,9 +325,12 @@ async function main() {
   console.log('  3. Optionally push tags to GitHub\n')
 
   // Check if we're in the correct directory
-  try {
-    safeExec('git', ['rev-parse', '--is-inside-work-tree'])
-  } catch (error) {
+  const gitCheckResult = spawnSync('git', ['rev-parse', '--is-inside-work-tree'], {
+    encoding: 'utf-8',
+    stdio: 'pipe'
+  })
+
+  if (gitCheckResult.status !== 0) {
     console.error('❌ Error: Not in a git repository')
     process.exit(1)
   }
