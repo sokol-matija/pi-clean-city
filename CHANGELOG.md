@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.8.5 (2026-01-04)</small>
+
+* fix(test): exclude Playwright tests from Vitest runner ([ebc47c5](https://github.com/sokol-matija/pi-clean-city/commit/ebc47c5))
+* test: add Playwright e2e testing infrastructure ([82c9de6](https://github.com/sokol-matija/pi-clean-city/commit/82c9de6))
+* chore: npm audit fix ([15bfe60](https://github.com/sokol-matija/pi-clean-city/commit/15bfe60))
+* chore: remove redundant comments ([fa89ee9](https://github.com/sokol-matija/pi-clean-city/commit/fa89ee9))
+* ci: add security gate to release workflow ([76153ed](https://github.com/sokol-matija/pi-clean-city/commit/76153ed))
+* ci: allow moderate vulnerabilities in security gate ([e92482e](https://github.com/sokol-matija/pi-clean-city/commit/e92482e))
+
 ## <small>1.8.4 (2026-01-04)</small>
 
 * fix: eliminate semgrep findings by removing command parameter wrapper ([1a84ba4](https://github.com/sokol-matija/pi-clean-city/commit/1a84ba4))
