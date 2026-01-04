@@ -18,8 +18,41 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Security checks must pass before release
+  security:
+    name: Security Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          HUSKY: 0
+
+      - name: Run Semgrep security scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/typescript
+            p/react
+            p/owasp-top-ten
+
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+
   # Quality checks must pass before release
   quality:
+    needs: security
     name: Quality Checks
     runs-on: ubuntu-latest
 
