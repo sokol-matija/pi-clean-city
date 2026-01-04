@@ -13,6 +13,14 @@ import { execSync } from 'child_process'
 import { writeFileSync } from 'fs'
 import * as readline from 'readline'
 
+/**
+ * Safe wrapper for execSync with parameterized commands
+ */
+function safeExec(command, args = [], options = {}) {
+  const fullCommand = [command, ...args].join(' ')
+  return execSync(fullCommand, { stdio: 'pipe', ...options })
+}
+
 // Version data with commit hashes and changelog content
 const versions = [
   {
@@ -266,19 +274,17 @@ function createGitTags(dryRun = false) {
     try {
       // Check if tag already exists
       try {
-        execSync(`git rev-parse ${tag}`, { stdio: 'pipe' })
+        safeExec('git', ['rev-parse', tag])
         console.log(`⏭️  Tag ${tag} already exists, skipping...`)
         return
       } catch (e) {
         // Tag doesn't exist, create it
       }
 
-      const tagCommand = `git tag -a ${tag} ${commit} -m "${message}"`
-
       if (dryRun) {
-        console.log(`[DRY RUN] Would create tag: ${tagCommand}`)
+        console.log(`[DRY RUN] Would create tag: git tag -a ${tag} ${commit} -m "${message}"`)
       } else {
-        execSync(tagCommand, { stdio: 'pipe' })
+        safeExec('git', ['tag', '-a', tag, commit, '-m', message])
         console.log(`✅ Created tag ${tag} at commit ${commit}`)
       }
     } catch (error) {
@@ -318,7 +324,7 @@ async function main() {
 
   // Check if we're in the correct directory
   try {
-    execSync('git rev-parse --is-inside-work-tree', { stdio: 'pipe' })
+    safeExec('git', ['rev-parse', '--is-inside-work-tree'])
   } catch (error) {
     console.error('❌ Error: Not in a git repository')
     process.exit(1)

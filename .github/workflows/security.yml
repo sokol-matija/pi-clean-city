@@ -32,13 +32,6 @@ jobs:
             p/typescript
             p/react
             p/owasp-top-ten
-          generateSarif: true
-
-      - name: Upload SARIF to GitHub Security
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: sarif.json
-          category: semgrep
 
   # Dependency vulnerability scanning
   dependency-check:
