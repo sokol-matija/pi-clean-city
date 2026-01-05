@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.9.0 (2026-01-05)
+
+* feat(test): configure Playwright webServer for automated dev server ([a81d28d](https://github.com/sokol-matija/pi-clean-city/commit/a81d28d))
+* feat(test): login e2e test using playwright ([a3f6fcf](https://github.com/sokol-matija/pi-clean-city/commit/a3f6fcf))
+* chore: npm audit fix ([15bfe60](https://github.com/sokol-matija/pi-clean-city/commit/15bfe60))
+* chore: remove redundant comments ([fa89ee9](https://github.com/sokol-matija/pi-clean-city/commit/fa89ee9))
+* chore(release): 1.8.5 [skip ci] ([f4ae74b](https://github.com/sokol-matija/pi-clean-city/commit/f4ae74b))
+* fix(test): exclude Playwright tests from Vitest runner ([ebc47c5](https://github.com/sokol-matija/pi-clean-city/commit/ebc47c5))
+* test: add Playwright e2e testing infrastructure ([82c9de6](https://github.com/sokol-matija/pi-clean-city/commit/82c9de6))
+* ci: add security gate to release workflow ([76153ed](https://github.com/sokol-matija/pi-clean-city/commit/76153ed))
+* ci: allow moderate vulnerabilities in security gate ([e92482e](https://github.com/sokol-matija/pi-clean-city/commit/e92482e))
+
 ## <small>1.8.5 (2026-01-04)</small>
 
 * fix(test): exclude Playwright tests from Vitest runner ([ebc47c5](https://github.com/sokol-matija/pi-clean-city/commit/ebc47c5))
