@@ -28,7 +28,6 @@ vi.mock('@/lib/supabase', () => ({
 }))
 
 import { supabase } from "@/lib/supabase";
-import { mock } from "node:test";
 
 //describe() - Test suite - grupira povezane testove
 describe('SupabaseTicketService', () => {
