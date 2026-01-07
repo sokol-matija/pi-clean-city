@@ -1,5 +1,5 @@
-using CleanCity.Helpers;
-using CleanCity.Models;
+using CleanCity.Core.Helpers;
+using CleanCity.Core.Models;
 using System.Globalization;
 
 namespace CleanCity.Converters;

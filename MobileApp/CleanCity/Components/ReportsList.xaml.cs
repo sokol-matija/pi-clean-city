@@ -1,4 +1,4 @@
-using CleanCity.Models;
+using CleanCity.Core.Models;
 using System.Collections.ObjectModel;
 
 namespace CleanCity.Components;

@@ -1,4 +1,4 @@
-using CleanCity.Models;
+using CleanCity.Core.Models;
 using UraniumUI.Material.Controls;
 
 namespace CleanCity.Components;

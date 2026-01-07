@@ -1,6 +1,6 @@
 using CleanCity.Components;
-using CleanCity.Models;
-using CleanCity.ViewModels;
+using CleanCity.Core.Models;
+using CleanCity.Core.ViewModels;
 
 namespace CleanCity.Views;
 

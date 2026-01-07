@@ -2,10 +2,12 @@ namespace CleanCity;
 
 using Microsoft.Extensions.Logging;
 using UraniumUI;
-using CleanCity.Services;
-using CleanCity.ViewModels;
+using CleanCity.Core.Services;
+using CleanCity.Core.ViewModels;
 using CleanCity.Views;
-using CleanCity.Interfaces.Services;
+using CleanCity.Core.Interfaces.Services;
+using CleanCity.Core.Services.Decorators;
+using CleanCity.Core.Services.Interfaces;
 
 public static class MauiProgram
 {
@@ -28,6 +30,7 @@ public static class MauiProgram
 #endif
 
         // Register Services
+        builder.Services.AddSingleton<IReportFactory>(MockReportFactory.Instance);
 
         // =====================================================================================
         // #2: STRUKTURNI OBRAZAC: DECORATOR
@@ -41,7 +44,7 @@ public static class MauiProgram
         // Na ovaj način ostatak aplikacije nije svjestan da koristi dekorator,
         // a mi smo dodali novu funkcionalnost bez izmjene originalne klase.
         builder.Services.AddSingleton<IReportService>(serviceProvider =>
-            new Services.Decorators.LoggingReportServiceDecorator(
+            new LoggingReportServiceDecorator(
                 serviceProvider.GetRequiredService<ReportService>()
             ));
 
