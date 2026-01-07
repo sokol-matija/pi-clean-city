@@ -28,6 +28,7 @@ vi.mock('@/lib/supabase', () => ({
 }))
 
 import { supabase } from "@/lib/supabase";
+import { mock } from "node:test";
 
 //describe() - Test suite - grupira povezane testove
 describe('SupabaseTicketService', () => {
@@ -71,9 +72,24 @@ describe('SupabaseTicketService', () => {
             expect(mockEq).toHaveBeenCalled() //provjerava da je mockEq pozvan
             expect(mockEq).toHaveBeenCalledWith('id', ticketId) //provjerava da je pozvan s 'id' i ticketId argumentima
             expect(mockEq).toHaveBeenCalledTimes(1) //provjerava da je pozvan tocno jednom
+        })
 
+        it('should throw an error when Supabase returns an error', async () => {
+            //ARRANGE
+            const ticketId = 'test-ticket-123'
+            const changes: TicketUpdatePayload = {
+                priority: 'high',
+                status_id: 2,
+                assigned_worker_id: 'worker-456'
+            }
+            
+            const supabaseError = { message: 'Database connection failed' }
 
+            mockEq.mockResolvedValueOnce({ data: null, error: supabaseError } as any)
 
+            //ACT & ASSERT
+            await expect(service.updateTicket(ticketId, changes)).rejects.toThrowError(`Failed to update ticket: ${supabaseError.message}`)
+        })
     })
 })
-})
+
