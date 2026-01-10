@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css"
 import { useReport } from "@/features/reports/hooks/useReport"
 import { useAddComment } from "@/features/reports/hooks/useAddComment"
 import { useAuth } from "@/features/auth"
+import { sanitizeImageUrl } from "@/lib/security"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -151,7 +152,7 @@ export function ReportDetailsPage() {
                       className="aspect-square overflow-hidden rounded-lg transition-opacity hover:opacity-90"
                     >
                       <img
-                        src={photo.url}
+                        src={sanitizeImageUrl(photo.url)}
                         alt={photo.filename}
                         className="h-full w-full object-cover"
                       />
@@ -333,7 +334,7 @@ export function ReportDetailsPage() {
             </svg>
           </button>
           <img
-            src={selectedImage}
+            src={sanitizeImageUrl(selectedImage)}
             alt="Full size"
             className="max-h-full max-w-full object-contain"
             onClick={(e) => e.stopPropagation()}
