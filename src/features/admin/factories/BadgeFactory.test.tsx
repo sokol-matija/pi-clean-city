@@ -346,4 +346,69 @@ describe('BadgeFactory', () => {
             expect(container.textContent).toContain('high')
         })
     })
+
+    describe('AssignmentBadge edge cases', () => {
+    it('should render "Unknown" when worker exists but username and email are null', () => {
+        // ARRANGE
+        const worker: Profile = {
+            id: 'worker-2',
+            username: null,   
+            email: null,      
+            role: 'cityservice',
+            created_at: '2024-01-01T00:00:00Z',
+            updated_at: '2024-01-01T00:00:00Z',
+            avatar_url: null
+        }
+
+        // ACT
+        const badge = createAssignmentBadge(worker)
+        const { container } = render(<>{badge.render()}</>)
+
+        // ASSERT
+        expect(container.textContent).toContain('Unknown') 
+    })
+
+    it('should return "Unassigned" from getLabel when worker is undefined', () => {
+        // ARRANGE
+        const badge = createAssignmentBadge(undefined)
+
+        // ACT
+        const label = badge.getLabel()
+
+        // ASSERT
+        expect(label).toBe('Unassigned')  
+    })
+
+    it('should return "Unassigned" from getLabel when worker is null', () => {
+        // ARRANGE
+        const badge = createAssignmentBadge(null)
+
+        // ACT
+        const label = badge.getLabel()
+
+        // ASSERT
+        expect(label).toBe('Unassigned')  
+    })
+
+    it('should return "Unknown" from getLabel when username and email are null', () => {
+        // ARRANGE
+        const worker: Profile = {
+            id: 'worker-3',
+            username: null,
+            email: null,
+            role: 'cityservice',
+            created_at: '2024-01-01T00:00:00Z',
+            updated_at: '2024-01-01T00:00:00Z',
+            avatar_url: null
+        }
+
+        const badge = createAssignmentBadge(worker)
+
+        // ACT
+        const label = badge.getLabel()
+
+        // ASSERT
+        expect(label).toBe('Unassigned')  
+    })
+})
 })

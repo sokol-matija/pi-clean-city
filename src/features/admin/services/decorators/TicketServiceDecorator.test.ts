@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { LoggingTicketServiceDecorator } from './TicketServiceDecorator'
 import type { ITicketService, TicketUpdatePayload } from '../interfaces/ITicketService'
 import type { Profile, Status } from '@/types/database.types'
+import { TicketServiceDecorator } from './TicketServiceDecorator'
 
 describe('LoggingTicketServiceDecorator', () => {
   // Mock wrapped service (fake ITicketService)
@@ -316,7 +317,7 @@ describe('LoggingTicketServiceDecorator', () => {
 
       const result = await decorator.getCityServices()
 
-      expect(result).toBe(mockData)  // Same reference
+      expect(result).toBe(mockData)  
     })
 
     it('should return same value as wrapped service for getStatuses', async () => {
@@ -328,7 +329,47 @@ describe('LoggingTicketServiceDecorator', () => {
 
       const result = await decorator.getStatuses()
 
-      expect(result).toBe(mockData)  // Same reference
+      expect(result).toBe(mockData)  
     })
   })
+
+  describe('TicketServiceDecorator (base)', () => {
+  let mockService: ITicketService
+  let decorator: TicketServiceDecorator
+
+  beforeEach(() => {
+    mockService = {
+      updateTicket: vi.fn().mockResolvedValue(undefined),
+      getCityServices: vi.fn().mockResolvedValue([{ id: 'w1', username: 'Worker', email: 'w@c.com', role: 'cityservice', created_at: '', updated_at: '', avatar_url: null }]),
+      getStatuses: vi.fn().mockResolvedValue([
+        { id: 1, name: 'New', sort_order: 1, description: null, color: null }
+      ])
+    }
+    
+    decorator = new (TicketServiceDecorator as any)(mockService)
+  })
+
+  it('should delegate updateTicket to wrapped service', async () => {
+    const changes: TicketUpdatePayload = { priority: 'med' }
+    await decorator.updateTicket('id-x', changes)
+    expect(mockService.updateTicket).toHaveBeenCalledWith('id-x', changes)
+    expect(mockService.updateTicket).toHaveBeenCalledTimes(1)
+  })
+
+  it('should delegate getCityServices to wrapped service and return result', async () => {
+    const result = await decorator.getCityServices()
+    expect(mockService.getCityServices).toHaveBeenCalledTimes(1)
+    expect(result).toEqual([
+      { id: 'w1', username: 'Worker', email: 'w@c.com', role: 'cityservice', created_at: '', updated_at: '', avatar_url: null }
+    ])
+  })
+
+  it('should delegate getStatuses to wrapped service and return result', async () => {
+    const result = await decorator.getStatuses()
+    expect(mockService.getStatuses).toHaveBeenCalledTimes(1)
+    expect(result).toEqual([
+      { id: 1, name: 'New', sort_order: 1, description: null, color: null }
+    ])
+  })
+})
 })

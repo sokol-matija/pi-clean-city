@@ -3,7 +3,7 @@ import type { Profile, Status } from "@/types/database.types"
 
 // Decorator base class for TicketService
 // Extends ITicketService and wraps another ITicketService instance
-abstract class TicketServiceDecorator implements ITicketService {
+export abstract class TicketServiceDecorator implements ITicketService {
   protected service: ITicketService
 
   constructor(service: ITicketService) {
