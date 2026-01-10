@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.10.1 (2026-01-10)</small>
+
+* fix(security): add security headers and XSS protection ([e71ff2c](https://github.com/sokol-matija/pi-clean-city/commit/e71ff2c))
+* chore: add validation scrips for all the tools and improve validation dry run ([6d901e9](https://github.com/sokol-matija/pi-clean-city/commit/6d901e9))
+* chore: revert the old validate npm script to fix github action ([e62999c](https://github.com/sokol-matija/pi-clean-city/commit/e62999c))
+
 ## 1.10.0 (2026-01-10)
 
 * chore(build): add rollup visualizer for bundle analysis ([aa2c76d](https://github.com/sokol-matija/pi-clean-city/commit/aa2c76d))
