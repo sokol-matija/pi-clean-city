@@ -69,7 +69,7 @@ class AssignmentBadge implements BadgeComponent {
     if (!this.worker) {
       return (
         <Badge variant="outline" className="text-muted-foreground">
-          Unassig
+          Unassigned
         </Badge>
       )
     }
@@ -120,26 +120,6 @@ export const createAssignmentBadge = (worker: Profile | null | undefined): Badge
 
 export const createCategoryBadge = (categoryName: string | null | undefined): BadgeComponent => {
   return new CategoryBadge(categoryName)
-}
-
-export const createBadge = (
-  type: "status" | "priority" | "assignment" | "category",
-  data: Status | string | Profile | null | undefined
-): BadgeComponent => {
-  switch (type) {
-    case "status":
-      return createStatusBadge(data as Status | null | undefined)
-    case "priority":
-      return createPriorityBadge(data as string | null | undefined)
-    case "assignment":
-      return createAssignmentBadge(data as Profile | null | undefined)
-    case "category":
-      return createCategoryBadge(data as string | null | undefined)
-    default: {
-      const exhaustiveCheck: never = type
-      throw new Error(`Unknown badge type: ${exhaustiveCheck}`)
-    }
-  }
 }
 
 // Renderer for BadgeComponent

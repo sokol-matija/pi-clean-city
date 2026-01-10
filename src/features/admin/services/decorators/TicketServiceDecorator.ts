@@ -3,7 +3,7 @@ import type { Profile, Status } from "@/types/database.types"
 
 // Decorator base class for TicketService
 // Extends ITicketService and wraps another ITicketService instance
-abstract class TicketServiceDecorator implements ITicketService {
+export abstract class TicketServiceDecorator implements ITicketService {
   protected service: ITicketService
 
   constructor(service: ITicketService) {
@@ -28,7 +28,7 @@ export class LoggingTicketServiceDecorator extends TicketServiceDecorator {
    * Wraps updateTicket with logging
    */
   async updateTicket(ticketId: string, changes: TicketUpdatePayload): Promise<void> {
-    console.log(`[TicketService] Updating ticket:  ${ticketId}`)
+    console.log(`[TicketService] Updating ticket: ${ticketId}`)
     console.log(`[TicketService] Changes: `, changes)
 
     const startTime = Date.now()
