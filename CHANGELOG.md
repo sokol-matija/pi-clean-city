@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.11.0 (2026-01-13)
+
+* fix: replace explicit any types with proper type annotations in tests ([764260b](https://github.com/sokol-matija/pi-clean-city/commit/764260b))
+* fix: upgrade @supabase/supabase-js from 2.87.1 to 2.89.0 ([b7f3923](https://github.com/sokol-matija/pi-clean-city/commit/b7f3923))
+* fix: upgrade lucide-react from 0.561.0 to 0.562.0 ([8d4fbe0](https://github.com/sokol-matija/pi-clean-city/commit/8d4fbe0))
+* fix(deps): add peer dependencies to various packages in package-lock.json ([52888b0](https://github.com/sokol-matija/pi-clean-city/commit/52888b0))
+* Merge pull request #10 from sokol-matija/main ([344c2c5](https://github.com/sokol-matija/pi-clean-city/commit/344c2c5)), closes [#10](https://github.com/sokol-matija/pi-clean-city/issues/10)
+* Merge pull request #11 from sokol-matija/feature/ticketing-tests ([b88204e](https://github.com/sokol-matija/pi-clean-city/commit/b88204e)), closes [#11](https://github.com/sokol-matija/pi-clean-city/issues/11)
+* Merge pull request #12 from sokol-matija/snyk-upgrade-6948ded39fc697b21eaf5f7ecf2ab23f ([20fe3fa](https://github.com/sokol-matija/pi-clean-city/commit/20fe3fa)), closes [#12](https://github.com/sokol-matija/pi-clean-city/issues/12)
+* Merge pull request #13 from sokol-matija/snyk-upgrade-13dc09aaae851ec869a84bfe21a915dc ([00c2540](https://github.com/sokol-matija/pi-clean-city/commit/00c2540)), closes [#13](https://github.com/sokol-matija/pi-clean-city/issues/13)
+* refactor(tests): standardize string quotes and improve test readability ([b5ecef9](https://github.com/sokol-matija/pi-clean-city/commit/b5ecef9))
+* feat(test): add mock data for city services and statuses in ticket service tests ([f2572a0](https://github.com/sokol-matija/pi-clean-city/commit/f2572a0))
+* feat(test): add unit tests for LoggingTicketServiceDecorator and improve logging format ([a94d9af](https://github.com/sokol-matija/pi-clean-city/commit/a94d9af))
+* feat(test): add unit tests for SupabaseTicketService with mocked Supabase client ([0803a98](https://github.com/sokol-matija/pi-clean-city/commit/0803a98))
+* feat(test): enhance SupabaseTicketService tests with error handling case ([ea8eccc](https://github.com/sokol-matija/pi-clean-city/commit/ea8eccc))
+* feat(test): enhance SupabaseTicketService tests with error handling case ([229deeb](https://github.com/sokol-matija/pi-clean-city/commit/229deeb))
+* feat(tests): add edge case tests for AssignmentBadge and enhance TicketServiceDecorator with export ([278723b](https://github.com/sokol-matija/pi-clean-city/commit/278723b))
+* feat(tests): add unit tests for BadgeFactory and improve badge rendering logic ([fd7f4e6](https://github.com/sokol-matija/pi-clean-city/commit/fd7f4e6))
+* feat(tests): add unit tests for TicketObserver pattern and its observers ([07e63f6](https://github.com/sokol-matija/pi-clean-city/commit/07e63f6))
+
 ## <small>1.10.3 (2026-01-13)</small>
 
 * fix(ci): add GITHUB_TOKEN to gitleaks action for PR scanning ([268e798](https://github.com/sokol-matija/pi-clean-city/commit/268e798))
