@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.11.1 (2026-01-13)</small>
+
+* fix(security): add explicit validation for redirect paths to address Snyk findings ([0523587](https://github.com/sokol-matija/pi-clean-city/commit/0523587))
+
 ## 1.11.0 (2026-01-13)
 
 * fix: replace explicit any types with proper type annotations in tests ([764260b](https://github.com/sokol-matija/pi-clean-city/commit/764260b))
