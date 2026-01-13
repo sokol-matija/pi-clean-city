@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.10.3 (2026-01-13)</small>
+
+* fix(ci): add GITHUB_TOKEN to gitleaks action for PR scanning ([268e798](https://github.com/sokol-matija/pi-clean-city/commit/268e798))
+
 ## <small>1.10.2 (2026-01-10)</small>
 
 * fix(security): add security headers to vercel.json for production ([519cf5c](https://github.com/sokol-matija/pi-clean-city/commit/519cf5c))
