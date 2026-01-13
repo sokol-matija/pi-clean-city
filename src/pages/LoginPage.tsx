@@ -7,13 +7,15 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { GoogleSignInButton, useAuth } from "@/features/auth"
 import { AlertCircle } from "lucide-react"
+import { sanitizeRedirectPath } from "@/lib/security"
 
 export function LoginPage() {
   const { user, isLoading, signInWithPassword } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
-  const from = location.state?.from?.pathname || "/"
+  // Sanitize redirect path to prevent open redirect vulnerabilities
+  const from = sanitizeRedirectPath(location.state?.from?.pathname || "/")
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

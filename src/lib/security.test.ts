@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { isValidImageUrl, sanitizeImageUrl, isDangerousUrl } from "./security"
+import { isValidImageUrl, sanitizeImageUrl, isDangerousUrl, sanitizeRedirectPath } from "./security"
 
 describe("security utilities", () => {
   describe("isValidImageUrl", () => {
@@ -102,6 +102,108 @@ describe("security utilities", () => {
     it("returns false for null/undefined", () => {
       expect(isDangerousUrl(null)).toBe(false)
       expect(isDangerousUrl(undefined)).toBe(false)
+    })
+  })
+
+  describe("sanitizeRedirectPath", () => {
+    describe("valid relative paths", () => {
+      it("allows simple relative paths", () => {
+        expect(sanitizeRedirectPath("/dashboard")).toBe("/dashboard")
+        expect(sanitizeRedirectPath("/settings")).toBe("/settings")
+        expect(sanitizeRedirectPath("/")).toBe("/")
+      })
+
+      it("allows paths with query parameters", () => {
+        expect(sanitizeRedirectPath("/search?q=test")).toBe("/search?q=test")
+        expect(sanitizeRedirectPath("/settings?tab=profile")).toBe("/settings?tab=profile")
+      })
+
+      it("allows paths with hash fragments", () => {
+        expect(sanitizeRedirectPath("/page#section")).toBe("/page#section")
+        expect(sanitizeRedirectPath("/docs#introduction")).toBe("/docs#introduction")
+      })
+
+      it("allows deeply nested paths", () => {
+        expect(sanitizeRedirectPath("/a/b/c/d/e")).toBe("/a/b/c/d/e")
+        expect(sanitizeRedirectPath("/users/123/settings/profile")).toBe(
+          "/users/123/settings/profile"
+        )
+      })
+    })
+
+    describe("open redirect prevention", () => {
+      it("rejects absolute URLs with http protocol", () => {
+        expect(sanitizeRedirectPath("http://evil.com")).toBe("/")
+        expect(sanitizeRedirectPath("http://example.com/page")).toBe("/")
+      })
+
+      it("rejects absolute URLs with https protocol", () => {
+        expect(sanitizeRedirectPath("https://evil.com")).toBe("/")
+        expect(sanitizeRedirectPath("https://malicious.org/steal")).toBe("/")
+      })
+
+      it("rejects protocol-relative URLs", () => {
+        expect(sanitizeRedirectPath("//evil.com")).toBe("/")
+        expect(sanitizeRedirectPath("//evil.com/path")).toBe("/")
+        expect(sanitizeRedirectPath("///evil.com")).toBe("/")
+      })
+
+      it("rejects paths not starting with /", () => {
+        expect(sanitizeRedirectPath("evil.com")).toBe("/")
+        expect(sanitizeRedirectPath("example.com/page")).toBe("/")
+        expect(sanitizeRedirectPath("relative-path")).toBe("/")
+      })
+
+      it("rejects paths containing protocol schemes", () => {
+        expect(sanitizeRedirectPath("/path/http://evil.com")).toBe("/")
+        expect(sanitizeRedirectPath("/page?redirect=https://evil.com")).toBe("/")
+        expect(sanitizeRedirectPath("/javascript:alert(1)")).toBe("/")
+      })
+
+      it("rejects javascript: protocol", () => {
+        expect(sanitizeRedirectPath("javascript:alert(1)")).toBe("/")
+        expect(sanitizeRedirectPath("JAVASCRIPT:void(0)")).toBe("/")
+      })
+
+      it("rejects data: protocol", () => {
+        expect(sanitizeRedirectPath("data:text/html,<script>alert(1)</script>")).toBe("/")
+      })
+
+      it("rejects vbscript: protocol", () => {
+        expect(sanitizeRedirectPath("vbscript:msgbox")).toBe("/")
+      })
+
+      it("rejects file: protocol", () => {
+        expect(sanitizeRedirectPath("file:///etc/passwd")).toBe("/")
+      })
+
+      it("rejects ftp: protocol", () => {
+        expect(sanitizeRedirectPath("ftp://files.example.com")).toBe("/")
+      })
+    })
+
+    describe("edge cases", () => {
+      it("returns / for null", () => {
+        expect(sanitizeRedirectPath(null)).toBe("/")
+      })
+
+      it("returns / for undefined", () => {
+        expect(sanitizeRedirectPath(undefined)).toBe("/")
+      })
+
+      it("returns / for empty string", () => {
+        expect(sanitizeRedirectPath("")).toBe("/")
+      })
+
+      it("trims whitespace and validates", () => {
+        expect(sanitizeRedirectPath("  /dashboard  ")).toBe("/dashboard")
+        expect(sanitizeRedirectPath(" https://evil.com ")).toBe("/")
+      })
+
+      it("handles case-insensitive protocol detection", () => {
+        expect(sanitizeRedirectPath("/HTTP://evil.com")).toBe("/")
+        expect(sanitizeRedirectPath("/HtTpS://evil.com")).toBe("/")
+      })
     })
   })
 })

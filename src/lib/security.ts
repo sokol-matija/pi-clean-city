@@ -109,3 +109,63 @@ export function isDangerousUrl(url: string | null | undefined): boolean {
 
   return dangerousProtocols.some((protocol) => lowerUrl.startsWith(protocol))
 }
+
+/**
+ * Validates a redirect path to prevent open redirect vulnerabilities.
+ *
+ * This function ensures that redirect paths are:
+ * 1. Relative paths only (start with /)
+ * 2. Don't contain protocol schemes
+ * 3. Don't start with // (protocol-relative URLs)
+ *
+ * @param path - The path to validate
+ * @returns A safe path to use for navigation, defaults to "/" if invalid
+ *
+ * @example
+ * sanitizeRedirectPath("/dashboard") // "/dashboard"
+ * sanitizeRedirectPath("https://evil.com") // "/"
+ * sanitizeRedirectPath("//evil.com") // "/"
+ * sanitizeRedirectPath("/settings?tab=profile") // "/settings?tab=profile"
+ */
+export function sanitizeRedirectPath(path: string | null | undefined): string {
+  if (!path || typeof path !== "string") {
+    return "/"
+  }
+
+  const trimmedPath = path.trim()
+
+  // Reject empty paths
+  if (!trimmedPath) {
+    return "/"
+  }
+
+  // Must start with / to be a relative path
+  if (!trimmedPath.startsWith("/")) {
+    return "/"
+  }
+
+  // Reject protocol-relative URLs (//example.com)
+  if (trimmedPath.startsWith("//")) {
+    return "/"
+  }
+
+  // Reject any path containing protocol schemes
+  // This catches attempts like "/javascript:alert(1)" or "/%2Fhttps://evil.com"
+  const dangerousProtocols = [
+    "javascript:",
+    "data:",
+    "vbscript:",
+    "file:",
+    "http:",
+    "https:",
+    "ftp:",
+  ]
+
+  const lowerPath = trimmedPath.toLowerCase()
+  if (dangerousProtocols.some((protocol) => lowerPath.includes(protocol))) {
+    return "/"
+  }
+
+  // Path is safe - return it
+  return trimmedPath
+}
