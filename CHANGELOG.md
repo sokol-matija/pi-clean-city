@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.11.2 (2026-01-14)</small>
+
+* fix(vercel): exclude txt files from SPA rewrite rules ([1565b56](https://github.com/sokol-matija/pi-clean-city/commit/1565b56))
+* chore: add loader.io verification token for load testing ([1de3ae4](https://github.com/sokol-matija/pi-clean-city/commit/1de3ae4))
+
 ## <small>1.11.1 (2026-01-13)</small>
 
 * fix(security): add explicit validation for redirect paths to address Snyk findings ([0523587](https://github.com/sokol-matija/pi-clean-city/commit/0523587))
