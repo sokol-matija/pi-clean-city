@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.11.7 (2026-01-15)</small>
+
+* Merge remote-tracking branch 'origin/main' ([5b0913d](https://github.com/sokol-matija/pi-clean-city/commit/5b0913d))
+* fix(scripts): use --audit-level=moderate for npm audit in validation ([8720ee1](https://github.com/sokol-matija/pi-clean-city/commit/8720ee1))
+
 ## <small>1.11.6 (2026-01-15)</small>
 
 * fix(ci): pin GitHub Actions to SHA hashes and disable credential persistence ([db8e004](https://github.com/sokol-matija/pi-clean-city/commit/db8e004))
