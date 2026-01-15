@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.11.6 (2026-01-15)</small>
+
+* fix(ci): pin GitHub Actions to SHA hashes and disable credential persistence ([db8e004](https://github.com/sokol-matija/pi-clean-city/commit/db8e004))
+
 ## <small>1.11.5 (2026-01-14)</small>
 
 * fix(csp): add 'unsafe-eval' for Vite dynamic imports in production ([97cb5ef](https://github.com/sokol-matija/pi-clean-city/commit/97cb5ef))
