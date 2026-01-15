@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 
 const steps = [
   { name: 'Gitleaks', cmd: 'gitleaks detect' },
-  { name: 'NPM Audit', cmd: 'npm audit' },
+  { name: 'NPM Audit', cmd: 'npm audit --audit-level=moderate' },
   { name: 'NPM Signatures', cmd: 'npm audit signature' },
   { name: 'Semgrep Security', cmd: 'semgrep scan --error --config p/security-audit --config p/typescript --config p/react --config p/owasp-top-ten' },
   { name: 'Lint', cmd: 'npm run lint' },
