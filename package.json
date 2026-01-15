@@ -21,7 +21,7 @@
     "codegen": "playwright codegen http://localhost:5173",
     "typecheck": "tsc --noEmit",
     "validate": "npm run lint && npm run typecheck && npm run test:run && npm run build",
-    "validate:full": "gitleaks detect && npm audit --audit-level=moderate && npm audit signature && semgrep scan --error --config p/security-audit --config p/typescript --config p/react --config p/owasp-top-ten && npm run lint && npm run typecheck && npm run knip && vitest run --coverage && npm run test:e2e && npm run build && npx playwright show-report",
+    "validate:full": "gitleaks detect && npm audit --audit-level=moderate && npm audit signatures && semgrep scan --error --config p/security-audit --config p/typescript --config p/react --config p/owasp-top-ten && npm run lint && npm run typecheck && npm run knip && vitest run --coverage && npm run test:e2e && npm run build && npx playwright show-report",
     "validate:script": "node scripts/validate.mjs",
     "validate:verbose": "node scripts/validate-verbose.mjs",
     "prepare": "husky",
