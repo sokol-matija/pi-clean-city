@@ -12,13 +12,13 @@ on:
         default: false
         type: boolean
 
-# Prevent concurrent releases
+permissions: {}
+
 concurrency:
   group: release
   cancel-in-progress: false
 
 jobs:
-  # Security checks must pass before release
   security:
     name: Security Gate
     runs-on: ubuntu-latest
@@ -53,7 +53,6 @@ jobs:
         run: npm audit --audit-level=moderate
         continue-on-error: true
 
-  # Quality checks must pass before release
   quality:
     needs: security
     name: Quality Checks
@@ -63,7 +62,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          fetch-depth: 0  # Full history for semantic-release
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Node.js
@@ -76,9 +75,8 @@ jobs:
         run: npm ci
 
       - name: Run validation
-        run: npm run validate  # lint + typecheck + test + build
+        run: npm run validate
 
-  # Create release only if quality checks pass
   release:
     name: Semantic Release
     needs: quality
@@ -111,21 +109,20 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HUSKY: 0  # Disable git hooks in CI
+          HUSKY: 0
         run: npm run release:dry
 
       - name: Run semantic-release
         if: ${{ github.event.inputs.dry_run != 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HUSKY: 0  # Disable git hooks in CI
+          HUSKY: 0
         run: npm run release
 
       - name: Notify on release
         if: success()
-        run: echo "✅ Release completed successfully"
+        run: echo "Release completed successfully"
 
-  # Deploy to Vercel after successful release (optional)
   deploy:
     name: Deploy to Vercel
     needs: release
@@ -135,6 +132,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -152,6 +151,4 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Deploy to Vercel
-        run: echo "✅ Vercel deployment triggered automatically via git push"
-        # Note: Vercel automatically deploys on push to main
-        # If you need manual deployment, add vercel-action here
+        run: echo "Vercel deployment triggered automatically via git push"
