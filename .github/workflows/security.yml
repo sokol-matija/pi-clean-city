@@ -6,16 +6,15 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    # Run security checks daily at 2 AM UTC
     - cron: '0 2 * * *'
 
-# Cancel in-progress runs when a new workflow is triggered
+permissions: {}
+
 concurrency:
   group: security-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  # Code quality and security analysis with Semgrep
   semgrep:
     name: Semgrep Security Analysis
     runs-on: ubuntu-latest
@@ -35,7 +34,6 @@ jobs:
             p/react
             p/owasp-top-ten
 
-  # Dependency vulnerability scanning
   dependency-check:
     name: Dependency Vulnerability Check
     runs-on: ubuntu-latest
@@ -64,7 +62,6 @@ jobs:
       - name: Check for known vulnerabilities
         run: npm audit --production
 
-  # Secret scanning with Gitleaks
   gitleaks:
     name: Secret Detection
     runs-on: ubuntu-latest
