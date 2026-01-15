@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.11.10 (2026-01-15)</small>
+
+* Merge remote-tracking branch 'origin/main' ([7528681](https://github.com/sokol-matija/pi-clean-city/commit/7528681))
+* fix(security): add workflow permissions ([ecefa43](https://github.com/sokol-matija/pi-clean-city/commit/ecefa43))
+
 ## <small>1.11.9 (2026-01-15)</small>
 
 * fix(security): add workflow permissions and remove comments ([19d0945](https://github.com/sokol-matija/pi-clean-city/commit/19d0945))
