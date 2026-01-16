@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.12.3 (2026-01-16)</small>
+
+* Merge branch 'fix/sonarqube-issues' ([aa8f391](https://github.com/sokol-matija/pi-clean-city/commit/aa8f391))
+* Merge branch 'fix/sonarqube-issues' ([39fce20](https://github.com/sokol-matija/pi-clean-city/commit/39fce20))
+* fix(a11y): use button element for dialog backdrop click handling ([6e26ff3](https://github.com/sokol-matija/pi-clean-city/commit/6e26ff3))
+* ci(sonar): add ntfy.sh notification when analysis completes ([b3f41bd](https://github.com/sokol-matija/pi-clean-city/commit/b3f41bd))
+
 ## <small>1.12.2 (2026-01-16)</small>
 
 * Merge branch 'fix/sonarqube-issues' ([07ae774](https://github.com/sokol-matija/pi-clean-city/commit/07ae774))
