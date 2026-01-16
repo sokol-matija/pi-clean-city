@@ -76,7 +76,7 @@ export function RepositoryProvider({
   reportRepository,
   photoStorage,
   photoRepository,
-}: RepositoryProviderProps) {
+}: Readonly<RepositoryProviderProps>) {
   // Lazy import to avoid circular dependency
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { RepositoryContext } = require("./repositoryContextInstance")

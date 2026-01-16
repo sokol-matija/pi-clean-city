@@ -78,9 +78,8 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
-          {isLoading ? (
-            <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
-          ) : user ? (
+          {isLoading && <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />}
+          {!isLoading && user && (
             <div className="flex items-center gap-2">
               <div className="hidden items-center gap-2 text-sm sm:flex">
                 <User className="h-4 w-4" />
@@ -93,7 +92,8 @@ export function Header() {
                 <LogOut className="h-4 w-4" />
               </Button>
             </div>
-          ) : (
+          )}
+          {!isLoading && !user && (
             <Button asChild>
               <Link to="/login">Sign In</Link>
             </Button>
