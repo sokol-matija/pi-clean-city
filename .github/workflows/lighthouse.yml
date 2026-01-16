@@ -1,0 +1,177 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          HUSKY: 0
+
+      - name: Build application
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@fcd65974f7c4c2bf0ee9d09b84d2489183c29726 # v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Format Lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const resultsPath = '.lighthouseci';
+
+            // Find the manifest file
+            const files = fs.readdirSync(resultsPath);
+            const manifestFile = files.find(f => f.startsWith('manifest') && f.endsWith('.json'));
+
+            if (!manifestFile) {
+              console.log('No manifest file found');
+              return;
+            }
+
+            const manifest = JSON.parse(fs.readFileSync(`${resultsPath}/${manifestFile}`, 'utf8'));
+
+            // Get the latest result
+            const result = manifest[manifest.length - 1];
+            if (!result || !result.summary) {
+              console.log('No summary found in manifest');
+              return;
+            }
+
+            const scores = result.summary;
+
+            const formatScore = (score) => {
+              const percentage = Math.round(score * 100);
+              if (percentage >= 90) return `🟢 ${percentage}`;
+              if (percentage >= 50) return `🟠 ${percentage}`;
+              return `🔴 ${percentage}`;
+            };
+
+            const comment = `## ⚡ Lighthouse Report
+
+            | Category | Score |
+            |----------|-------|
+            | Performance | ${formatScore(scores.performance)} |
+            | Accessibility | ${formatScore(scores.accessibility)} |
+            | Best Practices | ${formatScore(scores['best-practices'])} |
+            | SEO | ${formatScore(scores.seo)} |
+
+            [View full report](${result.htmlPath || 'Check artifacts'})
+            `;
+
+            core.setOutput('comment', comment);
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const resultsPath = '.lighthouseci';
+
+            try {
+              const files = fs.readdirSync(resultsPath);
+              const manifestFile = files.find(f => f.startsWith('manifest') && f.endsWith('.json'));
+
+              if (!manifestFile) {
+                console.log('No manifest file found, skipping comment');
+                return;
+              }
+
+              const manifest = JSON.parse(fs.readFileSync(`${resultsPath}/${manifestFile}`, 'utf8'));
+              const result = manifest[manifest.length - 1];
+
+              if (!result || !result.summary) {
+                console.log('No summary found, skipping comment');
+                return;
+              }
+
+              const scores = result.summary;
+
+              const formatScore = (score) => {
+                const percentage = Math.round(score * 100);
+                if (percentage >= 90) return `🟢 ${percentage}`;
+                if (percentage >= 50) return `🟠 ${percentage}`;
+                return `🔴 ${percentage}`;
+              };
+
+              const comment = `## ⚡ Lighthouse Report
+
+            | Category | Score |
+            |----------|-------|
+            | Performance | ${formatScore(scores.performance)} |
+            | Accessibility | ${formatScore(scores.accessibility)} |
+            | Best Practices | ${formatScore(scores['best-practices'])} |
+            | SEO | ${formatScore(scores.seo)} |
+
+            *Report generated for commit ${context.sha.substring(0, 7)}*
+            `;
+
+              // Find existing comment
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+              });
+
+              const existingComment = comments.find(c =>
+                c.user.type === 'Bot' && c.body.includes('⚡ Lighthouse Report')
+              );
+
+              if (existingComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existingComment.id,
+                  body: comment,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: comment,
+                });
+              }
+            } catch (error) {
+              console.log('Error posting comment:', error.message);
+            }

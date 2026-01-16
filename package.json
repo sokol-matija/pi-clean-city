@@ -31,7 +31,11 @@
     "version:major": "standard-version --release-as major",
     "version:minor": "standard-version --release-as minor",
     "version:patch": "standard-version --release-as patch",
-    "version:history": "node scripts/create-version-history.js"
+    "version:history": "node scripts/create-version-history.js",
+    "lighthouse": "npx @lhci/cli autorun",
+    "lighthouse:ci": "npm run build && npx @lhci/cli autorun",
+    "lighthouse:local": "npx lighthouse http://localhost:5173 --view --preset=desktop --output=html --output-path=./.lighthouseci/report-desktop.html",
+    "lighthouse:local:mobile": "npx lighthouse http://localhost:5173 --view --output=html --output-path=./.lighthouseci/report-mobile.html"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",

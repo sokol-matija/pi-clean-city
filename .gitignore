@@ -49,3 +49,10 @@ coverage/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Lighthouse CI
+.lighthouseci/
+
+# SonarQube
+.scannerwork/
+.sonarlint/
