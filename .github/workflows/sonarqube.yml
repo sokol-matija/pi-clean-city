@@ -49,3 +49,22 @@ jobs:
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Notify via ntfy.sh
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          if [ "$STATUS" = "success" ]; then
+            EMOJI="white_check_mark"
+            PRIORITY="3"
+          else
+            EMOJI="x"
+            PRIORITY="4"
+          fi
+          curl -s \
+            -H "Title: SonarQube Analysis Complete" \
+            -H "Priority: $PRIORITY" \
+            -H "Tags: $EMOJI,sonarqube" \
+            -H "Click: ${{ secrets.SONAR_HOST_URL }}/dashboard?id=pi-clean-city" \
+            -d "pi-clean-city analysis finished: $STATUS" \
+            https://ntfy.sh/github-workflows-msokol
