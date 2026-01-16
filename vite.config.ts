@@ -2,63 +2,46 @@ import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import path from "path"
 import { visualizer } from "rollup-plugin-visualizer"
+import { IncomingMessage, ServerResponse } from "http"
+import { SecurityHeader, securityHeaders } from "./securityHeaders"
+import type { ViteDevServer, PreviewServer } from "vite"
 
-const securityHeadersDEV = {
-  "Content-Security-Policy": [
-    "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: https://*.supabase.co https://cdnjs.cloudflare.com https://*.tile.openstreetmap.org",
-    "font-src 'self' data:",
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://ntfy.sh",
-    "frame-ancestors 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-  ].join("; "),
-  "X-Frame-Options": "DENY",
-  "X-Content-Type-Options": "nosniff",
-  "X-XSS-Protection": "1; mode=block",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Permissions-Policy": "geolocation=(self), camera=(), microphone=()",
-  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-  Pragma: "no-cache",
+// DEV SERVER
+function secureHeadersPlugin() {
+  return {
+    name: "secure-headers",
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: () => void) => {
+        ;(securityHeaders as SecurityHeader[]).forEach((header) => {
+          res.setHeader(header.key, header.value)
+        })
+        next()
+      })
+    },
+  }
 }
 
-const securityHeadersPROD = {
-  "Content-Security-Policy": [
-    "default-src 'self'",
-    "script-src 'self'",
-    "style-src 'self'",
-    "img-src 'self' data: blob: https://*.supabase.co https://cdnjs.cloudflare.com https://*.tile.openstreetmap.org",
-    "font-src 'self' data:",
-    "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://ntfy.sh",
-    "frame-ancestors 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-  ].join("; "),
-  "X-Frame-Options": "DENY",
-  "X-Content-Type-Options": "nosniff",
-  "X-XSS-Protection": "1; mode=block",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Permissions-Policy": "geolocation=(self), camera=(), microphone=()",
-  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-  Pragma: "no-cache",
+// PREVIEW SERVER
+function securePreviewHeadersPlugin() {
+  return {
+    name: "secure-preview-headers",
+    configurePreviewServer(server: PreviewServer) {
+      server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: () => void) => {
+        securityHeaders.forEach((header) => {
+          res.setHeader(header.key, header.value)
+        })
+        next()
+      })
+    },
+  }
 }
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), secureHeadersPlugin(), securePreviewHeadersPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
-  server: {
-    headers: securityHeadersDEV,
-  },
-  preview: {
-    headers: securityHeadersPROD,
   },
   build: {
     rollupOptions: {
