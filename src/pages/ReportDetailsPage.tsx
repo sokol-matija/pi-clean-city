@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useParams, Link } from "react-router-dom"
 import { MapContainer, TileLayer, Marker } from "react-leaflet"
 import L from "leaflet"
@@ -29,6 +29,19 @@ export function ReportDetailsPage() {
   const addComment = useAddComment()
   const [newComment, setNewComment] = useState("")
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const dialogRef = useRef<HTMLDialogElement>(null)
+
+  // Handle dialog open/close with native <dialog> element
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    if (selectedImage) {
+      dialog.showModal()
+    } else {
+      dialog.close()
+    }
+  }, [selectedImage])
 
   if (isLoading) {
     return (
@@ -314,46 +327,41 @@ export function ReportDetailsPage() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      {selectedImage && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Image lightbox"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+      {/* Lightbox Modal - using native <dialog> for accessibility */}
+      <dialog
+        ref={dialogRef}
+        className="fixed inset-0 z-50 m-0 flex h-screen max-h-none w-screen max-w-none items-center justify-center bg-black/80 p-4 backdrop:bg-transparent"
+        aria-label="Image lightbox"
+        onClose={() => setSelectedImage(null)}
+        onClick={(e) => {
+          // Close when clicking the backdrop (dialog element itself)
+          if (e.target === dialogRef.current) {
+            setSelectedImage(null)
+          }
+        }}
+      >
+        <button
+          className="absolute right-4 top-4 text-white hover:text-gray-300"
           onClick={() => setSelectedImage(null)}
-          onKeyDown={(e) => e.key === "Escape" && setSelectedImage(null)}
-          tabIndex={-1}
+          aria-label="Close lightbox"
         >
-          <button
-            className="absolute right-4 top-4 text-white hover:text-gray-300"
-            onClick={() => setSelectedImage(null)}
-            aria-label="Close lightbox"
-          >
-            <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="max-h-full max-w-full focus:outline-none"
-            onClick={(e) => e.stopPropagation()}
-            onKeyDown={(e) => e.key === "Escape" && setSelectedImage(null)}
-            aria-label="Full size image"
-          >
-            <img
-              src={sanitizeImageUrl(selectedImage)}
-              alt="Full size"
-              className="max-h-full max-w-full object-contain"
+          <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
             />
-          </button>
-        </div>
-      )}
+          </svg>
+        </button>
+        {selectedImage && (
+          <img
+            src={sanitizeImageUrl(selectedImage)}
+            alt="Full size"
+            className="max-h-full max-w-full object-contain"
+          />
+        )}
+      </dialog>
     </div>
   )
 }
