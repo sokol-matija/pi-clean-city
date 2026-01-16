@@ -330,37 +330,42 @@ export function ReportDetailsPage() {
       {/* Lightbox Modal - using native <dialog> for accessibility */}
       <dialog
         ref={dialogRef}
-        className="fixed inset-0 z-50 m-0 flex h-screen max-h-none w-screen max-w-none items-center justify-center bg-black/80 p-4 backdrop:bg-transparent"
+        className="fixed inset-0 z-50 m-0 h-screen max-h-none w-screen max-w-none bg-transparent p-0 backdrop:bg-transparent"
         aria-label="Image lightbox"
         onClose={() => setSelectedImage(null)}
-        onClick={(e) => {
-          // Close when clicking the backdrop (dialog element itself)
-          if (e.target === dialogRef.current) {
-            setSelectedImage(null)
-          }
-        }}
       >
+        {/* Backdrop button - accessible click target for closing */}
         <button
-          className="absolute right-4 top-4 text-white hover:text-gray-300"
+          type="button"
+          className="absolute inset-0 h-full w-full cursor-default bg-black/80"
           onClick={() => setSelectedImage(null)}
-          aria-label="Close lightbox"
-        >
-          <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
+          aria-label="Close lightbox by clicking outside"
+        />
+        {/* Content container - positioned above backdrop */}
+        <div className="pointer-events-none relative flex h-full w-full items-center justify-center p-4">
+          <button
+            type="button"
+            className="pointer-events-auto absolute right-4 top-4 text-white hover:text-gray-300"
+            onClick={() => setSelectedImage(null)}
+            aria-label="Close lightbox"
+          >
+            <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          {selectedImage && (
+            <img
+              src={sanitizeImageUrl(selectedImage)}
+              alt="Full size"
+              className="pointer-events-auto max-h-full max-w-full object-contain"
             />
-          </svg>
-        </button>
-        {selectedImage && (
-          <img
-            src={sanitizeImageUrl(selectedImage)}
-            alt="Full size"
-            className="max-h-full max-w-full object-contain"
-          />
-        )}
+          )}
+        </div>
       </dialog>
     </div>
   )
