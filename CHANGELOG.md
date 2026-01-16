@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.12.0 (2026-01-16)
+
+* Merge branch 'feat/lighthouse-ci' into fix/sonarqube-issues ([13109a6](https://github.com/sokol-matija/pi-clean-city/commit/13109a6))
+* ci(lighthouse): add GitHub Actions workflow ([96af4b2](https://github.com/sokol-matija/pi-clean-city/commit/96af4b2))
+* ci(sonar): add GitHub Actions workflow for SonarQube ([3af0ba7](https://github.com/sokol-matija/pi-clean-city/commit/3af0ba7))
+* feat(assets): add favicon to fix 404 error ([19b4e47](https://github.com/sokol-matija/pi-clean-city/commit/19b4e47))
+* feat(ci): add Lighthouse CI configuration ([9770543](https://github.com/sokol-matija/pi-clean-city/commit/9770543))
+* feat(scripts): add Lighthouse npm scripts ([fe7c912](https://github.com/sokol-matija/pi-clean-city/commit/fe7c912))
+* feat(seo): add robots.txt for search engine crawling ([cfcc81f](https://github.com/sokol-matija/pi-clean-city/commit/cfcc81f))
+* feat(sonar): add SonarQube project configuration ([9cae6c3](https://github.com/sokol-matija/pi-clean-city/commit/9cae6c3))
+* feat(ui): add loading placeholder for First Contentful Paint ([4cb8adc](https://github.com/sokol-matija/pi-clean-city/commit/4cb8adc))
+* chore: gitignore Lighthouse CI reports ([55153fa](https://github.com/sokol-matija/pi-clean-city/commit/55153fa))
+* chore: gitignore SonarQube temp files ([c1c7a09](https://github.com/sokol-matija/pi-clean-city/commit/c1c7a09))
+
 ## <small>1.11.11 (2026-01-15)</small>
 
 * fix(security): remove unsafe-eval from production CSP ([37cf6f4](https://github.com/sokol-matija/pi-clean-city/commit/37cf6f4))
