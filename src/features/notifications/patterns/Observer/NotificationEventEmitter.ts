@@ -55,8 +55,10 @@ export type NotificationEventHandler<T extends NotificationEvent> = (
 
 export class NotificationEventEmitter {
   private static instance: NotificationEventEmitter
-  private listeners: Map<NotificationEvent, Set<NotificationEventHandler<NotificationEvent>>> =
-    new Map()
+  private readonly listeners: Map<
+    NotificationEvent,
+    Set<NotificationEventHandler<NotificationEvent>>
+  > = new Map()
 
   private constructor() {
     console.log("[NotificationEventEmitter] Instance created")

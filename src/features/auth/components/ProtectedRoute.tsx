@@ -3,11 +3,11 @@ import { useAuth } from ".."
 import type { Profile } from "@/types/database.types"
 
 interface ProtectedRouteProps {
-  children: React.ReactNode
-  allowedRoles?: Profile["role"][]
+  readonly children: React.ReactNode
+  readonly allowedRoles?: Profile["role"][]
 }
 
-export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
+export function ProtectedRoute({ children, allowedRoles }: Readonly<ProtectedRouteProps>) {
   const { user, profile, isLoading } = useAuth()
   const location = useLocation()
 

@@ -317,12 +317,18 @@ export function ReportDetailsPage() {
       {/* Lightbox Modal */}
       {selectedImage && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image lightbox"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
           onClick={() => setSelectedImage(null)}
+          onKeyDown={(e) => e.key === "Escape" && setSelectedImage(null)}
+          tabIndex={-1}
         >
           <button
             className="absolute right-4 top-4 text-white hover:text-gray-300"
             onClick={() => setSelectedImage(null)}
+            aria-label="Close lightbox"
           >
             <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -333,12 +339,19 @@ export function ReportDetailsPage() {
               />
             </svg>
           </button>
-          <img
-            src={sanitizeImageUrl(selectedImage)}
-            alt="Full size"
-            className="max-h-full max-w-full object-contain"
+          <button
+            type="button"
+            className="max-h-full max-w-full focus:outline-none"
             onClick={(e) => e.stopPropagation()}
-          />
+            onKeyDown={(e) => e.key === "Escape" && setSelectedImage(null)}
+            aria-label="Full size image"
+          >
+            <img
+              src={sanitizeImageUrl(selectedImage)}
+              alt="Full size"
+              className="max-h-full max-w-full object-contain"
+            />
+          </button>
         </div>
       )}
     </div>

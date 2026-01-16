@@ -56,7 +56,7 @@ export function useAddComment() {
         .eq("id", reportId)
         .single()
 
-      if (report && report.user?.username && user.id !== report.user_id) {
+      if (report?.user?.username && user.id !== report.user_id) {
         try {
           const notification = createCommentNotification({
             topic: getUserTopic(report.user.username),

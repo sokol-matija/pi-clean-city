@@ -42,7 +42,7 @@ function SetViewOnLoad() {
 }
 
 // Photo carousel component for popup
-function PopupPhotoPreview({ photos }: { photos: Photo[] }) {
+function PopupPhotoPreview({ photos }: Readonly<{ photos: Photo[] }>) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   if (!photos || photos.length === 0) return null
@@ -52,7 +52,7 @@ function PopupPhotoPreview({ photos }: { photos: Photo[] }) {
       <div className="aspect-video w-full overflow-hidden rounded-t bg-gray-100">
         <img
           src={photos[currentIndex].url}
-          alt="Report photo"
+          alt="Report attachment"
           className="h-full w-full object-cover"
           loading="lazy"
         />
@@ -60,9 +60,9 @@ function PopupPhotoPreview({ photos }: { photos: Photo[] }) {
       {photos.length > 1 && (
         <>
           <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
-            {photos.map((_, idx) => (
+            {photos.map((photo, idx) => (
               <button
-                key={idx}
+                key={photo.id}
                 onClick={(e) => {
                   e.stopPropagation()
                   setCurrentIndex(idx)
@@ -109,10 +109,19 @@ export function MapPage() {
         .in("report_id", reportIds)
         .order("uploaded_at", { ascending: true })
 
+      // Group photos by report_id for efficient lookup
+      const photosByReportId = new Map<string, Photo[]>()
+      for (const photo of photosData || []) {
+        const reportId = String(photo.report_id)
+        const existing = photosByReportId.get(reportId) || []
+        existing.push(photo)
+        photosByReportId.set(reportId, existing)
+      }
+
       // Merge photos with reports
       const reportsWithPhotos = reportsData.map((report) => ({
         ...report,
-        photos: photosData?.filter((p) => p.report_id === report.id) || [],
+        photos: photosByReportId.get(String(report.id)) || [],
       })) as ReportWithRelations[]
 
       setReports(reportsWithPhotos)

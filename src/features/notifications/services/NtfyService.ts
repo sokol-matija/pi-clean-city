@@ -2,8 +2,8 @@ import type { NtfyMessage } from "../types"
 
 export class NtfyService {
   private static instance: NtfyService
-  private baseUrl: string = "https://ntfy.sh"
-  private authToken?: string
+  private readonly baseUrl: string = "https://ntfy.sh"
+  private readonly authToken?: string
 
   private constructor() {}
 

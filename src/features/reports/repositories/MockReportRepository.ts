@@ -30,7 +30,7 @@ import type {
  * Perfect for testing and development.
  */
 export class MockReportRepository implements IReportRepository {
-  private reports: Map<string, Report> = new Map()
+  private readonly reports: Map<string, Report> = new Map()
   private nextId = 1
 
   async create(report: Insertable<"report">): Promise<Report> {
@@ -126,7 +126,7 @@ export class MockReportRepository implements IReportRepository {
  * Simulates file storage without actual uploads.
  */
 export class MockPhotoStorage implements IPhotoStorage {
-  private storage: Map<string, string> = new Map()
+  private readonly storage: Map<string, string> = new Map()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async upload(path: string, _file: File): Promise<string> {
@@ -161,7 +161,7 @@ export class MockPhotoStorage implements IPhotoStorage {
  * In-memory implementation of IPhotoRepository.
  */
 export class MockPhotoRepository implements IPhotoRepository {
-  private photos: Map<string, Photo> = new Map()
+  private readonly photos: Map<string, Photo> = new Map()
   private nextId = 1
 
   async create(photo: Insertable<"photo">): Promise<Photo> {

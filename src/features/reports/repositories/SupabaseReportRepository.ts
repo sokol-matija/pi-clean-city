@@ -99,7 +99,7 @@ export class SupabaseReportRepository implements IReportRepository {
 }
 
 export class SupabasePhotoStorage implements IPhotoStorage {
-  private bucketName = "report-photos"
+  private readonly bucketName = "report-photos"
 
   async upload(path: string, file: File): Promise<string> {
     const { error } = await supabase.storage.from(this.bucketName).upload(path, file, {

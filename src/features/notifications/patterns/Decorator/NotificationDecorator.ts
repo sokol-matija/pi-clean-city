@@ -113,7 +113,7 @@ export class CategoryIconDecorator implements INotificationDecorator {
 }
 
 export class NotificationDecoratorChain {
-  private decorators: INotificationDecorator[] = []
+  private readonly decorators: INotificationDecorator[] = []
 
   addDecorator(decorator: INotificationDecorator): this {
     this.decorators.push(decorator)

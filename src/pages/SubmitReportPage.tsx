@@ -66,7 +66,7 @@ export function SubmitReportPage() {
         report: {
           title: form.title.trim(),
           description: form.description.trim(),
-          category_id: parseInt(form.categoryId),
+          category_id: Number.parseInt(form.categoryId, 10),
           latitude: form.location.lat,
           longitude: form.location.lng,
           address: form.address.trim() || null,
@@ -95,7 +95,7 @@ export function SubmitReportPage() {
             </p>
             <div className="flex justify-center gap-4">
               <Button onClick={() => navigate("/map")}>View on Map</Button>
-              <Button variant="outline" onClick={() => window.location.reload()}>
+              <Button variant="outline" onClick={() => globalThis.location.reload()}>
                 Submit Another
               </Button>
             </div>
@@ -204,7 +204,10 @@ export function SubmitReportPage() {
               <Label>Photos (optional, max 5)</Label>
               <div className="flex flex-wrap gap-2">
                 {photoUpload.photos.map((photo, index) => (
-                  <div key={index} className="relative h-20 w-20 overflow-hidden rounded-md border">
+                  <div
+                    key={`${photo.name}-${photo.size}-${photo.lastModified}`}
+                    className="relative h-20 w-20 overflow-hidden rounded-md border"
+                  >
                     <img
                       src={URL.createObjectURL(photo)}
                       alt={`Preview ${index + 1}`}
