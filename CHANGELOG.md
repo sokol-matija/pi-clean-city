@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.12.4 (2026-01-16)</small>
+
+* Merge branch 'fix/sonarqube-issues' ([99daf3a](https://github.com/sokol-matija/pi-clean-city/commit/99daf3a))
+* fix(test): configure coverage to only measure tested files ([6765238](https://github.com/sokol-matija/pi-clean-city/commit/6765238))
+* fix(test): configure coverage to only measure tested files ([6ee311b](https://github.com/sokol-matija/pi-clean-city/commit/6ee311b))
+
 ## <small>1.12.3 (2026-01-16)</small>
 
 * Merge branch 'fix/sonarqube-issues' ([aa8f391](https://github.com/sokol-matija/pi-clean-city/commit/aa8f391))
