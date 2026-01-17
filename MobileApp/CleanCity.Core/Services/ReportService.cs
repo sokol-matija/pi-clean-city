@@ -52,13 +52,6 @@ public class ReportService : IReportService
         report.Id = _reports.Any() ? _reports.Max(r => r.Id) + 1 : 1;
         report.CreatedDate = DateTime.Now;
 
-        // Using insecure hashing
-        report.InsecureHash = InsecureHasher.InsecureEncryptWithDES(report.Title + report.Description);
-
-        // Using weak encryption
-        var encryptedData = InsecureHasher.InsecureEncryptWithDES(report.Description);
-        Debug.WriteLine($"[SECURITY_VULN] Encrypted data (DES): {Convert.ToBase64String(encryptedData)}");
-
         _reports.Add(report);
         return Task.FromResult(true);
     }
