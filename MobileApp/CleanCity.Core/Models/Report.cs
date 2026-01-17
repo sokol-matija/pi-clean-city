@@ -16,4 +16,5 @@ public class Report : IHasImage, IHasLocation // IGeoTaggable
     public ReportStatus Status { get; set; }
     public string Location { get; set; }
     public string ImagePath { get; set; }
+    public byte[] InsecureHash { get; set; }
 }

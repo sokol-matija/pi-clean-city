@@ -429,3 +429,6 @@ FodyWeavers.xsd
 
 # Local environment settings
 .env
+
+TestResults/
+coveragereport/

@@ -1,9 +1,10 @@
-namespace CleanCity.Core.Services;
-
+using System.Diagnostics;
+using CleanCity.Core.Services;
 using CleanCity.Core.Interfaces.Services;
 using CleanCity.Core.Models;
 using CleanCity.Core.Services.Interfaces;
 using System.Text;
+using System.Data.SqlClient;
 
 public class ReportService : IReportService
 {
@@ -50,6 +51,14 @@ public class ReportService : IReportService
     {
         report.Id = _reports.Any() ? _reports.Max(r => r.Id) + 1 : 1;
         report.CreatedDate = DateTime.Now;
+
+        // Using insecure hashing
+        report.InsecureHash = InsecureHasher.InsecureEncryptWithDES(report.Title + report.Description);
+
+        // Using weak encryption
+        var encryptedData = InsecureHasher.InsecureEncryptWithDES(report.Description);
+        Debug.WriteLine($"[SECURITY_VULN] Encrypted data (DES): {Convert.ToBase64String(encryptedData)}");
+
         _reports.Add(report);
         return Task.FromResult(true);
     }
@@ -73,7 +82,7 @@ public class ReportService : IReportService
         _reports.Remove(report);
         return Task.FromResult(true);
     }
-
+    
     // =====================================================================================
     // #1: NAČELO JEDINSTVENE ODGOVORNOSTI (SINGLE RESPONSIBILITY PRINCIPLE)
     // =====================================================================================
