@@ -1,10 +1,14 @@
 // src/features/admin/services/decorators/TicketServiceDecorator.test.ts
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
-import { LoggingTicketServiceDecorator } from "./TicketServiceDecorator"
+import { LoggingTicketServiceDecorator, TicketServiceDecorator } from "./TicketServiceDecorator"
 import type { ITicketService, TicketUpdatePayload } from "../interfaces/ITicketService"
 import type { Profile, Status } from "@/types/database.types"
-import { TicketServiceDecorator } from "./TicketServiceDecorator"
+
+// Helper function for delayed resolution
+function resolveAfter50ms() {
+  return new Promise<void>((resolve) => setTimeout(resolve, 50))
+}
 
 describe("LoggingTicketServiceDecorator", () => {
   // Mock wrapped service (fake ITicketService)
@@ -90,9 +94,7 @@ describe("LoggingTicketServiceDecorator", () => {
       const changes: TicketUpdatePayload = { priority: "high" }
 
       // Mock service da traje 50ms
-      mockService.updateTicket = vi.fn().mockImplementation(() => {
-        return new Promise((resolve) => setTimeout(resolve, 50))
-      })
+      mockService.updateTicket = vi.fn().mockImplementation(() => resolveAfter50ms())
 
       // ACT
       await decorator.updateTicket(ticketId, changes)
