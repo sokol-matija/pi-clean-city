@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.12.7 (2026-01-20)</small>
+
+* Merge pull request #15 from sokol-matija/snyk-upgrade-0996de421257489131381c8ddba29a37 ([fedfcac](https://github.com/sokol-matija/pi-clean-city/commit/fedfcac)), closes [#15](https://github.com/sokol-matija/pi-clean-city/issues/15)
+* fix: upgrade @tanstack/react-query from 5.90.12 to 5.90.15 ([b891f0f](https://github.com/sokol-matija/pi-clean-city/commit/b891f0f))
+
 ## <small>1.12.6 (2026-01-16)</small>
 
 * Merge pull request #14 from sokol-matija/refactor/security ([5c8c3be](https://github.com/sokol-matija/pi-clean-city/commit/5c8c3be)), closes [#14](https://github.com/sokol-matija/pi-clean-city/issues/14)
