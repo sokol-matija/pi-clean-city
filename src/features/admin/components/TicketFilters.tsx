@@ -38,9 +38,11 @@ export function TicketFilters({
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {/* Status Filter */}
           <div>
-            <label className="mb-2 block text-sm font-medium">Status</label>
+            <label htmlFor="status-select" className="mb-2 block text-sm font-medium">
+              Status
+            </label>
             <Select value={selectedStatus} onValueChange={onStatusChange}>
-              <SelectTrigger>
+              <SelectTrigger id="status-select">
                 <SelectValue>
                   {selectedStatus === "all"
                     ? "All Statuses"
