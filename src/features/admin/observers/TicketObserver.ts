@@ -3,7 +3,7 @@ export interface TicketObserver {
 }
 
 export class TicketSubject {
-  private observers: TicketObserver[] = []
+  private readonly observers: TicketObserver[] = []
 
   // Subscribe an observer to ticket updates
 
@@ -49,7 +49,7 @@ export class TicketSubject {
 //Refreshes the UI when ticket is updated
 
 export class UIRefreshObserver implements TicketObserver {
-  constructor(private refreshCallback: () => void) {}
+  constructor(private readonly refreshCallback: () => void) {}
 
   update(ticketId: string, changes: Record<string, unknown>): void {
     console.log(`[UIRefreshObserver] Ticket ${ticketId} updated, refreshing UI`)
