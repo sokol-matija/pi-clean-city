@@ -4,11 +4,23 @@ import { describe, it, expect, vi, beforeEach } from "vitest" //Vitest function 
 import { SupabaseTicketService } from "./SupabaseTicketService"
 import type { TicketUpdatePayload } from "../interfaces/ITicketService"
 import { mockCityServices, mockStatuses } from "./__fixtures__/ticketServiceFixtures"
+import type { Status } from "src/types/database.types.ts"
 
 // Type for mock Supabase responses to avoid using 'any'
 type MockSupabaseResponse<T> = { data: T | null; error: { message: string } | null }
 
 //chain of mocks for supabase client methods
+
+function expectStatusFields(obj: Status) {
+  expect(obj).toHaveProperty("id")
+  expect(obj).toHaveProperty("name")
+  expect(obj).toHaveProperty("sort_order")
+  expect(obj).toHaveProperty("description")
+  expect(obj).toHaveProperty("color")
+  expect(typeof obj.id).toBe("number")
+  expect(typeof obj.name).toBe("string")
+  expect(typeof obj.sort_order).toBe("number")
+}
 
 const { mockEq, mockUpdate, mockSelect, mockOrder, mockFrom } = vi.hoisted(() => {
   const mockEq = vi.fn(() =>
@@ -270,16 +282,7 @@ describe("SupabaseTicketService", () => {
         expect(result).toHaveLength(4)
 
         //Verify each status has required fields
-        result.forEach((status) => {
-          expect(status).toHaveProperty("id")
-          expect(status).toHaveProperty("name")
-          expect(status).toHaveProperty("sort_order")
-          expect(status).toHaveProperty("description")
-          expect(status).toHaveProperty("color")
-          expect(typeof status.id).toBe("number")
-          expect(typeof status.name).toBe("string")
-          expect(typeof status.sort_order).toBe("number")
-        })
+        result.forEach(expectStatusFields)
 
         //verify statuses are ordered by sort_order
         expect(result[0].sort_order).toBe(1)
