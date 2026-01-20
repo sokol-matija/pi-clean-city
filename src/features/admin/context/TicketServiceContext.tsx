@@ -2,17 +2,21 @@ import { createContext, useContext, type ReactNode } from "react"
 import type { ITicketService } from "../services"
 import { SupabaseTicketService } from "../services"
 import { LoggingTicketServiceDecorator } from "../services/decorators/TicketServiceDecorator"
+import { useMemo } from "react"
 
 const TicketServiceContext = createContext<ITicketService | undefined>(undefined)
 
 interface TicketServiceProviderProps {
-  children: ReactNode
-  service?: ITicketService //STRATEGY: Allow injection of different service implementations
+  readonly children: ReactNode
+  readonly service?: ITicketService //STRATEGY: Allow injection of different service implementations
 }
 
 export function TicketServiceProvider({ children, service }: TicketServiceProviderProps) {
-  const baseService = service || new SupabaseTicketService()
-  const decoratedService = new LoggingTicketServiceDecorator(baseService)
+  const baseService = useMemo(() => service || new SupabaseTicketService(), [service])
+  const decoratedService = useMemo(
+    () => new LoggingTicketServiceDecorator(baseService),
+    [baseService]
+  )
 
   return (
     <TicketServiceContext.Provider value={decoratedService}>

@@ -6,6 +6,28 @@ import {
   type TicketObserver,
 } from "./TicketObserver"
 
+// helper function to find LoggerObserver log call
+function isLoggerObserverLogCall(call: unknown[]): boolean {
+  return (
+    typeof call[0] === "string" &&
+    call[0].includes("[LoggerObserver]") &&
+    call[0].includes("Ticket")
+  )
+}
+
+//helper function to test notify with no observers
+function notifyNoObservers(subject: TicketSubject, consoleLogSpy: ReturnType<typeof vi.spyOn>) {
+  //ACT & ASSERT
+  expect(() => {
+    subject.notify("ticket-123", { priority: "high" })
+  }).not.toThrow()
+
+  //logira 0 observers
+  expect(consoleLogSpy).toHaveBeenCalledWith(
+    expect.stringContaining("[TicketSubject] Notifying 0 observers")
+  )
+}
+
 describe("TicketObserver Pattern", () => {
   //spies
   let consoleLogSpy: ReturnType<typeof vi.spyOn>
@@ -182,15 +204,7 @@ describe("TicketObserver Pattern", () => {
       })
 
       it("should not fail when no observers are attached", () => {
-        //ACT & ASSERT
-        expect(() => {
-          subject.notify("ticket-123", { priority: "high" })
-        }).not.toThrow()
-
-        //logira 0 observers
-        expect(consoleLogSpy).toHaveBeenCalledWith(
-          expect.stringContaining("[TicketSubject] Notifying 0 observers")
-        )
+        notifyNoObservers(subject, consoleLogSpy)
       })
 
       it("should not notify detached observers", () => {
@@ -309,13 +323,15 @@ describe("TicketObserver Pattern", () => {
         //ACT
         loggerObserver.update("ticket-987", { priority: "low" })
 
+        // //ASSERT
+        // const logCall = consoleLogSpy.mock.calls.find(
+        //   (call: unknown[]) =>
+        //     typeof call[0] === "string" &&
+        //     call[0].includes("[LoggerObserver]") &&
+        //     call[0].includes("Ticket")
+
         //ASSERT
-        const logCall = consoleLogSpy.mock.calls.find(
-          (call: unknown[]) =>
-            typeof call[0] === "string" &&
-            call[0].includes("[LoggerObserver]") &&
-            call[0].includes("Ticket")
-        )
+        const logCall = consoleLogSpy.mock.calls.find(isLoggerObserverLogCall)
 
         expect(logCall).toBeDefined()
         expect(logCall?.[0]).toMatch(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)

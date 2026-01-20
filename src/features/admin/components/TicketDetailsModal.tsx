@@ -19,9 +19,9 @@ import { PRIORITY_OPTIONS } from "../config/priorityConfig"
 import { useTicketForm } from "../hooks/useTicketForm"
 
 interface TicketDetailsModalProps {
-  report: ReportWithRelations
-  onClose: () => void
-  onUpdate: () => void
+  readonly report: ReportWithRelations
+  readonly onClose: () => void
+  readonly onUpdate: () => void
 }
 
 export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsModalProps) {
@@ -79,64 +79,6 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
   useEffect(() => {
     loadData()
   }, [loadData])
-
-  // const handleSaveChanges = async () => {
-  //   if (!hasChanges) {
-  //     alert("No changes to save")
-  //     return
-  //   }
-
-  //   try {
-  //     setIsLoading(true)
-  //     await ticketService.updateTicket(report.id, changes)
-
-  //     alert("Ticket updated successfully!")
-  //     onUpdate()
-  //     onClose()
-  //   } catch (err) {
-  //     console.error("Error saving changes:", err)
-  //     alert(err instanceof Error ? err.message : "Failed to save changes")
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }
-
-  // const handleSaveChanges = async () => {
-  //   console.log("[Modal] handleSaveChanges called")
-
-  //   if (!hasChanges) {
-  //     console.log("[Modal] No changes detected")
-  //     alert("No changes to save")
-  //     return
-  //   }
-
-  //   console.log("[Modal] Has changes, starting save...")
-
-  //   try {
-  //     setIsLoading(true)
-  //     console.log("[Modal] isLoading set to true")
-
-  //     console.log("[Modal] Calling ticketService.updateTicket...")
-  //     await ticketService.updateTicket(report.id, changes)
-  //     console.log("[Modal] ticketService.updateTicket completed")
-  //     ticketSubject.notify(report.id, changes)
-  //     alert("Ticket updated successfully!")
-
-  //     console.log("[Modal] Calling onUpdate...")
-  //     onUpdate()
-  //     console.log("[Modal] onUpdate completed")
-
-  //     console.log("[Modal] Calling onClose...")
-  //     onClose()
-  //     console.log("[Modal] onClose completed")
-  //   } catch (err) {
-  //     console.error("[Modal] Error in handleSaveChanges:", err)
-  //     alert(err instanceof Error ? err.message : "Failed to save changes")
-  //   } finally {
-  //     console.log("[Modal] Finally block - setting isLoading to false")
-  //     setIsLoading(false)
-  //   }
-  // }
 
   const handleSaveChanges = async () => {
     if (!hasChanges) {
@@ -251,7 +193,7 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
                   </span>
                   <span className="col-span-2">
                     {report.address}
-                    {report.latitude && report.longitude && (
+                    {Boolean(report.latitude) && Boolean(report.longitude) && (
                       <div className="text-xs text-muted-foreground">
                         GPS: {report.latitude}, {report.longitude}
                       </div>
@@ -279,9 +221,11 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
             <CardContent className="space-y-4">
               {/* Assign Worker */}
               <div>
-                <label className="mb-2 block text-sm font-medium">Assign to City Service</label>
+                <label htmlFor="assign-worker-select" className="mb-2 block text-sm font-medium">
+                  Assign to City Service
+                </label>
                 <Select value={selectedWorker} onValueChange={setSelectedWorker}>
-                  <SelectTrigger>
+                  <SelectTrigger id="assign-worker-select">
                     <SelectValue placeholder="Select worker..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -301,16 +245,14 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
 
               {/* Change Priority */}
               <div>
-                <label className="mb-2 block text-sm font-medium">Priority</label>
+                <label htmlFor="priority-select" className="mb-2 block text-sm font-medium">
+                  Priority
+                </label>
                 <Select value={selectedPriority} onValueChange={setSelectedPriority}>
-                  <SelectTrigger>
+                  <SelectTrigger id="priority-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {/* <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="critical">Critical</SelectItem> */}
                     {PRIORITY_OPTIONS.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
@@ -327,9 +269,11 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
 
               {/* Change Status */}
               <div>
-                <label className="mb-2 block text-sm font-medium">Status</label>
+                <label htmlFor="status-select" className="mb-2 block text-sm font-medium">
+                  Status
+                </label>
                 <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                  <SelectTrigger>
+                  <SelectTrigger id="status-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

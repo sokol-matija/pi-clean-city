@@ -50,9 +50,11 @@ coverage/
 /playwright/.cache/
 /playwright/.auth/
 
+
 # Lighthouse CI
 .lighthouseci/
 
 # SonarQube
 .scannerwork/
 .sonarlint/
+sonar-project.properties

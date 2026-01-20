@@ -21,7 +21,7 @@ export function AdminTicketsPage() {
     closeModal()
   }
 
-  if (!profile || profile.role !== "admin") {
+  if (profile?.role !== "admin") {
     return (
       <div className="container mx-auto p-8">
         <Card>
