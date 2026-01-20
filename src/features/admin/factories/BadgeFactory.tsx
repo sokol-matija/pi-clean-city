@@ -127,6 +127,6 @@ interface BadgeRendererProps {
   badge: BadgeComponent
 }
 
-export function BadgeRenderer({ badge }: BadgeRendererProps): JSX.Element {
+export function BadgeRenderer({ badge }: Readonly<BadgeRendererProps>): JSX.Element {
   return <>{badge.render()}</>
 }

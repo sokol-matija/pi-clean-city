@@ -22,7 +22,7 @@ interface TicketsTableProps {
   onRowClick: (report: ReportWithRelations) => void
 }
 
-export function TicketsTable({ reports, onRowClick }: TicketsTableProps) {
+export function TicketsTable({ reports, onRowClick }: Readonly<TicketsTableProps>) {
   if (reports.length === 0) {
     return (
       <Card>
