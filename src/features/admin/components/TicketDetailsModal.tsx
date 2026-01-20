@@ -193,7 +193,7 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
                   </span>
                   <span className="col-span-2">
                     {report.address}
-                    {report.latitude && report.longitude && (
+                    {Boolean(report.latitude) && Boolean(report.longitude) && (
                       <div className="text-xs text-muted-foreground">
                         GPS: {report.latitude}, {report.longitude}
                       </div>
@@ -221,9 +221,11 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
             <CardContent className="space-y-4">
               {/* Assign Worker */}
               <div>
-                <label className="mb-2 block text-sm font-medium">Assign to City Service</label>
+                <label htmlFor="assign-worker-select" className="mb-2 block text-sm font-medium">
+                  Assign to City Service
+                </label>
                 <Select value={selectedWorker} onValueChange={setSelectedWorker}>
-                  <SelectTrigger>
+                  <SelectTrigger id="assign-worker-select">
                     <SelectValue placeholder="Select worker..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -243,16 +245,14 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
 
               {/* Change Priority */}
               <div>
-                <label className="mb-2 block text-sm font-medium">Priority</label>
+                <label htmlFor="priority-select" className="mb-2 block text-sm font-medium">
+                  Priority
+                </label>
                 <Select value={selectedPriority} onValueChange={setSelectedPriority}>
-                  <SelectTrigger>
+                  <SelectTrigger id="priority-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {/* <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="critical">Critical</SelectItem> */}
                     {PRIORITY_OPTIONS.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
