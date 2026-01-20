@@ -15,17 +15,17 @@ export const createCommentNotification = (params: {
     message: `${params.commenterName} commented: "${params.commentPreview}"`,
     priority: 3,
     tags: ["speech_balloon"],
-    click: `${window.location.origin}/report/${params.reportId}`,
+    click: `${globalThis.location.origin}/report/${params.reportId}`,
     actions: [
       {
         action: "view",
         label: "View Report",
-        url: `${window.location.origin}/report/${params.reportId}`,
+        url: `${globalThis.location.origin}/report/${params.reportId}`,
       },
       {
         action: "view",
         label: "Reply",
-        url: `${window.location.origin}/report/${params.reportId}#comments`,
+        url: `${globalThis.location.origin}/report/${params.reportId}#comments`,
       },
     ],
   }
@@ -44,7 +44,7 @@ export const createStatusUpdateNotification = (params: {
     message: `Status changed: ${params.oldStatus} → ${params.newStatus}`,
     priority: 4,
     tags: ["chart_with_upwards_trend"],
-    click: `${window.location.origin}/report/${params.reportId}`,
+    click: `${globalThis.location.origin}/report/${params.reportId}`,
   }
 }
 
@@ -61,17 +61,17 @@ export const createAssignmentNotification = (params: {
     message: `Assigned to ${params.assigneeName}: ${params.reportTitle}`,
     priority: 5,
     tags: ["clipboard"],
-    click: `${window.location.origin}/report/${params.reportId}`,
+    click: `${globalThis.location.origin}/report/${params.reportId}`,
     actions: [
       {
         action: "view",
         label: "View Report",
-        url: `${window.location.origin}/report/${params.reportId}`,
+        url: `${globalThis.location.origin}/report/${params.reportId}`,
       },
       {
         action: "view",
         label: "View Map",
-        url: `${window.location.origin}/map?report=${params.reportId}`,
+        url: `${globalThis.location.origin}/map?report=${params.reportId}`,
       },
     ],
   }
@@ -89,7 +89,7 @@ export const createResolutionNotification = (params: {
     message: `Your report "${params.reportTitle}" has been resolved by ${params.resolvedBy}`,
     priority: 4,
     tags: ["white_check_mark"],
-    click: `${window.location.origin}/report/${params.reportId}`,
+    click: `${globalThis.location.origin}/report/${params.reportId}`,
   }
 }
 
@@ -105,6 +105,6 @@ export const createMentionNotification = (params: {
     message: `${params.mentionerName} mentioned you: "${params.context}"`,
     priority: 3,
     tags: ["loudspeaker"],
-    click: `${window.location.origin}/report/${params.reportId}`,
+    click: `${globalThis.location.origin}/report/${params.reportId}`,
   }
 }

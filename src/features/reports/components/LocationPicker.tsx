@@ -34,7 +34,7 @@ function LocationMarker({
   return position ? <Marker position={[position.lat, position.lng]} /> : null
 }
 
-export function LocationPicker({ value, onChange }: LocationPickerProps) {
+export function LocationPicker({ value, onChange }: Readonly<LocationPickerProps>) {
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(value || null)
   const [isLocating, setIsLocating] = useState(false)
 
@@ -85,9 +85,9 @@ export function LocationPicker({ value, onChange }: LocationPickerProps) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium">
+        <span id="location-picker-label" className="text-sm font-medium">
           Location <span className="text-destructive">*</span>
-        </label>
+        </span>
         <Button
           type="button"
           variant="outline"
@@ -100,7 +100,11 @@ export function LocationPicker({ value, onChange }: LocationPickerProps) {
         </Button>
       </div>
 
-      <div className="relative h-[300px] overflow-hidden rounded-md border">
+      <div
+        className="relative h-[300px] overflow-hidden rounded-md border"
+        role="application"
+        aria-labelledby="location-picker-label"
+      >
         <MapContainer
           center={position ? [position.lat, position.lng] : [45.815, 15.982]}
           zoom={13}

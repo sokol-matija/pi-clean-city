@@ -5,6 +5,70 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.12.7 (2026-01-20)</small>
+
+* Merge pull request #15 from sokol-matija/snyk-upgrade-0996de421257489131381c8ddba29a37 ([fedfcac](https://github.com/sokol-matija/pi-clean-city/commit/fedfcac)), closes [#15](https://github.com/sokol-matija/pi-clean-city/issues/15)
+* fix: upgrade @tanstack/react-query from 5.90.12 to 5.90.15 ([b891f0f](https://github.com/sokol-matija/pi-clean-city/commit/b891f0f))
+
+## <small>1.12.6 (2026-01-16)</small>
+
+* Merge pull request #14 from sokol-matija/refactor/security ([5c8c3be](https://github.com/sokol-matija/pi-clean-city/commit/5c8c3be)), closes [#14](https://github.com/sokol-matija/pi-clean-city/issues/14)
+* fix: csp headers ([3f0370e](https://github.com/sokol-matija/pi-clean-city/commit/3f0370e))
+
+## <small>1.12.5 (2026-01-16)</small>
+
+* fix(sonar): exclude untested files from coverage measurement ([1ca9b6e](https://github.com/sokol-matija/pi-clean-city/commit/1ca9b6e))
+
+## <small>1.12.4 (2026-01-16)</small>
+
+* Merge branch 'fix/sonarqube-issues' ([99daf3a](https://github.com/sokol-matija/pi-clean-city/commit/99daf3a))
+* fix(test): configure coverage to only measure tested files ([6765238](https://github.com/sokol-matija/pi-clean-city/commit/6765238))
+* fix(test): configure coverage to only measure tested files ([6ee311b](https://github.com/sokol-matija/pi-clean-city/commit/6ee311b))
+
+## <small>1.12.3 (2026-01-16)</small>
+
+* Merge branch 'fix/sonarqube-issues' ([aa8f391](https://github.com/sokol-matija/pi-clean-city/commit/aa8f391))
+* Merge branch 'fix/sonarqube-issues' ([39fce20](https://github.com/sokol-matija/pi-clean-city/commit/39fce20))
+* fix(a11y): use button element for dialog backdrop click handling ([6e26ff3](https://github.com/sokol-matija/pi-clean-city/commit/6e26ff3))
+* ci(sonar): add ntfy.sh notification when analysis completes ([b3f41bd](https://github.com/sokol-matija/pi-clean-city/commit/b3f41bd))
+
+## <small>1.12.2 (2026-01-16)</small>
+
+* Merge branch 'fix/sonarqube-issues' ([07ae774](https://github.com/sokol-matija/pi-clean-city/commit/07ae774))
+* fix(sonar): use native dialog element for lightbox accessibility ([062f8d3](https://github.com/sokol-matija/pi-clean-city/commit/062f8d3))
+
+## <small>1.12.1 (2026-01-16)</small>
+
+* Merge branch 'fix/sonarqube-issues' ([4327b06](https://github.com/sokol-matija/pi-clean-city/commit/4327b06))
+* fix(sonar): resolve 41 code quality issues for Matija's files ([30a538d](https://github.com/sokol-matija/pi-clean-city/commit/30a538d))
+
+## 1.12.0 (2026-01-16)
+
+* Merge branch 'feat/lighthouse-ci' into fix/sonarqube-issues ([13109a6](https://github.com/sokol-matija/pi-clean-city/commit/13109a6))
+* ci(lighthouse): add GitHub Actions workflow ([96af4b2](https://github.com/sokol-matija/pi-clean-city/commit/96af4b2))
+* ci(sonar): add GitHub Actions workflow for SonarQube ([3af0ba7](https://github.com/sokol-matija/pi-clean-city/commit/3af0ba7))
+* feat(assets): add favicon to fix 404 error ([19b4e47](https://github.com/sokol-matija/pi-clean-city/commit/19b4e47))
+* feat(ci): add Lighthouse CI configuration ([9770543](https://github.com/sokol-matija/pi-clean-city/commit/9770543))
+* feat(scripts): add Lighthouse npm scripts ([fe7c912](https://github.com/sokol-matija/pi-clean-city/commit/fe7c912))
+* feat(seo): add robots.txt for search engine crawling ([cfcc81f](https://github.com/sokol-matija/pi-clean-city/commit/cfcc81f))
+* feat(sonar): add SonarQube project configuration ([9cae6c3](https://github.com/sokol-matija/pi-clean-city/commit/9cae6c3))
+* feat(ui): add loading placeholder for First Contentful Paint ([4cb8adc](https://github.com/sokol-matija/pi-clean-city/commit/4cb8adc))
+* chore: gitignore Lighthouse CI reports ([55153fa](https://github.com/sokol-matija/pi-clean-city/commit/55153fa))
+* chore: gitignore SonarQube temp files ([c1c7a09](https://github.com/sokol-matija/pi-clean-city/commit/c1c7a09))
+
+## <small>1.11.11 (2026-01-15)</small>
+
+* fix(security): remove unsafe-eval from production CSP ([37cf6f4](https://github.com/sokol-matija/pi-clean-city/commit/37cf6f4))
+
+## <small>1.11.10 (2026-01-15)</small>
+
+* Merge remote-tracking branch 'origin/main' ([7528681](https://github.com/sokol-matija/pi-clean-city/commit/7528681))
+* fix(security): add workflow permissions ([ecefa43](https://github.com/sokol-matija/pi-clean-city/commit/ecefa43))
+
+## <small>1.11.9 (2026-01-15)</small>
+
+* fix(security): add workflow permissions and remove comments ([19d0945](https://github.com/sokol-matija/pi-clean-city/commit/19d0945))
+
 ## <small>1.11.8 (2026-01-15)</small>
 
 * Merge remote-tracking branch 'origin/main' ([692e313](https://github.com/sokol-matija/pi-clean-city/commit/692e313))

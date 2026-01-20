@@ -10,7 +10,7 @@
  * Only HTTPS and HTTP (for development) are allowed.
  * This prevents javascript:, data:, and other potentially dangerous schemes.
  */
-const ALLOWED_IMAGE_PROTOCOLS = ["https:", "http:"]
+const ALLOWED_IMAGE_PROTOCOLS = new Set(["https:", "http:"])
 
 /**
  * List of trusted domains for image sources.
@@ -50,7 +50,7 @@ export function isValidImageUrl(url: string | null | undefined): boolean {
     const parsed = new URL(url)
 
     // Check protocol
-    if (!ALLOWED_IMAGE_PROTOCOLS.includes(parsed.protocol)) {
+    if (!ALLOWED_IMAGE_PROTOCOLS.has(parsed.protocol)) {
       return false
     }
 

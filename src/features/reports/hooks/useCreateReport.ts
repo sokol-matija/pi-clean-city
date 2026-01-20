@@ -8,7 +8,7 @@ interface CreateReportData {
 }
 
 function sanitizeFilename(filename: string): string {
-  const sanitized = filename.replace(/[^a-zA-Z0-9._-]/g, "_").replace(/_{2,}/g, "_")
+  const sanitized = filename.replaceAll(/[^a-zA-Z0-9._-]/g, "_").replaceAll(/_{2,}/g, "_")
   const parts = sanitized.split(".")
   if (parts.length < 2) {
     return `${sanitized}.jpg`

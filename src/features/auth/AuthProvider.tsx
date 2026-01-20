@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback, useRef } from "react"
+import { useEffect, useState, useCallback, useRef, useMemo } from "react"
 import { User, Session, AuthChangeEvent } from "@supabase/supabase-js"
 import { supabase } from "@/lib/supabase"
 import type { Profile } from "@/types/database.types"
 import { AuthContext } from "./AuthContext"
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -129,7 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${globalThis.location.origin}/`,
       },
     })
 
@@ -164,20 +164,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setProfile(null)
   }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        session,
-        profile,
-        isLoading,
-        signInWithGoogle,
-        signInWithPassword,
-        signOut,
-        refreshProfile,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const contextValue = useMemo(
+    () => ({
+      user,
+      session,
+      profile,
+      isLoading,
+      signInWithGoogle,
+      signInWithPassword,
+      signOut,
+      refreshProfile,
+    }),
+    [user, session, profile, isLoading, refreshProfile]
   )
+
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 }

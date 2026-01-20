@@ -1,0 +1,70 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sonarqube-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sonarqube:
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0 # Full history for better analysis
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          HUSKY: 0
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@6cae46e2d796f265265cfcf628b72a32b4d7cade # v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      - name: Run SonarQube Scan
+        run: npx @sonar/scan
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Notify via ntfy.sh
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          if [ "$STATUS" = "success" ]; then
+            EMOJI="white_check_mark"
+            PRIORITY="3"
+          else
+            EMOJI="x"
+            PRIORITY="4"
+          fi
+          curl -s \
+            -H "Title: SonarQube Analysis Complete" \
+            -H "Priority: $PRIORITY" \
+            -H "Tags: $EMOJI,sonarqube" \
+            -H "Click: ${{ secrets.SONAR_HOST_URL }}/dashboard?id=pi-clean-city" \
+            -d "pi-clean-city analysis finished: $STATUS" \
+            https://ntfy.sh/github-workflows-msokol
