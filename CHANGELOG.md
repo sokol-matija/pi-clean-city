@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.12.8 (2026-01-20)</small>
+
+* Merge branch 'main' into refactor/ticketing-sonarqube ([e8915ce](https://github.com/sokol-matija/pi-clean-city/commit/e8915ce))
+* Merge pull request #16 from sokol-matija/refactor/ticketing-sonarqube ([8d68e4e](https://github.com/sokol-matija/pi-clean-city/commit/8d68e4e)), closes [#16](https://github.com/sokol-matija/pi-clean-city/issues/16)
+* refactor(TicketsTable, BadgeRenderer): make props readonly for immutability ([8e17101](https://github.com/sokol-matija/pi-clean-city/commit/8e17101))
+* refactor: use useMemo for service initialization and add readonly modifiers to props ([163df89](https://github.com/sokol-matija/pi-clean-city/commit/163df89))
+* refactor(AdminTicketsPage): simplify profile check with optional chaining ([767ec90](https://github.com/sokol-matija/pi-clean-city/commit/767ec90))
+* refactor(tests): enhance TicketObserver tests and streamline SupabaseTicketService assertions ([e602f4a](https://github.com/sokol-matija/pi-clean-city/commit/e602f4a))
+* refactor(tests): simplify updateTicket mock implementation in LoggingTicketServiceDecorator tests ([0df824e](https://github.com/sokol-matija/pi-clean-city/commit/0df824e))
+* refactor(TicketAssignmentBadge): make props readonly for immutability ([ad01567](https://github.com/sokol-matija/pi-clean-city/commit/ad01567))
+* refactor(TicketDetailsModal): add readonly modifiers to props and improve accessibility in labels ([a08ccd1](https://github.com/sokol-matija/pi-clean-city/commit/a08ccd1))
+* refactor(TicketDetailsModal): improve accessibility by adding htmlFor attributes to labels ([0960ab2](https://github.com/sokol-matija/pi-clean-city/commit/0960ab2))
+* refactor(TicketDetailsModal): remove commented-out handleSaveChanges implementation ([c3e001f](https://github.com/sokol-matija/pi-clean-city/commit/c3e001f))
+* refactor(TicketFilters): add htmlFor attribute to status label for improved accessibility ([4d8319d](https://github.com/sokol-matija/pi-clean-city/commit/4d8319d))
+* refactor(TicketFilters): add readonly modifiers to props and improve accessibility for labels ([5d2797d](https://github.com/sokol-matija/pi-clean-city/commit/5d2797d))
+* refactor(useTicketFilters): replace parseInt with Number.parseInt for consistency ([baf66ae](https://github.com/sokol-matija/pi-clean-city/commit/baf66ae))
+* refactor(useTicketForm): replace parseInt ([dfee04e](https://github.com/sokol-matija/pi-clean-city/commit/dfee04e))
+
 ## <small>1.12.7 (2026-01-20)</small>
 
 * Merge pull request #15 from sokol-matija/snyk-upgrade-0996de421257489131381c8ddba29a37 ([fedfcac](https://github.com/sokol-matija/pi-clean-city/commit/fedfcac)), closes [#15](https://github.com/sokol-matija/pi-clean-city/issues/15)
