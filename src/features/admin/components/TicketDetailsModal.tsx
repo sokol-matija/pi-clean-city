@@ -19,9 +19,9 @@ import { PRIORITY_OPTIONS } from "../config/priorityConfig"
 import { useTicketForm } from "../hooks/useTicketForm"
 
 interface TicketDetailsModalProps {
-  report: ReportWithRelations
-  onClose: () => void
-  onUpdate: () => void
+  readonly report: ReportWithRelations
+  readonly onClose: () => void
+  readonly onUpdate: () => void
 }
 
 export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsModalProps) {
@@ -269,9 +269,11 @@ export function TicketDetailsModal({ report, onClose, onUpdate }: TicketDetailsM
 
               {/* Change Status */}
               <div>
-                <label className="mb-2 block text-sm font-medium">Status</label>
+                <label htmlFor="status-select" className="mb-2 block text-sm font-medium">
+                  Status
+                </label>
                 <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                  <SelectTrigger>
+                  <SelectTrigger id="status-select">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
