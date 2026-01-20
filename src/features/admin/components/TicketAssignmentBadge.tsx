@@ -10,7 +10,7 @@ interface TicketAssignmentBadgeProps {
   assignment: TicketAssignment
 }
 
-export function TicketAssignmentBadge({ assignment }: TicketAssignmentBadgeProps) {
+export function TicketAssignmentBadge({ assignment }: Readonly<TicketAssignmentBadgeProps>) {
   if (!assignment.assigned_worker) {
     return (
       <Badge variant="outline" className="text-muted-foreground">
