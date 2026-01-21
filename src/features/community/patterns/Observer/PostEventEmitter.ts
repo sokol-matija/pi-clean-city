@@ -32,7 +32,7 @@ type AnyPostEventHandler = (payload: PostEventPayloads[PostEventType]) => void |
 
 // POST EMITTER - GLAVNA KLASA OBSERVER PATTERNA
 export class PostEventEmitter {
-  private subscribers: Map<PostEventType, Set<AnyPostEventHandler>> = new Map()
+  private readonly subscribers: Map<PostEventType, Set<AnyPostEventHandler>> = new Map()
 
   // Singleton pattern kombiniran s Observer
   private static instance: PostEventEmitter | null = null
@@ -50,9 +50,7 @@ export class PostEventEmitter {
   }
 
   public static getInstance(): PostEventEmitter {
-    if (!PostEventEmitter.instance) {
-      PostEventEmitter.instance = new PostEventEmitter()
-    }
+    PostEventEmitter.instance ??= new PostEventEmitter()
     return PostEventEmitter.instance
   }
 

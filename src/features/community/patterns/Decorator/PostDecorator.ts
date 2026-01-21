@@ -34,7 +34,7 @@ function createBaseDecoratedPost(post: PostWithProfile): DecoratedPost {
 
 // NewPostDecorator - novi postovi manji od 24h su "novi"
 export class NewPostDecorator implements IPostDecorator {
-  private hoursThreshold: number
+  private readonly hoursThreshold: number
 
   constructor(hoursThreshold: number = 24) {
     this.hoursThreshold = hoursThreshold
@@ -62,9 +62,9 @@ export class NewPostDecorator implements IPostDecorator {
 
 // PopularPostDecorator - označava postove s visokim ratingom kao "popularne"
 export class PopularPostDecorator implements IPostDecorator {
-  private ratingThreshold: number
+  private readonly ratingThreshold: number
 
-  constructor(ratingThreshold: number = 4.0) {
+  constructor(ratingThreshold: number = 4) {
     this.ratingThreshold = ratingThreshold
   }
 
@@ -115,7 +115,7 @@ export class TrendingPostDecorator implements IPostDecorator {
 
 // VerifiedAuthorDecorator - označava postove verificiranih autora
 export class VerifiedAuthorDecorator implements IPostDecorator {
-  private verifiedUserIds: Set<string>
+  private readonly verifiedUserIds: Set<string>
 
   constructor(verifiedUserIds: string[] = []) {
     this.verifiedUserIds = new Set(verifiedUserIds)
@@ -139,9 +139,9 @@ export class VerifiedAuthorDecorator implements IPostDecorator {
 
 // PostDecoratorChain - omogućuje lančano primjenjivanje više dekoratora
 export class PostDecoratorChain {
-  private decorators: IPostDecorator[] = []
+  private readonly decorators: IPostDecorator[] = []
 
-  addDecorator(decorator: IPostDecorator): PostDecoratorChain {
+  addDecorator(decorator: IPostDecorator): this {
     this.decorators.push(decorator)
     return this
   }
@@ -171,7 +171,7 @@ export class PostDecoratorChain {
 export function createDefaultDecoratorChain(): PostDecoratorChain {
   return new PostDecoratorChain()
     .addDecorator(new NewPostDecorator(24))
-    .addDecorator(new PopularPostDecorator(4.0))
+    .addDecorator(new PopularPostDecorator(4))
     .addDecorator(new TrendingPostDecorator())
 }
 

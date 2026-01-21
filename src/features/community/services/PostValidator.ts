@@ -38,8 +38,8 @@ export class MinLengthRule implements IValidationRule {
   ruleName = "MinLength"
 
   constructor(
-    private minTitleLength: number = 3,
-    private minContentLength: number = 10
+    private readonly minTitleLength: number = 3,
+    private readonly minContentLength: number = 10
   ) {}
 
   validate(data: CreatePostData): ValidationResult {
@@ -63,7 +63,7 @@ export class MinLengthRule implements IValidationRule {
 export class NoSpamRule implements IValidationRule {
   ruleName = "NoSpam"
 
-  private spamKeywords = ["spam", "click here", "free money", "buy now"]
+  private readonly spamKeywords = ["spam", "click here", "free money", "buy now"]
 
   validate(data: CreatePostData): ValidationResult {
     const errors: string[] = []
@@ -90,9 +90,9 @@ export interface IPostValidator {
 }
 
 export class PostValidator implements IPostValidator {
-  private rules: IValidationRule[] = []
+  private readonly rules: IValidationRule[] = []
 
-  addRule(rule: IValidationRule): PostValidator {
+  addRule(rule: IValidationRule): this {
     this.rules.push(rule)
     return this
   }

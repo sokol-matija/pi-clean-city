@@ -72,7 +72,7 @@ export function useDecoratedPosts(options: UseDecoratedPostsOptions = {}): UseDe
   return {
     decoratedPosts,
     isLoading,
-    error: error as Error | null,
+    error,
     getPostById,
     stats,
   }

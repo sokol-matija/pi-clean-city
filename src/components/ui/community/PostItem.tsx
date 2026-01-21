@@ -23,7 +23,7 @@ interface PostItemProps {
 
 const defaultFormatter = createFormatter("relative")
 
-function PostItem({ post, formatter = defaultFormatter, badges = [] }: PostItemProps) {
+function PostItem({ post, formatter = defaultFormatter, badges = [] }: Readonly<PostItemProps>) {
   const formattedPost = formatter.formatPost(post)
   const username = formattedPost.authorName
   const avatarUrl = post.user?.avatar_url || defaultAvatar
@@ -31,7 +31,7 @@ function PostItem({ post, formatter = defaultFormatter, badges = [] }: PostItemP
   const { user } = useAuth()
 
   const handleDeletePost = () => {
-    if (window.confirm("Are you sure you want to delete this post?")) {
+    if (globalThis.confirm("Are you sure you want to delete this post?")) {
       deletePost(post.id, {
         onError: (error: Error) => {
           alert(`Error deleting post: ${error.message}`)
