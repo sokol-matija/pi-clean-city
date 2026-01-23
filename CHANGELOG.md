@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.13.0 (2026-01-23)
+
+* fix: code refactor based on sonarqube info ([bf21dcd](https://github.com/sokol-matija/pi-clean-city/commit/bf21dcd))
+* fix: mention sonarqube ([ba8ed13](https://github.com/sokol-matija/pi-clean-city/commit/ba8ed13))
+* fix: resolve undici security vulnerability via npm override ([7046d48](https://github.com/sokol-matija/pi-clean-city/commit/7046d48))
+* initial mobile app commit ([8494aa8](https://github.com/sokol-matija/pi-clean-city/commit/8494aa8))
+* Merge remote-tracking branch 'origin/dependabot/npm_and_yarn/npm_and_yarn-608be4dd71' ([35dd9d1](https://github.com/sokol-matija/pi-clean-city/commit/35dd9d1))
+* Merge remote-tracking branch 'origin/feat/mobile-app1' ([b88a43c](https://github.com/sokol-matija/pi-clean-city/commit/b88a43c))
+* Merge remote-tracking branch 'origin/refactor/community-sonarqube' ([e8093f8](https://github.com/sokol-matija/pi-clean-city/commit/e8093f8))
+* patterns added ([1a9e741](https://github.com/sokol-matija/pi-clean-city/commit/1a9e741))
+* feat: added security vulnerabilities ([013f4b6](https://github.com/sokol-matija/pi-clean-city/commit/013f4b6))
+* feat: added security vulnerabilities (2) ([00dbd50](https://github.com/sokol-matija/pi-clean-city/commit/00dbd50))
+* feat: ci-cd tests script for github added ([7960f56](https://github.com/sokol-matija/pi-clean-city/commit/7960f56))
+* feat: comment on posts ([de212cb](https://github.com/sokol-matija/pi-clean-city/commit/de212cb))
+* feat: mention on comments ([b196709](https://github.com/sokol-matija/pi-clean-city/commit/b196709))
+* feat: refactored code suggested by SonarQube ([a8ee094](https://github.com/sokol-matija/pi-clean-city/commit/a8ee094))
+* feat: security vulnerabilities resolved ([9881cae](https://github.com/sokol-matija/pi-clean-city/commit/9881cae))
+* feat: tests - correction 1 ([0f07edd](https://github.com/sokol-matija/pi-clean-city/commit/0f07edd))
+* feat: Tests (Unit, Integration) added ([69f88d6](https://github.com/sokol-matija/pi-clean-city/commit/69f88d6))
+* chore(deps): bump the npm_and_yarn group across 1 directory with 2 updates ([b05a02a](https://github.com/sokol-matija/pi-clean-city/commit/b05a02a))
+
 ## <small>1.12.8 (2026-01-20)</small>
 
 * Merge branch 'main' into refactor/ticketing-sonarqube ([e8915ce](https://github.com/sokol-matija/pi-clean-city/commit/e8915ce))
