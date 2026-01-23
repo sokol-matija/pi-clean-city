@@ -38,29 +38,4 @@ public class StatusToColorConverter : IValueConverter
 }
 
 
-// === STARI KOD ===
-//public class StatusToColorConverter : IValueConverter
-//{
-//    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-//    {
-//        if (value is not ReportStatus status)
-//            return Colors.Gray;
-
-//        // Parameter određuje koja boja se vraća: "background" ili "stroke"
-//        var colorType = parameter?.ToString()?.ToLower() ?? "background";
-
-//        return status switch
-//        {
-//            ReportStatus.Zaprimljeno => colorType == "background" ? Color.FromArgb("#FFE0B2") : Color.FromArgb("#E65100"),
-//            ReportStatus.UPostupku => colorType == "background" ? Color.FromArgb("#BBDEFB") : Color.FromArgb("#0D47A1"),
-//            ReportStatus.Rijeseno => colorType == "background" ? Color.FromArgb("#C8E6C9") : Color.FromArgb("#1B5E20"),
-//            _ => Colors.Gray
-//        };
-//    }
-
-//    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-//    {
-//        throw new NotImplementedException();
-//    }
-//}
 

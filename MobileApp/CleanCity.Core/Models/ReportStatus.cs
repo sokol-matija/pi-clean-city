@@ -16,11 +16,3 @@ public enum ReportStatus
     Rijeseno
 }
 
-
-//// STARI KOD
-//public enum ReportStatus
-//{
-//    Zaprimljeno,  // narančasto
-//    UPostupku,    // plavo
-//    Rijeseno      // zeleno
-//}

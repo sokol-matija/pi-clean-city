@@ -6,35 +6,18 @@ using CleanCity.Core.Services.Interfaces;
 using System.Text;
 using System.Data.SqlClient;
 
+namespace CleanCity.Core.Services;
+
 public class ReportService : IReportService
 {
     private readonly List<Report> _reports = new();
-    private readonly IReportFactory _reportFactory;
 
     public ReportService(IReportFactory reportFactory)
     {
-        _reportFactory = reportFactory;
+        var _reportFactory = reportFactory;
         _reports.AddRange(_reportFactory.CreateReports());
     }
 
-    /*
-    // =====================================================================================
-    // #1: KREACIJSKI OBRAZAC: SINGLETON
-    // =====================================================================================
-    // Ova funkcionalnost je premještena u MockReportFactory.
-    private void InitializeMockData()
-    {
-        _reports.AddRange(new[]
-        {
-            new Report { Id = 1, Title = "Divlje odlagalište - Ulica Ivana Gundulića", Description = "Veliko divlje odlagalište s raznim otpadom", CreatedDate = new DateTime(2025, 11, 15), Status = ReportStatus.Zaprimljeno, Location = "Ulica Ivana Gundulića" },
-            new Report { Id = 2, Title = "Prepun kontejner - Trg bana Jelačića", Description = "Kontejner prepun smeća", CreatedDate = new DateTime(2025, 10, 12), Status = ReportStatus.UPostupku, Location = "Trg bana Jelačića" },
-            new Report { Id = 3, Title = "Oštećeni koš - Park Maksimir", Description = "Koš za smeće oštećen i neupotrebljiv", CreatedDate = new DateTime(2025, 10, 8), Status = ReportStatus.Rijeseno, Location = "Park Maksimir" },
-            new Report { Id = 4, Title = "Grafiti na zgradi - Savska cesta 41", Description = "Grafiti na fasadi zgrade", CreatedDate = new DateTime(2025, 10, 3), Status = ReportStatus.UPostupku, Location = "Savska cesta 41" },
-            new Report { Id = 5, Title = "Nefunkcionalna klupa - Zrinjevac", Description = "Klupa slomljena i nefunkcionalna", CreatedDate = new DateTime(2025, 9, 28), Status = ReportStatus.Rijeseno, Location = "Zrinjevac" },
-            new Report { Id = 6, Title = "Razbijeno stakleno zvono - Heinzelova 62", Description = "Stakleno zvono za reciklažu razbijeno", CreatedDate = new DateTime(2025, 9, 20), Status = ReportStatus.Zaprimljeno, Location = "Heinzelova 62" }
-        });
-    }
-    */
 
     public Task<List<Report>> GetReportsAsync()
     {

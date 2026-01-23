@@ -30,28 +30,3 @@ public class StatusToTextConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
-
-
-// === STARI KOD ===
-//public class StatusToTextConverter : IValueConverter
-//{
-//    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-//    {
-//        if (value is not ReportStatus status)
-//            return string.Empty;
-
-//        return status switch
-//        {
-//            ReportStatus.Zaprimljeno => "zaprimljeno",
-//            ReportStatus.UPostupku => "u postupku",
-//            ReportStatus.Rijeseno => "riješeno",
-//            _ => status.ToString()
-//        };
-//    }
-
-//    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-//    {
-//        throw new NotImplementedException();
-//    }
-//}
-

@@ -23,7 +23,7 @@ public class DashboardViewModel : INotifyPropertyChanged
     // #3: OBRAZAC PONAŠANJA: STRATEGY (Context)
     // =====================================================================================
     // ViewModel sada sadrži referencu na strategiju sortiranja.
-    private ISortStrategy _currentSortStrategy;
+    private readonly ISortStrategy _currentSortStrategy;
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,9 +32,6 @@ public class DashboardViewModel : INotifyPropertyChanged
         _reportService = reportService;
         // Inicijaliziramo default strategiju sortiranja (po datumu)
         _currentSortStrategy = new SortByDateStrategy(); // << INICIJALIZACIJA DEFAULTNE STRATEGIJE
-        //LoadReportsCommand = new AsyncCommand(async () => await LoadReportsAsync());
-        //ApplyFilterCommand = new AsyncCommand<ReportStatus?>(ApplyFilter);
-        //ToggleSortCommand = new AsyncCommand(ToggleSort);
         LoadReportsCommand = new AsyncCommand(LoadReportsAsync);
         ApplyFilterCommand = new DelegateCommand<ReportStatus?>(ApplyFilter);
         ToggleSortCommand = new DelegateCommand(ToggleSort);
@@ -157,14 +154,6 @@ public class DashboardViewModel : INotifyPropertyChanged
             filtered = AllReports.Where(r => r.Status == SelectedFilter);
         }
 
-        // =====================================================================================
-        // #3: OBRAZAC PONAŠANJA: STRATEGY
-        // =====================================================================================
-        // STARI KOD: Logika sortiranja bila je hardkodirana unutar ove metode,
-        // čime je bila nefleksibilna i teško proširiva za nove načine sortiranja.
-        // var sorted = IsAscending
-        //     ? filtered.OrderBy(r => r.CreatedDate)
-        //     : filtered.OrderByDescending(r => r.CreatedDate);
         var sorted = _currentSortStrategy.Sort(filtered, IsAscending); // Proslijedi smjer sortiranja strategiji
         
         Reports = new ObservableCollection<Report>(sorted);
