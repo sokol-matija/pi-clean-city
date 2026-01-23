@@ -112,5 +112,8 @@
       "prettier --write"
     ],
     "package-lock.json": []
+  },
+  "overrides": {
+    "undici": "^6.23.0"
   }
 }
