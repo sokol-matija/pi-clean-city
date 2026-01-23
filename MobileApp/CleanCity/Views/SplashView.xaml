@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CleanCity.Views.SplashView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#FFD700"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False">
+
+    <Grid>
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <Border
+                BackgroundColor="Transparent"
+                HeightRequest="200"
+                Stroke="#FFF59D"
+                StrokeShape="Ellipse"
+                StrokeThickness="16"
+                WidthRequest="200">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="96"
+                    HorizontalTextAlignment="Center"
+                    Text="CC"
+                    TextColor="#FFF59D"
+                    VerticalTextAlignment="Center" />
+            </Border>
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="32"
+                HorizontalTextAlignment="Center"
+                Text="CleanCity"
+                TextColor="#FFF59D" />
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

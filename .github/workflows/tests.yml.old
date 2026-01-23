@@ -1,0 +1,43 @@
+name: CI - CleanCity tests
+
+on:
+  push:
+    branches:
+      - feat/mobile-app1
+  pull_request:
+    branches:
+      - feat/mobile-app1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: MobileApp
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('MobileApp/**/*.csproj', 'MobileApp/**/*.sln', 'MobileApp/**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore (tests only)
+        run: dotnet restore CleanCity.Tests/CleanCity.Tests.csproj
+
+      - name: Build (tests only)
+        run: dotnet build CleanCity.Tests/CleanCity.Tests.csproj -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test CleanCity.Tests/CleanCity.Tests.csproj -c Release --no-build --verbosity normal

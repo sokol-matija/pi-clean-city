@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Border
+    x:Class="CleanCity.Components.FABButton"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontAwesome="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+    Margin="0,0,20,20"
+    BackgroundColor="#6200EE"
+    HeightRequest="64"
+    HorizontalOptions="End"
+    Shadow="{Shadow Brush=Black,
+                    Opacity=0.3,
+                    Radius=8,
+                    Offset='0,4'}"
+    Stroke="Transparent"
+    StrokeShape="RoundRectangle 32"
+    VerticalOptions="End"
+    WidthRequest="64">
+
+    <Border.GestureRecognizers>
+        <TapGestureRecognizer Tapped="OnFABTapped" />
+    </Border.GestureRecognizers>
+
+    <Label
+        FontAttributes="Bold"
+        FontFamily="FA-Solid-900"
+        FontSize="28"
+        HorizontalTextAlignment="Center"
+        Text="{x:Static fontAwesome:Solid.Plus}"
+        TextColor="White"
+        VerticalTextAlignment="Center" />
+</Border>

@@ -1,0 +1,48 @@
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace CleanCity.Core.Services
+{
+    public static class InsecureHasher
+    {
+        // =====================================================================================
+        // SIGURAN KOD
+        // =====================================================================================
+        // This method uses AES, a strong, modern encryption standard.
+        // It also uses PBKDF2 (Rfc2898DeriveBytes) to derive a key from a password and salt,
+        // which is the correct way to handle password-based encryption.
+        public static byte[] SecureEncryptWithAES(string dataToEncrypt, string password)
+        {
+            // salt should be unique per user/data and stored with the encrypted data.
+            byte[] salt = Encoding.ASCII.GetBytes("SaltyBoi123");
+
+            using (var aes = Aes.Create())
+            {
+                // Derive a key and IV from the password and salt.
+                using (var keyDerivation = new Rfc2898DeriveBytes(password, salt, 100000, HashAlgorithmName.SHA256))
+                {
+                    aes.Key = keyDerivation.GetBytes(32); // 256-bit key
+                    aes.IV = keyDerivation.GetBytes(16);  // 128-bit IV
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        byte[] input = Encoding.UTF8.GetBytes(dataToEncrypt);
+                        cs.Write(input, 0, input.Length);
+                        cs.FlushFinalBlock();
+                    }
+                    return ms.ToArray();
+                }
+            }
+        }
+
+
+
+    }
+
+
+}

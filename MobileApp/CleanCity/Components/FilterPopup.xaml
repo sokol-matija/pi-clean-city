@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="CleanCity.Components.FilterPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+    xmlns:models="clr-namespace:CleanCity.Models"
+    x:Name="ThisPopup"
+    BackgroundColor="#80000000"
+    InputTransparent="False"
+    IsVisible="False">
+
+    <Grid.GestureRecognizers>
+        <TapGestureRecognizer Tapped="OnOverlayTapped" />
+    </Grid.GestureRecognizers>
+
+    <Border
+        Margin="40,120,40,0"
+        Padding="20"
+        BackgroundColor="White"
+        InputTransparent="False"
+        Shadow="{Shadow Brush=Black,
+                        Opacity=0.3,
+                        Radius=20,
+                        Offset='0,8'}"
+        Stroke="#E0E0E0"
+        StrokeShape="RoundRectangle 16"
+        StrokeThickness="1"
+        VerticalOptions="Start">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer />
+        </Border.GestureRecognizers>
+
+        <VerticalStackLayout Spacing="15">
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                Text="Filtriraj po statusu"
+                TextColor="#212121" />
+
+            <BoxView BackgroundColor="#E0E0E0" HeightRequest="1" />
+
+            <material:RadioButtonGroupView
+                SelectedItemChanged="OnStatusFilterChanged"
+                Spacing="15">
+                <material:RadioButton
+                    IsChecked="True"
+                    Text="svi"
+                    Value="Svi" />
+                <material:RadioButton
+                    Text="zaprimljeno"
+                    Value="Zaprimljeno" />
+                <material:RadioButton
+                    Text="u postupku"
+                    Value="UPostupku" />
+                <material:RadioButton
+                    Text="riješeno"
+                    Value="Rijeseno" />
+            </material:RadioButtonGroupView>
+
+        </VerticalStackLayout>
+    </Border>
+</Grid>
