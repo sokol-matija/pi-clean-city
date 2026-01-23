@@ -3,7 +3,6 @@ import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
 import defaultAvatar from "@/assets/default_avatar.jpg"
 import type { PostWithProfile } from "@/features/community/hooks/usePosts"
 import { useDeletePost } from "@/features/community/hooks/useDeletePost"
@@ -17,6 +16,7 @@ import { createFormatter, type IPostFormatter } from "@/features/community/servi
 import type { PostBadge } from "@/features/community/patterns/Decorator/PostDecorator"
 
 import CommentList from "./CommentList"
+import MentionInput from "./MentionInput"
 
 interface PostItemProps {
   post: PostWithProfile
@@ -123,9 +123,9 @@ function PostItem({ post, formatter = defaultFormatter, badges = [] }: Readonly<
           <div className="mb-3">
             <CommentList postId={post.id} />
           </div>
-          <Textarea
+          <MentionInput
             value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            onChange={setComment}
             placeholder="Write a comment..."
             className="mb-2"
           />

@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import defaultAvatar from "@/assets/default_avatar.jpg"
+import MentionText from "./MentionText"
 import type { PostCommentWithProfile } from "@/features/community/interfaces/ICommentRepository"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import { useDeleteComment } from "@/features/community/hooks/useDeleteComment"
@@ -58,7 +59,7 @@ function CommentItem({ comment, postId }: Readonly<CommentItemProps>) {
           <span className="text-sm font-semibold text-gray-900">{username}</span>
           <span className="text-xs text-gray-500">{formatDate(comment.created_at)}</span>
         </div>
-        <p className="mt-1 text-sm text-gray-700">{comment.content}</p>
+        <MentionText content={comment.content} className="mt-1 text-sm text-gray-700" />
       </div>
       {canDelete && (
         <Button

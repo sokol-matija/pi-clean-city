@@ -38,7 +38,9 @@ function MentionText({ content, className }: Readonly<MentionTextProps>) {
   return (
     <span className={className}>
       {parts.map((part, index) => (
-        <Fragment key={index}>{part}</Fragment>
+        <Fragment key={typeof part === "string" ? `text-${index}-${part}` : `el-${index}`}>
+          {part}
+        </Fragment>
       ))}
     </span>
   )
