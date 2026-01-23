@@ -1,11 +1,12 @@
 // PostItem -> LSP (IPostFormatter), DIP (IPostFormatter interface)
+import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
 import defaultAvatar from "@/assets/default_avatar.jpg"
 import type { PostWithProfile } from "@/features/community/hooks/usePosts"
 import { useDeletePost } from "@/features/community/hooks/useDeletePost"
+import { useCreateComment } from "@/features/community/hooks/useCreateComment"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 
 // LSP: Importamo formatter - možemo koristiti bilo koji koji implementira IPostFormatter
@@ -13,6 +14,9 @@ import { createFormatter, type IPostFormatter } from "@/features/community/servi
 
 // DECORATOR PATTERN: Import za badge-ove
 import type { PostBadge } from "@/features/community/patterns/Decorator/PostDecorator"
+
+import CommentList from "./CommentList"
+import MentionInput from "./MentionInput"
 
 interface PostItemProps {
   post: PostWithProfile
@@ -23,15 +27,17 @@ interface PostItemProps {
 
 const defaultFormatter = createFormatter("relative")
 
-function PostItem({ post, formatter = defaultFormatter, badges = [] }: PostItemProps) {
+function PostItem({ post, formatter = defaultFormatter, badges = [] }: Readonly<PostItemProps>) {
+  const [comment, setComment] = useState("")
   const formattedPost = formatter.formatPost(post)
   const username = formattedPost.authorName
   const avatarUrl = post.user?.avatar_url || defaultAvatar
   const { mutate: deletePost, isPending: isDeleting } = useDeletePost()
+  const { mutate: createComment, isPending: isAddingComment } = useCreateComment()
   const { user } = useAuth()
 
   const handleDeletePost = () => {
-    if (window.confirm("Are you sure you want to delete this post?")) {
+    if (globalThis.confirm("Are you sure you want to delete this post?")) {
       deletePost(post.id, {
         onError: (error: Error) => {
           alert(`Error deleting post: ${error.message}`)
@@ -40,7 +46,26 @@ function PostItem({ post, formatter = defaultFormatter, badges = [] }: PostItemP
     }
   }
 
-  // Only show delete button if current user owns the post
+  const handleAddComment = () => {
+    if (!comment.trim()) {
+      alert("Please enter a comment")
+      return
+    }
+
+    createComment(
+      { postId: post.id, content: comment.trim() },
+      {
+        onSuccess: () => {
+          setComment("")
+        },
+        onError: (error: Error) => {
+          alert(`Error adding comment: ${error.message}`)
+        },
+      }
+    )
+  }
+
+  // ako je vlasnik pokazi delete btn
   const canDelete = user?.id === post.userId
 
   return (
@@ -95,10 +120,12 @@ function PostItem({ post, formatter = defaultFormatter, badges = [] }: PostItemP
 
         <div className="mt-4">
           <p className="mb-2 font-medium text-black">Comments:</p>
-          <div className="mb-2 flex w-full flex-col items-start gap-3"></div>
-          <Textarea
-            /*value={comment}
-        onChange={(e) => setComment(e.target.value)}*/
+          <div className="mb-3">
+            <CommentList postId={post.id} />
+          </div>
+          <MentionInput
+            value={comment}
+            onChange={setComment}
             placeholder="Write a comment..."
             className="mb-2"
           />
@@ -115,10 +142,11 @@ function PostItem({ post, formatter = defaultFormatter, badges = [] }: PostItemP
             )}
             <Button
               size="sm"
-              /*onClick={}*/
-              className="bg-gradient-to-r from-[#e1700e] to-[#c30e60] text-white hover:opacity-90"
+              onClick={handleAddComment}
+              disabled={isAddingComment || !comment.trim()}
+              className="bg-gradient-to-r from-[#e1700e] to-[#c30e60] text-white hover:opacity-90 disabled:opacity-50"
             >
-              Add Comment
+              {isAddingComment ? "Adding..." : "Add Comment"}
             </Button>
           </div>
         </div>

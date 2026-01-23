@@ -26,8 +26,8 @@ export class PostServiceManager {
   private static instance: PostServiceManager | null = null
 
   // Servisi kojima Singleton upravlja
-  private repository: IPostRepository
-  private validator: IPostValidator
+  private readonly repository: IPostRepository
+  private readonly validator: IPostValidator
   private config: PostServiceConfig
 
   // PRIVATNI CONSTRUCTOR - sprječava kreiranje izvana s 'new PostServiceManager()'
@@ -42,9 +42,7 @@ export class PostServiceManager {
   // STATIČKA METODA - jedini način za dobivanje instance
   public static getInstance(config?: Partial<PostServiceConfig>): PostServiceManager {
     // Lazy initialization - kreira instancu samo kad je prvi put potrebna
-    if (!PostServiceManager.instance) {
-      PostServiceManager.instance = new PostServiceManager(config)
-    }
+    PostServiceManager.instance ??= new PostServiceManager(config)
     return PostServiceManager.instance
   }
 

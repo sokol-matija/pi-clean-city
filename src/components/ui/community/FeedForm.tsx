@@ -50,6 +50,7 @@ const FeedForm: React.FC<FeedFormProps> = ({ onPost }) => {
                   ;(e.currentTarget as HTMLImageElement).style.display = "none"
                 }}
                 className="h-16 w-16 rounded-full object-cover"
+                alt="User avatar"
               />
               <div
                 aria-hidden
@@ -94,7 +95,7 @@ const FeedForm: React.FC<FeedFormProps> = ({ onPost }) => {
               <Button
                 onClick={handlePost}
                 disabled={!canPost}
-                className={`mr-2 ${!canPost ? "opacity-50" : ""}`}
+                className={`mr-2 ${canPost ? "" : "opacity-50"}`}
               >
                 Post
               </Button>

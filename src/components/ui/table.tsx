@@ -6,7 +6,13 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
   ({ className, ...props }, ref) => (
     <div className="relative w-full overflow-auto">
       {/* NOSONAR: Table headers are provided by TableHeader component when used */}
-      <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props} />
+      <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props}>
+        <thead className="sr-only">
+          <tr>
+            <th scope="col">Content</th>
+          </tr>
+        </thead>
+      </table>
     </div>
   )
 )

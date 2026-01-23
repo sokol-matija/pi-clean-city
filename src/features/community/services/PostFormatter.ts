@@ -27,7 +27,12 @@ export abstract class BasePostFormatter implements IPostFormatter {
   abstract formatDate(dateString: string): string
 
   // Formatiranje contenta posta
-  abstract formatContent(content: string, maxLength?: number): string
+  formatContent(content: string, maxLength?: number): string {
+    if (maxLength && content.length > maxLength) {
+      return content.substring(0, maxLength) + "..."
+    }
+    return content
+  }
 
   // Formatiranje cijelog posta (contentm i ostalim podacima)
   abstract formatPost(post: PostWithProfile): FormattedPost
@@ -48,13 +53,6 @@ export class StandardPostFormatter extends BasePostFormatter {
       month: "long",
       day: "numeric",
     })
-  }
-
-  formatContent(content: string, maxLength?: number): string {
-    if (maxLength && content.length > maxLength) {
-      return content.substring(0, maxLength) + "..."
-    }
-    return content
   }
 
   formatPost(post: PostWithProfile): FormattedPost {
@@ -84,13 +82,6 @@ export class RelativeTimePostFormatter extends BasePostFormatter {
     if (diffInSeconds < 604800) return `prije ${Math.floor(diffInSeconds / 86400)} dana`
 
     return date.toLocaleDateString("hr-HR")
-  }
-
-  formatContent(content: string, maxLength?: number): string {
-    if (maxLength && content.length > maxLength) {
-      return content.substring(0, maxLength) + "..."
-    }
-    return content
   }
 
   formatPost(post: PostWithProfile): FormattedPost {

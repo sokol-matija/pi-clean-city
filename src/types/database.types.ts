@@ -130,6 +130,43 @@ export type Database = {
           },
         ]
       }
+      post_comment: {
+        Row: {
+          id: string
+          post_id: number
+          user_id: string | null
+          content: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          post_id: number
+          user_id?: string | null
+          content: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          post_id?: number
+          user_id?: string | null
+          content?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_comment_post_id_fkey"
+            columns: ["post_id"]
+            referencedRelation: "post"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_comment_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           id: string
@@ -331,6 +368,7 @@ export type Status = Tables<"status">
 export type Photo = Tables<"photo">
 export type Comment = Tables<"comment">
 export type Post = Tables<"post">
+export type PostComment = Tables<"post_comment">
 
 export type ReportWithRelations = Report & {
   category: Category
