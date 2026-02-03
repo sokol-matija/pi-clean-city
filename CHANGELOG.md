@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.13.2 (2026-02-03)</small>
+
+* Merge remote-tracking branch 'origin/snyk-upgrade-0ac25f33a59ed5d3229de28310648a1c' ([5645601](https://github.com/sokol-matija/pi-clean-city/commit/5645601))
+* Merge remote-tracking branch 'origin/snyk-upgrade-29dee3285e88b2ea6c9130b9690c98ed' ([60b66f3](https://github.com/sokol-matija/pi-clean-city/commit/60b66f3))
+* fix: upgrade @supabase/supabase-js from 2.89.0 to 2.90.1 ([6fb78d7](https://github.com/sokol-matija/pi-clean-city/commit/6fb78d7))
+* fix: upgrade zustand from 5.0.9 to 5.0.10 ([902bcfd](https://github.com/sokol-matija/pi-clean-city/commit/902bcfd))
+
 ## <small>1.13.1 (2026-01-27)</small>
 
 * Merge pull request #18 from sokol-matija/snyk-upgrade-f327740407d6f0a582197b96c152777a ([76e8c16](https://github.com/sokol-matija/pi-clean-city/commit/76e8c16)), closes [#18](https://github.com/sokol-matija/pi-clean-city/issues/18)
