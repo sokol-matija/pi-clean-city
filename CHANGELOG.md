@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.13.3 (2026-02-10)</small>
+
+* Merge pull request #21 from sokol-matija/snyk-upgrade-7d5b6ad9ecbbf6cbd65c315c03070a02 ([ffff347](https://github.com/sokol-matija/pi-clean-city/commit/ffff347)), closes [#21](https://github.com/sokol-matija/pi-clean-city/issues/21)
+* fix: upgrade @tanstack/react-query from 5.90.16 to 5.90.19 ([5b42cb4](https://github.com/sokol-matija/pi-clean-city/commit/5b42cb4))
+
 ## <small>1.13.2 (2026-02-03)</small>
 
 * Merge remote-tracking branch 'origin/snyk-upgrade-0ac25f33a59ed5d3229de28310648a1c' ([5645601](https://github.com/sokol-matija/pi-clean-city/commit/5645601))
