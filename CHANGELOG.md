@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.13.4 (2026-02-17)</small>
+
+* Merge branch 'main' into snyk-upgrade-7ed73ce23f1329e3a82571d086f02e3d ([b1935f1](https://github.com/sokol-matija/pi-clean-city/commit/b1935f1))
+* Merge pull request #22 from sokol-matija/snyk-upgrade-7ed73ce23f1329e3a82571d086f02e3d ([7929621](https://github.com/sokol-matija/pi-clean-city/commit/7929621)), closes [#22](https://github.com/sokol-matija/pi-clean-city/issues/22)
+* Merge pull request #23 from sokol-matija/snyk-upgrade-56cc62f797e175f7b443f97e8432cc18 ([ac9b528](https://github.com/sokol-matija/pi-clean-city/commit/ac9b528)), closes [#23](https://github.com/sokol-matija/pi-clean-city/issues/23)
+* Merge pull request #24 from sokol-matija/snyk-upgrade-a27be08ccda609b80c99e1b0e66c005f ([5781631](https://github.com/sokol-matija/pi-clean-city/commit/5781631)), closes [#24](https://github.com/sokol-matija/pi-clean-city/issues/24)
+* Merge pull request #25 from sokol-matija/snyk-upgrade-cacdd914e2cbd9cf0409e906a0b92594 ([8795341](https://github.com/sokol-matija/pi-clean-city/commit/8795341)), closes [#25](https://github.com/sokol-matija/pi-clean-city/issues/25)
+* fix: upgrade @supabase/supabase-js from 2.90.1 to 2.93.1 ([d8e2b3b](https://github.com/sokol-matija/pi-clean-city/commit/d8e2b3b))
+* fix: upgrade @tanstack/react-query from 5.90.19 to 5.90.20 ([eccdf76](https://github.com/sokol-matija/pi-clean-city/commit/eccdf76))
+* fix: upgrade lucide-react from 0.562.0 to 0.563.0 ([98779dc](https://github.com/sokol-matija/pi-clean-city/commit/98779dc))
+* fix: upgrade react-router-dom from 7.12.0 to 7.13.0 ([9328245](https://github.com/sokol-matija/pi-clean-city/commit/9328245))
+
 ## <small>1.13.3 (2026-02-10)</small>
 
 * Merge pull request #21 from sokol-matija/snyk-upgrade-7d5b6ad9ecbbf6cbd65c315c03070a02 ([ffff347](https://github.com/sokol-matija/pi-clean-city/commit/ffff347)), closes [#21](https://github.com/sokol-matija/pi-clean-city/issues/21)
