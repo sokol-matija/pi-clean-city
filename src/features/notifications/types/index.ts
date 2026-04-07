@@ -41,12 +41,3 @@ export interface INotification {
   actions?: NtfyAction[]
   icon?: string
 }
-
-export interface NotificationConfig {
-  baseUrl: string
-  authToken?: string
-  defaultPriority: number
-  retryAttempts: number
-  retryDelay: number
-  topicPrefix: string
-}

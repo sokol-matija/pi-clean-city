@@ -1,6 +1,6 @@
 import type { INotification, NotificationType } from "../../types"
 
-export interface DecoratedNotification extends INotification {
+interface DecoratedNotification extends INotification {
   decorations: {
     priority: number
     urgencyLevel: "low" | "medium" | "high" | "critical"
@@ -13,11 +13,11 @@ export interface DecoratedNotification extends INotification {
   }
 }
 
-export interface INotificationDecorator {
+interface INotificationDecorator {
   decorate(notification: INotification | DecoratedNotification): DecoratedNotification
 }
 
-export class PriorityNotificationDecorator implements INotificationDecorator {
+class PriorityNotificationDecorator implements INotificationDecorator {
   decorate(notification: INotification): DecoratedNotification {
     const priority = notification.priority || 3
     const urgencyLevel = this.calculateUrgency(priority)
@@ -64,7 +64,7 @@ export class PriorityNotificationDecorator implements INotificationDecorator {
   }
 }
 
-export class TimestampNotificationDecorator implements INotificationDecorator {
+class TimestampNotificationDecorator implements INotificationDecorator {
   decorate(notification: DecoratedNotification): DecoratedNotification {
     const timeAgo = this.getTimeAgo(notification.decorations.timestamp)
 
@@ -87,7 +87,7 @@ export class TimestampNotificationDecorator implements INotificationDecorator {
   }
 }
 
-export class CategoryIconDecorator implements INotificationDecorator {
+class CategoryIconDecorator implements INotificationDecorator {
   decorate(notification: DecoratedNotification): DecoratedNotification {
     const categoryIcon = this.getCategoryIcon(notification.decorations.category)
 
@@ -112,7 +112,7 @@ export class CategoryIconDecorator implements INotificationDecorator {
   }
 }
 
-export class NotificationDecoratorChain {
+class NotificationDecoratorChain {
   private readonly decorators: INotificationDecorator[] = []
 
   addDecorator(decorator: INotificationDecorator): this {
@@ -135,8 +135,4 @@ export function createDefaultDecoratorChain(): NotificationDecoratorChain {
   return new NotificationDecoratorChain()
     .addDecorator(new TimestampNotificationDecorator())
     .addDecorator(new CategoryIconDecorator())
-}
-
-export function createMinimalDecoratorChain(): NotificationDecoratorChain {
-  return new NotificationDecoratorChain()
 }
