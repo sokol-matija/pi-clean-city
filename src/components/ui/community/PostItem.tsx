@@ -26,8 +26,13 @@ interface PostItemProps {
 }
 
 const defaultFormatter = createFormatter("relative")
+const EMPTY_BADGES: PostBadge[] = []
 
-function PostItem({ post, formatter = defaultFormatter, badges = [] }: Readonly<PostItemProps>) {
+function PostItem({
+  post,
+  formatter = defaultFormatter,
+  badges = EMPTY_BADGES,
+}: Readonly<PostItemProps>) {
   const [comment, setComment] = useState("")
   const formattedPost = formatter.formatPost(post)
   const username = formattedPost.authorName
@@ -92,9 +97,9 @@ function PostItem({ post, formatter = defaultFormatter, badges = [] }: Readonly<
           {/* DECORATOR PATTERN: Prikaz badge-ova */}
           {badges.length > 0 && (
             <div className="flex gap-1">
-              {badges.map((badge, index) => (
+              {badges.map((badge) => (
                 <span
-                  key={`${badge.type}-${index}`}
+                  key={badge.type}
                   className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium text-white ${badge.color}`}
                 >
                   {badge.icon && <span>{badge.icon}</span>}

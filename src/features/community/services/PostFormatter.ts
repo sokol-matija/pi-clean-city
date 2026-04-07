@@ -11,7 +11,7 @@ export interface IPostFormatter {
   formatPost(post: PostWithProfile): FormattedPost
 }
 
-export interface FormattedPost {
+interface FormattedPost {
   id: number
   title: string
   content: string
@@ -22,7 +22,7 @@ export interface FormattedPost {
 }
 
 // Bazna klasa za format postova, sve podklase moraju poštovati isti interface (IPostFormatter), isti input i output type
-export abstract class BasePostFormatter implements IPostFormatter {
+abstract class BasePostFormatter implements IPostFormatter {
   // Formatiranje datuma u string
   abstract formatDate(dateString: string): string
 
@@ -45,7 +45,7 @@ export abstract class BasePostFormatter implements IPostFormatter {
 }
 
 // Standardni formater -> pošutuje LSP jer može zamijentiti bilo koji IPostFormatter (outputi su istog tipa)
-export class StandardPostFormatter extends BasePostFormatter {
+class StandardPostFormatter extends BasePostFormatter {
   formatDate(dateString: string): string {
     const date = new Date(dateString)
     return date.toLocaleDateString("hr-HR", {
@@ -69,7 +69,7 @@ export class StandardPostFormatter extends BasePostFormatter {
 }
 
 // Relativni time format, prikazuje "prije X sati" umjesto datuma, može zamjeniti bilo koji IPostFormatter (vraca isti output type)
-export class RelativeTimePostFormatter extends BasePostFormatter {
+class RelativeTimePostFormatter extends BasePostFormatter {
   // Vraca string i bez exceptiona tako da poštuje osnovnu klasu tj. LSP princip
   formatDate(dateString: string): string {
     const date = new Date(dateString)
@@ -98,7 +98,7 @@ export class RelativeTimePostFormatter extends BasePostFormatter {
 }
 
 // Compact format -> sažeci i kraci datum, može zamijeniti bilo koji IPostFormatter (vraca isti output type)
-export class CompactPostFormatter extends BasePostFormatter {
+class CompactPostFormatter extends BasePostFormatter {
   formatDate(dateString: string): string {
     const date = new Date(dateString)
     return date.toLocaleDateString("hr-HR", {

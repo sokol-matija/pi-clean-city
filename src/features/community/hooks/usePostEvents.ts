@@ -31,34 +31,3 @@ export function usePostEvents<T extends PostEventType>(
     }
   }, [eventType, enabled])
 }
-
-// Funkcija za emitiranje
-export function usePostEventEmitter() {
-  const emit = <T extends PostEventType>(
-    eventType: T,
-    payload: Parameters<PostEventHandler<T>>[0]
-  ): void => {
-    postEventEmitter.emit(eventType, payload)
-  }
-
-  return { emit, emitter: postEventEmitter }
-}
-
-// Funkcija za subscribeanje (odjavljuje se nakon prvog događaja)
-export function usePostEventOnce<T extends PostEventType>(
-  eventType: T,
-  handler: PostEventHandler<T>
-): void {
-  const hasRun = useRef(false)
-
-  usePostEvents(
-    eventType,
-    (payload) => {
-      if (!hasRun.current) {
-        hasRun.current = true
-        handler(payload)
-      }
-    },
-    !hasRun.current
-  )
-}

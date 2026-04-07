@@ -18,7 +18,7 @@ export interface PostBadge {
 }
 
 // Bazni interface za sve dekoratore
-export interface IPostDecorator {
+interface IPostDecorator {
   decorate(post: PostWithProfile): DecoratedPost
 }
 
@@ -33,7 +33,7 @@ function createBaseDecoratedPost(post: PostWithProfile): DecoratedPost {
 }
 
 // NewPostDecorator - novi postovi manji od 24h su "novi"
-export class NewPostDecorator implements IPostDecorator {
+class NewPostDecorator implements IPostDecorator {
   private readonly hoursThreshold: number
 
   constructor(hoursThreshold: number = 24) {
@@ -61,7 +61,7 @@ export class NewPostDecorator implements IPostDecorator {
 }
 
 // PopularPostDecorator - označava postove s visokim ratingom kao "popularne"
-export class PopularPostDecorator implements IPostDecorator {
+class PopularPostDecorator implements IPostDecorator {
   private readonly ratingThreshold: number
 
   constructor(ratingThreshold: number = 4) {
@@ -87,7 +87,7 @@ export class PopularPostDecorator implements IPostDecorator {
 }
 
 // TrendingPostDecorator - označava postove koji su trending (nedavni s dobrim ratingom)
-export class TrendingPostDecorator implements IPostDecorator {
+class TrendingPostDecorator implements IPostDecorator {
   decorate(post: PostWithProfile): DecoratedPost {
     const decorated = createBaseDecoratedPost(post)
     const postDate = new Date(post.created_at)
@@ -107,30 +107,6 @@ export class TrendingPostDecorator implements IPostDecorator {
       })
       decorated.priority += 3
       decorated.isHighlighted = true
-    }
-
-    return decorated
-  }
-}
-
-// VerifiedAuthorDecorator - označava postove verificiranih autora
-export class VerifiedAuthorDecorator implements IPostDecorator {
-  private readonly verifiedUserIds: Set<string>
-
-  constructor(verifiedUserIds: string[] = []) {
-    this.verifiedUserIds = new Set(verifiedUserIds)
-  }
-
-  decorate(post: PostWithProfile): DecoratedPost {
-    const decorated = createBaseDecoratedPost(post)
-
-    if (post.userId !== null && this.verifiedUserIds.has(post.userId)) {
-      decorated.badges.push({
-        type: "verified",
-        label: "Verificirano",
-        color: "bg-blue-500",
-        icon: "✔️", // https://emojipedia.org/check-mark
-      })
     }
 
     return decorated
@@ -173,8 +149,4 @@ export function createDefaultDecoratorChain(): PostDecoratorChain {
     .addDecorator(new NewPostDecorator(24))
     .addDecorator(new PopularPostDecorator(4))
     .addDecorator(new TrendingPostDecorator())
-}
-
-export function createMinimalDecoratorChain(): PostDecoratorChain {
-  return new PostDecoratorChain().addDecorator(new NewPostDecorator(12))
 }

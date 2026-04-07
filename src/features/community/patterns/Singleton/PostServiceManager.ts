@@ -21,7 +21,7 @@ const DEFAULT_CONFIG: PostServiceConfig = {
   cacheDuration: 300, // 5 minuta
 }
 
-export class PostServiceManager {
+class PostServiceManager {
   // Privatna statička varijabla - drži jedinu instancu
   private static instance: PostServiceManager | null = null
 

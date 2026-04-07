@@ -1,19 +1,19 @@
-export interface CreatePostData {
+interface CreatePostData {
   title: string
   content: string
 }
 
-export interface ValidationResult {
+interface ValidationResult {
   isValid: boolean
   errors: string[]
 }
 
-export interface IValidationRule {
+interface IValidationRule {
   validate(data: CreatePostData): ValidationResult
   ruleName: string
 }
 
-export class RequiredFieldsRule implements IValidationRule {
+class RequiredFieldsRule implements IValidationRule {
   ruleName = "RequiredFields"
 
   validate(data: CreatePostData): ValidationResult {
@@ -34,7 +34,7 @@ export class RequiredFieldsRule implements IValidationRule {
   }
 }
 
-export class MinLengthRule implements IValidationRule {
+class MinLengthRule implements IValidationRule {
   ruleName = "MinLength"
 
   constructor(
@@ -60,36 +60,13 @@ export class MinLengthRule implements IValidationRule {
   }
 }
 
-export class NoSpamRule implements IValidationRule {
-  ruleName = "NoSpam"
-
-  private readonly spamKeywords = ["spam", "click here", "free money", "buy now"]
-
-  validate(data: CreatePostData): ValidationResult {
-    const errors: string[] = []
-    const contentLower = data.content.toLowerCase()
-    const titleLower = data.title.toLowerCase()
-
-    for (const keyword of this.spamKeywords) {
-      if (contentLower.includes(keyword) || titleLower.includes(keyword)) {
-        errors.push(`Content contains prohibited keyword: "${keyword}"`)
-      }
-    }
-
-    return {
-      isValid: errors.length === 0,
-      errors,
-    }
-  }
-}
-
 // Interface za PostValidator (koristi se u Singleton patternu)
 export interface IPostValidator {
   validate(data: CreatePostData): ValidationResult
   addRule(rule: IValidationRule): IPostValidator
 }
 
-export class PostValidator implements IPostValidator {
+class PostValidator implements IPostValidator {
   private readonly rules: IValidationRule[] = []
 
   addRule(rule: IValidationRule): this {
@@ -116,11 +93,4 @@ export class PostValidator implements IPostValidator {
 
 export function createBasicValidator(): PostValidator {
   return new PostValidator().addRule(new RequiredFieldsRule()).addRule(new MinLengthRule(3, 10))
-}
-
-export function createStrictValidator(): PostValidator {
-  return new PostValidator()
-    .addRule(new RequiredFieldsRule())
-    .addRule(new MinLengthRule(5, 50))
-    .addRule(new NoSpamRule())
 }

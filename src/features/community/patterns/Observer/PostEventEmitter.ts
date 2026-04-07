@@ -110,25 +110,4 @@ export class PostEventEmitter {
   }
 }
 
-// Handler za logiranje događaja u konzolu
-export const createLoggingHandler = <T extends PostEventType>(
-  eventType: T
-): PostEventHandler<T> => {
-  return (payload) => {
-    console.log(`[PostEvent] ${eventType}:`, JSON.stringify(payload, null, 2))
-  }
-}
-
-// Handler za slanje notifikacija prilikom kreiranja posta
-export const createNotificationHandler = (): PostEventHandler<"post:created"> => {
-  return (payload) => {
-    console.log(`[Notifikacija] Novi post kreiran od korisnika: ${payload.authorId}`)
-  }
-}
-
-// Exporti za dobivanje singleton instance
-export function getPostEventEmitter(): PostEventEmitter {
-  return PostEventEmitter.getInstance()
-}
-
 export const postEventEmitter = PostEventEmitter.getInstance()
