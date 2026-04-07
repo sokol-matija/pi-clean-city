@@ -7,7 +7,7 @@ const steps = [
   { name: 'Semgrep Security', cmd: 'semgrep scan --error --config p/security-audit --config p/typescript --config p/react --config p/owasp-top-ten' },
   { name: 'Lint', cmd: 'npm run lint' },
   { name: 'Typecheck', cmd: 'npm run typecheck' },
-  { name: 'Unit Tests', cmd: 'vitest run --coverage' },
+  { name: 'Unit Tests', cmd: 'npx vitest run --coverage' },
   { name: 'E2E Tests', cmd: 'npm run test:e2e' },
   { name: 'Build', cmd: 'npm run build' },
 ];
