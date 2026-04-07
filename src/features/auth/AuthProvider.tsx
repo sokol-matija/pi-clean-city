@@ -1,14 +1,55 @@
-import { useEffect, useState, useCallback, useRef, useMemo } from "react"
+import { useEffect, useReducer, useCallback, useRef, useMemo } from "react"
 import { User, Session, AuthChangeEvent } from "@supabase/supabase-js"
 import { supabase } from "@/lib/supabase"
 import type { Profile } from "@/types/database.types"
 import { AuthContext } from "./AuthContext"
 
+type AuthState = {
+  user: User | null
+  session: Session | null
+  profile: Profile | null
+  isLoading: boolean
+}
+
+type AuthAction =
+  | { type: "INIT_COMPLETE"; session: Session | null; user: User | null; profile: Profile | null }
+  | { type: "TOKEN_REFRESHED"; session: Session | null }
+  | { type: "SIGNED_OUT" }
+  | { type: "AUTH_CHANGED"; session: Session | null; user: User | null; profile: Profile | null }
+  | { type: "SET_PROFILE"; profile: Profile | null }
+
+function authReducer(state: AuthState, action: AuthAction): AuthState {
+  switch (action.type) {
+    case "INIT_COMPLETE":
+      return {
+        user: action.user,
+        session: action.session,
+        profile: action.profile,
+        isLoading: false,
+      }
+    case "TOKEN_REFRESHED":
+      return { ...state, session: action.session }
+    case "SIGNED_OUT":
+      return { user: null, session: null, profile: null, isLoading: false }
+    case "AUTH_CHANGED":
+      return {
+        user: action.user,
+        session: action.session,
+        profile: action.profile,
+        isLoading: false,
+      }
+    case "SET_PROFILE":
+      return { ...state, profile: action.profile }
+  }
+}
+
 export function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
-  const [user, setUser] = useState<User | null>(null)
-  const [session, setSession] = useState<Session | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [{ user, session, profile, isLoading }, dispatch] = useReducer(authReducer, {
+    user: null,
+    session: null,
+    profile: null,
+    isLoading: true,
+  })
   const initializingRef = useRef(true)
 
   const fetchProfile = useCallback(async (userId: string) => {
@@ -30,7 +71,7 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
   const refreshProfile = useCallback(async () => {
     if (user) {
       const profileData = await fetchProfile(user.id)
-      setProfile(profileData)
+      dispatch({ type: "SET_PROFILE", profile: profileData })
     }
   }, [user, fetchProfile])
 
@@ -50,33 +91,27 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
           // Clear potentially corrupted session
           await supabase.auth.signOut()
           if (mounted) {
-            setSession(null)
-            setUser(null)
-            setProfile(null)
-            setIsLoading(false)
+            dispatch({ type: "INIT_COMPLETE", session: null, user: null, profile: null })
           }
           return
         }
 
         if (mounted) {
-          setSession(session)
-          setUser(session?.user ?? null)
-
-          if (session?.user) {
-            const profileData = await fetchProfile(session.user.id)
-            if (mounted) setProfile(profileData)
+          const profileData = session?.user ? await fetchProfile(session.user.id) : null
+          if (mounted) {
+            dispatch({
+              type: "INIT_COMPLETE",
+              session,
+              user: session?.user ?? null,
+              profile: profileData,
+            })
+            initializingRef.current = false
           }
-
-          setIsLoading(false)
-          initializingRef.current = false
         }
       } catch (err) {
         console.error("Auth initialization error:", err)
         if (mounted) {
-          setSession(null)
-          setUser(null)
-          setProfile(null)
-          setIsLoading(false)
+          dispatch({ type: "INIT_COMPLETE", session: null, user: null, profile: null })
         }
       }
     }
@@ -94,29 +129,25 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
 
       // Handle specific auth events
       if (event === "TOKEN_REFRESHED") {
-        setSession(session)
+        dispatch({ type: "TOKEN_REFRESHED", session })
         return
       }
 
       if (event === "SIGNED_OUT") {
-        setSession(null)
-        setUser(null)
-        setProfile(null)
+        dispatch({ type: "SIGNED_OUT" })
         return
       }
 
-      // Update session and user
-      setSession(session)
-      setUser(session?.user ?? null)
-
-      if (session?.user) {
-        const profileData = await fetchProfile(session.user.id)
-        if (mounted) setProfile(profileData)
-      } else {
-        setProfile(null)
+      // Update session, user, and profile atomically
+      const profileData = session?.user ? await fetchProfile(session.user.id) : null
+      if (mounted) {
+        dispatch({
+          type: "AUTH_CHANGED",
+          session,
+          user: session?.user ?? null,
+          profile: profileData,
+        })
       }
-
-      setIsLoading(false)
     })
 
     return () => {
@@ -159,9 +190,7 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
       throw error
     }
 
-    setUser(null)
-    setSession(null)
-    setProfile(null)
+    dispatch({ type: "SIGNED_OUT" })
   }
 
   const contextValue = useMemo(

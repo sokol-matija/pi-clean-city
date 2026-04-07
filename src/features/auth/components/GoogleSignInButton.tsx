@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { useAuth } from ".."
+import { useAuth } from "../hooks/useAuth"
 
 export function GoogleSignInButton() {
   const { signInWithGoogle } = useAuth()

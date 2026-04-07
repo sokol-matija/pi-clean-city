@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest"
 import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { GoogleSignInButton } from "./GoogleSignInButton"
-import * as authModule from "../index"
+import * as authModule from "../hooks/useAuth"
 import type { AuthContextType } from "../AuthContext"
 
 // Mock the useAuth hook
-vi.mock("../index", () => ({
+vi.mock("../hooks/useAuth", () => ({
   useAuth: vi.fn(),
 }))
 

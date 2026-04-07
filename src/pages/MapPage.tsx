@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { Link } from "react-router-dom"
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import L from "leaflet"
@@ -14,6 +14,18 @@ L.Icon.Default.mergeOptions({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 })
+
+type MapState = { reports: ReportWithRelations[]; isLoading: boolean }
+type MapAction = { type: "FETCH_SUCCESS"; reports: ReportWithRelations[] } | { type: "FETCH_ERROR" }
+
+function mapReducer(state: MapState, action: MapAction): MapState {
+  switch (action.type) {
+    case "FETCH_SUCCESS":
+      return { reports: action.reports, isLoading: false }
+    case "FETCH_ERROR":
+      return { ...state, isLoading: false }
+  }
+}
 
 // Status colors for markers
 const statusColors: Record<number, string> = {
@@ -84,8 +96,10 @@ function PopupPhotoPreview({ photos }: Readonly<{ photos: Photo[] }>) {
 }
 
 export function MapPage() {
-  const [reports, setReports] = useState<ReportWithRelations[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [{ reports, isLoading }, dispatch] = useReducer(mapReducer, {
+    reports: [],
+    isLoading: true,
+  })
 
   useEffect(() => {
     async function fetchReports() {
@@ -97,7 +111,7 @@ export function MapPage() {
 
       if (reportsError) {
         console.error("Error fetching reports:", reportsError)
-        setIsLoading(false)
+        dispatch({ type: "FETCH_ERROR" })
         return
       }
 
@@ -124,8 +138,7 @@ export function MapPage() {
         photos: photosByReportId.get(String(report.id)) || [],
       })) as ReportWithRelations[]
 
-      setReports(reportsWithPhotos)
-      setIsLoading(false)
+      dispatch({ type: "FETCH_SUCCESS", reports: reportsWithPhotos })
     }
 
     fetchReports()
