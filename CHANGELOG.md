@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## <small>1.13.5 (2026-04-07)</small>
+
+* ci(security): raise blocking audit level to high for production deps ([7c61b54](https://github.com/sokol-matija/pi-clean-city/commit/7c61b54))
+* ci(sonarqube): disable automatic triggers — archived ([6a75f62](https://github.com/sokol-matija/pi-clean-city/commit/6a75f62))
+* fix(deps): revert eslint to v9 — v10 incompatible with react-hooks plugin ([97d32a7](https://github.com/sokol-matija/pi-clean-city/commit/97d32a7))
+* chore: remove TicketAssignmentBadge, duplicate types, and minor fixes ([c9f2729](https://github.com/sokol-matija/pi-clean-city/commit/c9f2729))
+* chore(deps): upgrade eslint to v10, remove standard-version ([ee872f1](https://github.com/sokol-matija/pi-clean-city/commit/ee872f1))
+* refactor(auth): replace useState with useReducer in AuthProvider and MapPage ([7218d39](https://github.com/sokol-matija/pi-clean-city/commit/7218d39))
+* refactor(community): remove unused pattern helpers and IPostOperations ([5e0547e](https://github.com/sokol-matija/pi-clean-city/commit/5e0547e))
+* refactor(notifications): remove unused factories and observer ([1527c60](https://github.com/sokol-matija/pi-clean-city/commit/1527c60))
+* refactor(reports): decompose ReportDetailsPage into sub-components ([9f5009f](https://github.com/sokol-matija/pi-clean-city/commit/9f5009f))
+* refactor(reports): remove repository pattern abstraction layer ([6b71cbf](https://github.com/sokol-matija/pi-clean-city/commit/6b71cbf))
+
 ## <small>1.13.4 (2026-02-17)</small>
 
 * Merge branch 'main' into snyk-upgrade-7ed73ce23f1329e3a82571d086f02e3d ([b1935f1](https://github.com/sokol-matija/pi-clean-city/commit/b1935f1))
