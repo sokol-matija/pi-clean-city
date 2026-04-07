@@ -189,28 +189,3 @@ export class MockPhotoRepository implements IPhotoRepository {
     this.nextId = 1
   }
 }
-
-// =============================================================================
-// FACTORY FUNCTIONS
-// =============================================================================
-
-/**
- * Create a new mock report repository instance.
- */
-export function createMockReportRepository(): MockReportRepository {
-  return new MockReportRepository()
-}
-
-/**
- * Create a new mock photo storage instance.
- */
-export function createMockPhotoStorage(): MockPhotoStorage {
-  return new MockPhotoStorage()
-}
-
-/**
- * Create a new mock photo repository instance.
- */
-export function createMockPhotoRepository(): MockPhotoRepository {
-  return new MockPhotoRepository()
-}

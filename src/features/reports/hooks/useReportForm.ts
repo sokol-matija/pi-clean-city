@@ -18,7 +18,7 @@ import {
   type ValidationErrors,
 } from "../validation/reportValidation"
 
-export interface ReportFormState {
+interface ReportFormState {
   // Form data
   title: string
   description: string

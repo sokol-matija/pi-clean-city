@@ -16,7 +16,7 @@ import { useState, useCallback } from "react"
 const MAX_PHOTOS = 5
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
 
-export interface PhotoUploadState {
+interface PhotoUploadState {
   photos: File[]
   addPhotos: (files: File[]) => void
   removePhoto: (index: number) => void
